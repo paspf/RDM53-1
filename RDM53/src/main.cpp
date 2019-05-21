@@ -5,7 +5,6 @@
  * 
  * Date: 2019 05 21
  * Author: Pascal Pfeiffer
- * GitTest
  */
 
 #include "main.h"
