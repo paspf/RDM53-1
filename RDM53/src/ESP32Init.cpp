@@ -7,6 +7,7 @@
  */
 
 #include "main.h"
+#include "mainUSR.h"
 #include <Arduino.h>
 #include <WiFi.h>
 

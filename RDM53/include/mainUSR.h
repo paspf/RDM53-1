@@ -5,6 +5,8 @@
  * Date: 2019 05 21
  * Author: Pascal Pfeiffer
  */
+
+#define WIFI_HOME
 #ifdef WIFI_HOME
     #define RDM_SSID "ssid"
     #define RDM_SSID_PW "key"
