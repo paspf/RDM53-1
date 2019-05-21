@@ -1,9 +1,27 @@
+/*
+ * Main file for RDM53
+ * Board: WeMos Lolin32
+ * Toochain: Arduino
+ * 
+ * Date: 2019 05 21
+ * Author: Pascal Pfeiffer
+ */
+
+#include "main.h"
+#include "mainUSR.h"
 #include <Arduino.h>
+#include "ESP32Init.cpp"
+/*extern "C" {
+   #include "extC.cpp"
+} */
 
 void setup() {
-  // put your setup code here, to run once:
+  Serial.begin(115200);
+  ESP32Init ESP32InitObj;
+  ESP32InitObj.RDMWiFiInit();
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
+  Serial.println(millis());
+  delay(500);
 }
