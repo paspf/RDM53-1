@@ -5,7 +5,7 @@
  * 
  * Date: 2019 05 21
  * Author: Pascal Pfeiffer
- * Project Members: Pascal Pfeiffer, T
+ * Project Members: Pascal Pfeiffer, Jan Kühnemund
  */
 
 #include "main.h"
