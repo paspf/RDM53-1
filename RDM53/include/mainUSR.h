@@ -8,6 +8,6 @@
 
 #define WIFI_HOME
 #ifdef WIFI_HOME
-    #define RDM_SSID "ssid"
-    #define RDM_SSID_PW "key"
+    #define RDM_SSID "house4_IOT"
+    #define RDM_SSID_PW ""
 #endif
