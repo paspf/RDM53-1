@@ -9,9 +9,7 @@
  */
 
 #include "main.h"
-#include "mainUSR.h"
-#include <Arduino.h>
-#include "ESP32Init.cpp"
+
 /*extern "C" {
    #include "extC.cpp"
 } */

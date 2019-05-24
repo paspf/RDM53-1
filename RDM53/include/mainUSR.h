@@ -11,3 +11,13 @@
     #define RDM_SSID "house4_IOT"
     #define RDM_SSID_PW ""
 #endif
+
+//#define WIFI_THM
+#ifdef WIFI_THM
+    #define RDM_SSID "THMnet"
+    #define RDM_SSID_PW "thmpw"
+#endif
+
+#define RDM_SSID_USR "user"
+#define RDM_SSID_IDNT "identity"
+
