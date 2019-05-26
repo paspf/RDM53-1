@@ -5,6 +5,15 @@
  * Author: Pascal Pfeiffer
  */
 
-#include <Arduino.h>
+// #include <Arduino.h>
+#define RDM_MAIN
+
+#include "WebSocketsServer.h"
 #include "mainUSR.h"
 #include "ESP32Init.cpp"
+#include "connectivity.h"
+
+
+/* extern "C" {
+   #include "connectivity.cpp"
+} */

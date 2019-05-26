@@ -30,7 +30,7 @@ class ESP32Init {
             delay(300);
             i++;
         }
-        if( i >= 20) {
+        if( i >= 60) {
             Serial.println("Unable to connect to WiFi Network, WiFi disabled!");
             WiFi.disconnect(true);                                                // reconnect to WiFi Network disabled
             WiFi.mode(WIFI_OFF);                                                  // turn off WiFi SW
@@ -81,6 +81,7 @@ class ESP32Init {
     }
     /*
      * Set Up Wifi for use at THM
+     * based on:
      * https://github.com/espressif/arduino-esp32/blob/master/libraries/WiFiClientSecure/examples/WiFiClientSecureEnterprise/WiFiClientSecureEnterprise.ino
      */
     void setUpTHMWifi() {
