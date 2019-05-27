@@ -6,18 +6,18 @@
  * Author: Pascal Pfeiffer
  */
 
-#define WIFI_HOME
+//#define WIFI_HOME
 #ifdef WIFI_HOME
     #define RDM_SSID "house4_IOT"
     #define RDM_SSID_PW ""
 #endif
 
-//#define WIFI_THM
+#define WIFI_THM
 #ifdef WIFI_THM
     #define RDM_SSID "THMnet"
-    #define RDM_SSID_PW "thmpw"
+    #define RDM_SSID_PW ""
 #endif
 
-#define RDM_SSID_USR "user"
-#define RDM_SSID_IDNT "identity"
+#define RDM_SSID_USR ""
+#define RDM_SSID_IDNT ""
 

@@ -17,17 +17,31 @@ class ESP32Init {
     void RDMWiFiInit() {
         #ifdef WIFI_HOME
             setUpHomeWiFi();
-        #elif WIFI_THM
+        #else
+            Serial.println("No home Wifi defined!");
+        #endif
+
+        #ifdef WIFI_THM
             setUpTHMWifi();
         #else
-            Serial.println("No Wifi defined!");
+            Serial.println("No enterprise Wifi defined!");
+        #endif
+
+        #if defined(WIFI_HOME) && defined(WIFI_THM)
+            Serial.println("Enterprise and Home WiFi defined!");
             return;
+        #endif
+        #ifndef WIFI_HOME
+            #ifndef WIFI_THM
+                Serial.println("No WiFi defined!");
+            #endif
         #endif
         Serial.print("\n\rConnecting Wifi: ");
         Serial.println(RDM_SSID);
         int i = 0;
         while(WiFi.status() != WL_CONNECTED && i < 60) {                        // try to connect with WiFi network
             delay(300);
+            Serial.print(".");
             i++;
         }
         if( i >= 60) {
