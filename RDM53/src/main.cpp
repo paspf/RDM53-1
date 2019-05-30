@@ -31,5 +31,5 @@ void loop() {
   serialReceive();
   webSocket.loop();
   // Serial.println(millis());
-  delay(500);
+  delay(10);
 }
