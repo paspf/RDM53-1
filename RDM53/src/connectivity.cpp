@@ -13,14 +13,24 @@
 void analyseString() {
   Serial.print("String received:");
   Serial.println(inputString);
+  webSocket.broadcastTXT(inputString);
   inputString = "";
 }
 
 /*
  * Analyse bytewise transmitted data
  */
-void analyseBinary(unsigned char *inputBinary) {
-  Serial.println("Binary received");
+void analyseBinary(unsigned char *inputBinary, size_t length) {
+  Serial.println("Binary received:");
+  Serial.printf((char*)inputBinary);
+  Serial.println();
+  if(length > 1) {
+      if(inputBinary[0] == 0x1) {
+    Serial.println("Byte 1 = 0x1");
+    if(inputBinary[1] == 0x8F)
+      Serial.println("Byte 2 = 0x8F");
+    }
+  }
 }
 
 /*
@@ -38,7 +48,7 @@ void webSocketEvent(uint8_t num, WStype_t type, uint8_t * payload, size_t lenght
       {
         IPAddress ip = webSocket.remoteIP(num);
         Serial.printf("[%u] Connected from %d.%d.%d.%d url: %s\n\r", num, ip[0], ip[1], ip[2], ip[3], payload);
-        webSocket.sendTXT(num, "Connected");                       // send message to client
+        webSocket.sendTXT(num, "Connected to RDM 53");                       // send message to client
       }
       break;
     case WStype_TEXT:                                          // Receive Text
@@ -54,7 +64,7 @@ void webSocketEvent(uint8_t num, WStype_t type, uint8_t * payload, size_t lenght
         if (lenght > 128)
             Serial.printf("Binary Data to large");
         else
-            analyseBinary(payload);
+            analyseBinary(payload, lenght);
         /* else {
             for(int i = 0; i < lenght; i++) {
                 inputBinary[i] = payload[i];

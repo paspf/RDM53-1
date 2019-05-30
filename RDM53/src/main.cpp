@@ -5,7 +5,7 @@
  * 
  * Date: 2019 05 21
  * Author: Pascal Pfeiffer
- * Project Members: Pascal Pfeiffer, Jan Kühnemund, Taha Tekdemir
+ * Project Members: Pascal Pfeiffer, Jan Kühnemund, Taha Tekdemir, Hakim Nasser
  */
 
 #include "main.h"
@@ -31,5 +31,5 @@ void loop() {
   serialReceive();
   webSocket.loop();
   // Serial.println(millis());
-  delay(500);
+  delay(10);
 }
