@@ -8,12 +8,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-char* protocolEnter(char* incoming, char calibrationID)
+unsigned char* protocolEnter(unsigned char* incoming, unsigned char calibrationID)
 {
     if(incoming[2]== 3) //receiveData
     {
         if(calibrationID == incoming[4]){
-            char datavalue[4];
+            unsigned char datavalue[4];
             datavalue[1] = incoming[6];
             datavalue[2] = incoming[7];
             datavalue[3] = incoming[8];
@@ -24,7 +24,7 @@ char* protocolEnter(char* incoming, char calibrationID)
     return NULL;
 }
 
-char* protocolExit(int dataTypeID, int dataSourceID, double payload) //sendData
+char* protocolExit(int dataTypeID, int dataSourceID, long int payload) //sendData
 {
     char *exiting = (char*)malloc(sizeof(char) * 15);
     int n;

@@ -65,11 +65,6 @@ void webSocketEvent(uint8_t num, WStype_t type, uint8_t * payload, size_t lenght
             Serial.printf("Binary Data to large");
         else
             analyseBinary(payload, lenght);
-        /* else {
-            for(int i = 0; i < lenght; i++) {
-                inputBinary[i] = payload[i];
-            }
-        } */
         // hexdump(payload, lenght);
   
       // webSocket.sendBIN(num, payload, lenght);           // send binary message to client
