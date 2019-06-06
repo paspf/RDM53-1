@@ -9,19 +9,21 @@
 #include "ESP32Init.h"
 
 
-class ESP32Init {
-    public:
+ // class ESP32Init {
+    // public:
     /*
     * Initialize WiFi for the ESP 32
     */
     void RDMWiFiInit() {
         #ifdef WIFI_HOME
+            Serial.println("Set up Home WiFi");
             setUpHomeWiFi();
         #else
             Serial.println("No home Wifi defined!");
         #endif
 
         #ifdef WIFI_THM
+            Serial.println("Set up THM WiFi");
             setUpTHMWifi();
         #else
             Serial.println("No enterprise Wifi defined!");
@@ -73,6 +75,42 @@ class ESP32Init {
         }
     }
 
+    /*  
+ *   initialize over the air upgrade
+ *   Based on ArduinoOTA
+ */
+void OTAirInit() {
+    // Set port defaults
+    // ArduinoOTA.setPort(3232);
+    // Hostname defaults
+    ArduinoOTA.setHostname("RDM53-OTA");
+    // Set OTA password
+    // ArduinoOTA.setPassword((const char *)"123");                         
+    ArduinoOTA.onStart([]() {
+        String type;
+        if (ArduinoOTA.getCommand() == U_FLASH)
+            type = "sketch";
+        else // U_SPIFFS
+            type = "filesystem";
+        Serial.println("Start updating " + type);
+    });
+    ArduinoOTA.onEnd([]() {
+        Serial.println("\nEnd OTA");
+    });
+    ArduinoOTA.onProgress([](unsigned int progress, unsigned int total) {
+        Serial.printf("OTA Progress: %u%%\r", (progress / (total / 100)));
+    });
+    ArduinoOTA.onError([](ota_error_t error) {
+        Serial.printf("OTA Error[%u]: ", error);
+        if (error == OTA_AUTH_ERROR) Serial.println("OTA Auth Failed");
+        else if (error == OTA_BEGIN_ERROR) Serial.println("OTA Begin Failed");
+        else if (error == OTA_CONNECT_ERROR) Serial.println("OTA Connect Failed");
+        else if (error == OTA_RECEIVE_ERROR) Serial.println("OTA Receive Failed");
+        else if (error == OTA_END_ERROR) Serial.println("OTA End Failed");
+    });
+    ArduinoOTA.begin();
+}
+
     /*
      * Print the local Time
      * https://github.com/espressif/arduino-esp32/issues/1225
@@ -86,7 +124,7 @@ class ESP32Init {
         Serial.println(&timeinfo, "%A, %B %d %Y %H:%M:%S");
     }
 
-    private:
+    // private:
     /*
      * Setup WiFi for home use
      */
@@ -107,4 +145,4 @@ class ESP32Init {
         esp_wifi_sta_wpa2_ent_enable(&config); //set config settings to enable function
         WiFi.begin(RDM_SSID); //connect to wifi
     }
-};
+ // };
