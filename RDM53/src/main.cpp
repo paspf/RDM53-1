@@ -38,4 +38,5 @@ void loop() {
 
   // do not use other delays (this should be the only delay in project) !!!!!
   delay(10);
+
 }
