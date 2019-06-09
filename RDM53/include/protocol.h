@@ -8,10 +8,11 @@
  */
 
 #include <stdio.h>
+#include <Arduino.h>
 
-int protocolEnter(unsigned char* incoming, size_t length);
-void autonomous(int autonomyNum);
-void remoteControl(int payload);
-void calibration(char ID, int value);
-void testing(char testID, int value);
-void protocolSend(char* buffer, int dataType, int dataSource, int mode, int payload);
+int protocolEnter(unsigned char*, size_t);
+void autonomous(int);
+void remoteControl(unsigned char*);
+void calibration(char, int);
+void testing(char, int);
+void protocolSend(unsigned char, unsigned char, unsigned char, int);

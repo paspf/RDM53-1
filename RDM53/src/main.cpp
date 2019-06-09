@@ -11,12 +11,6 @@
 #include "main.h"
 
 
-String inputString = "";
-uint8_t inputBinary[128]; 
-
-WebSocketsServer webSocket = WebSocketsServer(81);                // open webSocket Server on port 81
-
-
 void setup() {
   Serial.begin(115200);
   //ESP32Init ESP32InitObj;

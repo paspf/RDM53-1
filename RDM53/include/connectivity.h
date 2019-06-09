@@ -11,6 +11,8 @@
 #ifndef RDM_MAIN
     extern String inputString;
     extern WebSocketsServer webSocket;
+    extern unsigned char inputBinary[128]; 
+    extern int protocolEnter(unsigned char*, size_t);
 #endif
 
 void analyseString();
