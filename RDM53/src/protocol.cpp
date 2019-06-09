@@ -23,12 +23,14 @@ int protocolEnter(unsigned char* incoming, size_t length)
 
     if(incoming[1]== 2) //switchMode
     {
+        // Select device mode
         switch (incoming[2])
         {
         case 0x0: //Autonomous
             //Start thread autonomy and breaking all other threads.
             // payload == autonomous mode
             autonomous(payload);
+            // dC.mode = x;
             break;
         case 0x1: //RemoteControl
             //Start thread remotecontrol and break other threads.

@@ -24,3 +24,15 @@
 String inputString = "";
 unsigned char inputBinary[128]; 
 WebSocketsServer webSocket = WebSocketsServer(81);                // open webSocket Server on port 81
+
+/*
+ * This struct is used for the device states and modes
+ * mode:
+ * 0: Do nothing
+ * 1 : ...
+ * 2 : ...
+ */
+struct deviceConfig {
+    short mode = 0;
+};
+deviceConfig dC;

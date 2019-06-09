@@ -29,6 +29,16 @@ void loop() {
   serialReceive();
   webSocket.loop();
   // Serial.println(millis());
+  switch(dC.mode) {
+    case 0:
+      // do nothing
+      break;
+    case 1:
+      // any mode
+      break;
+    default:
+      webSocket.broadcastTXT("Error in dc.Mode");
+  }
 
   // do not use other delays (this should be the only delay in project) !!!!!
   delay(10);

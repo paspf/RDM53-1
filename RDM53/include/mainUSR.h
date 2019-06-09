@@ -8,8 +8,8 @@
 
 #define WIFI_HOME
 #ifdef WIFI_HOME
-    #define RDM_SSID ""
-    #define RDM_SSID_PW ""
+    #define RDM_SSID "house4_IOT"
+    #define RDM_SSID_PW "SuppenIOT!Net"
 #endif
 
 //#define WIFI_THM
