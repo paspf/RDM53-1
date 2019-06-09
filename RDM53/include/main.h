@@ -5,7 +5,7 @@
  * Author: Pascal Pfeiffer
  */
 
-// #include <Arduino.h>
+/**** includes ****/
 #define RDM_MAIN
 
 #include "WebSocketsServer.h"
@@ -13,18 +13,10 @@
 #include "ESP32Init.h"
 #include "connectivity.h"
 #include "protocol.h"
+#include "lineTracking.h"
 
 
-/* extern "C" {
-   #include "connectivity.cpp"
-} */
-
-
-/* Public Values */
-String inputString = "";
-unsigned char inputBinary[128]; 
-WebSocketsServer webSocket = WebSocketsServer(81);                // open webSocket Server on port 81
-
+/**** structures ****/
 /*
  * This struct is used for the device states and modes
  * mode:
@@ -35,4 +27,19 @@ WebSocketsServer webSocket = WebSocketsServer(81);                // open webSoc
 struct deviceConfig {
     short mode = 0;
 };
+
+
+/**** Public Values ****/
+String inputString = "";
+unsigned char inputBinary[128]; 
+
+
+/**** Public structures ****/
 deviceConfig dC;
+
+/**** Public Objects ****/
+WebSocketsServer webSocket = WebSocketsServer(81);                // open webSocket Server on port 81
+lineTrackInterface lineSensorFrontLeft(36);
+lineTrackInterface lineSensorFrontRight(39);
+lineTrackInterface lineSensorBackLeft(34);
+lineTrackInterface lineSensorBackRight(32);

@@ -7,3 +7,17 @@
  */
 
 #include <Arduino.h>
+
+/*
+ * Line Tracker Interface
+ * 
+ */
+class lineTrackInterface {
+    private:
+    int pin;
+
+    public:
+    lineTrackInterface(int pinConst);
+    int readRawSensorValue();
+    int getColorCode();
+};

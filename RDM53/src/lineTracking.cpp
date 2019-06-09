@@ -8,19 +8,28 @@
 
 #include "lineTracking.h"
 
-class lineTrackInterface {
-    private:
-    int pin;
-
-    public:
-    // Parameterized Constructor 
-    lineTrackInterface(int pinConst) 
-    { 
-        pin = pinConst;
+/*
+ * parametrized constructor
+ */
+lineTrackInterface::lineTrackInterface(int pinConst) {
+    pin = pinConst;
     } 
 
-    int readRawSensorValue() {
-        return analogRead(pin);
+/*
+ * Read out the raw sensor value
+*/
+int lineTrackInterface::readRawSensorValue() {
+    return analogRead(pin);
     }
 
-};
+/*
+ * Read out sensor value and calculate color
+ * 0 - white (floor)
+ * 1 - black (playground)
+ * 2 - Gelb (enemy goal)
+ * 3 - dark green (our goal)
+ * 4 - Error
+*/
+int lineTrackInterface::getColorCode() {
+    int rawValue = analogRead(pin);
+}
