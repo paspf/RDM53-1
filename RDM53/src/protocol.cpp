@@ -17,6 +17,7 @@ int protocolEnter(unsigned char* incoming, size_t length)
     Serial.println(incoming[7], HEX);
     Serial.println(incoming[8], HEX);
     Serial.println("END PAYLOAD JAN");
+    webSocket.broadcastTXT("test");
 
     payload = (incoming[5]<<24) | (incoming[6]<<16) | (incoming[7]<<8) | incoming[8];
     Serial.println(payload, HEX);
@@ -30,20 +31,22 @@ int protocolEnter(unsigned char* incoming, size_t length)
             //Start thread autonomy and breaking all other threads.
             // payload == autonomous mode
             autonomous(payload);
-            dC.mode = 0x00000 + payload;
+            dC.mode = 0x0000 + incoming[8];
             break;
         case 0x1: //RemoteControl
             //Start thread remotecontrol and break other threads.
             // enable remote control
-            dc.mode = 0x10000 + payload;
+            dC.mode = 0x0100 | incoming[8];
+            // Serial.println(dC.mode, HEX);
+
             break;
         case 0x2:
             //Break Autonomy and RemoteControl. DeepSleepMode?
-            dc.mode = 0x20000 + payload;
+            dC.mode = 0x20000 + incoming[8];
             break;
         case 0x3:
             //
-            dc.mode = 0x30000 + payload;
+            dC.mode = 0x30000 + incoming[8];
             break;
         default:
             Serial.println("ERROR: protocolEnter: Undefined Mode set due to invalid incoming[2]");
@@ -51,16 +54,18 @@ int protocolEnter(unsigned char* incoming, size_t length)
         }
     }
     if(incoming[1] == 3){ //receiveData
+        // für compiler::::
+        unsigned char in[2];
         switch (incoming[2])
         {
         case 0x0: //RemoteControlData
             remoteControl(incoming);
             break;
         case 0x1: //Calibration
-            calibration(incoming);
+            calibration(in);
             break;
         case 0x2: //Testing
-            testing(incoming);
+            testing(in);
             break;
         default:
             break;
@@ -133,9 +138,9 @@ void testing(unsigned char* incoming){
  */
 void protocolSend(unsigned char dataType, unsigned char dataSource, unsigned char dataSubSource, int payload){
     unsigned char toSend [10];
-
-    toSend[0] = 0x11;
-    toSend[1] = 0x01;
+    /*
+    toSend[0] = 0x11; // start value
+    toSend[1] = 0x01; // from ESP
     toSend[2] = dataType;
     toSend[3] = dataSource;
     toSend[4] = dataSubSource;
@@ -149,17 +154,17 @@ void protocolSend(unsigned char dataType, unsigned char dataSource, unsigned cha
         Serial.print(toSend[i]);
     }
     webSocket.broadcastBIN()
-    webSocket
+    // webSocket
     //Serial.println("Protocol Send Test:");
     Serial.print(0x11);
     Serial.print(dataType);
     Serial.print(dataSource);
-    Serial.print(axis);
+    Serial.print(dataSubSource);
 
     for(int i = 0; i < 4; i++) {
         Serial.print(tests[i]);
     }
-    Serial.println(0x12);
+    Serial.println(0x12); */
     //Serial.println("END Protocol Send Test!");
     //tmp = sprintf("01%x%x%x%x", dataType, dataSource, mode, payload);
 }

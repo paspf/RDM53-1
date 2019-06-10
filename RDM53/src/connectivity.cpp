@@ -114,10 +114,10 @@ void serialReceive() {
     }
     else {                                                      // if the incoming character is a carriage return, set a flag
       Serial.read();
-      webSocket.broadcastTXT("line 112 length:");
-      char affe[100];
-      sprintf(affe, "%d", lastEl);
-      webSocket.broadcastTXT(affe);
+      // webSocket.broadcastTXT("line 112 length:");
+      // char lastElStr[100];
+      // sprintf(lastElStr, "%d", lastEl);
+      // webSocket.broadcastTXT(lastElStr);
     }
     lastEl++;
   }

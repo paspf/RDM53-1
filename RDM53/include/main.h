@@ -18,25 +18,7 @@
 
 
 /**** structures ****/
-/*
- * This struct is used for the device states and modes
- * mode:
- * 0    : Do nothing
- * 1    : Remote Control (static)
- * 2    : Remote Control (dynamic)
- * 100  : Autonomous
- * 101-n: different autonomous versions / implementations
- * 
- * debugPort:
- * 0    : Websockets and Serial
- * 1    : Websockets
- * 2    : Serial
- */
-struct deviceConfig {
-    short mode = 0;
-    short debugPort = 0;
-};
-
+#include "PublicStructures.h"
 
 /**** Public Values ****/
 String inputString = "";

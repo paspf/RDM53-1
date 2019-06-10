@@ -24,7 +24,7 @@ void initLox() {
   delay(10);
 
   setID();
-  dC.mode = 1;
+  // dC.mode = 1;
 }
 
 void setID() {

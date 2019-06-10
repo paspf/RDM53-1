@@ -30,11 +30,18 @@ void loop() {
   webSocket.loop();
   // Serial.println(millis());
   switch(dC.mode) {
-    case 0:
-      // do nothing
+    case 0x0200:
+      // Mode : Pause
       break;
-    case 1:
-      // any mode
+    case 0x0100:
+      // Remote Control (static)
+      webSocket.broadcastTXT("Remote Control static set!");
+      dC.mode = 0x0200;
+      break;
+    case 0x0101:
+      // Remote Control (dynamic)
+      webSocket.broadcastTXT("Remote Control dynamic Set!");
+      dC.mode = 0x0200;
       break;
     default:
       webSocket.broadcastTXT("Error in dc.Mode");
