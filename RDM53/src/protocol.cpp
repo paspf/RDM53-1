@@ -30,16 +30,23 @@ int protocolEnter(unsigned char* incoming, size_t length)
             //Start thread autonomy and breaking all other threads.
             // payload == autonomous mode
             autonomous(payload);
-            // dC.mode = x;
+            dC.mode = 0x00000 + payload;
             break;
         case 0x1: //RemoteControl
             //Start thread remotecontrol and break other threads.
-            // enalbe remote control
+            // enable remote control
+            dc.mode = 0x10000 + payload;
+            break;
         case 0x2:
             //Break Autonomy and RemoteControl. DeepSleepMode?
+            dc.mode = 0x20000 + payload;
+            break;
         case 0x3:
             //
+            dc.mode = 0x30000 + payload;
+            break;
         default:
+            Serial.println("ERROR: protocolEnter: Undefined Mode set due to invalid incoming[2]");
             break;
         }
     }
@@ -50,9 +57,11 @@ int protocolEnter(unsigned char* incoming, size_t length)
             remoteControl(incoming);
             break;
         case 0x1: //Calibration
-            calibration(incoming[2], payload);
+            calibration(incoming);
+            break;
         case 0x2: //Testing
-            testing(incoming[2], payload);
+            testing(incoming);
+            break;
         default:
             break;
         }
@@ -72,16 +81,16 @@ void autonomous(int autonomyNum)
 void remoteControl(unsigned char* incoming)
 {
     int payload = (incoming[5]<<24) | (incoming[6]<<16) | (incoming[7]<<8) | incoming[8];
-    //speed(strtol(payload, NULL, 16) / 0xFF);
-    //turnrate(strtol(payload, NULL, 16) % 0xFF);
     int n;
     char buffer[128];
     switch (incoming[3])
         {
         case 0x0: // forward / backward
+            //speed(strtol(payload);
             Serial.println("Vor/ Rueck!");
             break;
         case 0x1: // turn value
+            //turnrate(strtol(payload);
             Serial.println("Turn Value!");
         default:
             break;
@@ -90,29 +99,67 @@ void remoteControl(unsigned char* incoming)
     Serial.println(buffer);
 }
 
-void calibration(char ID, int value){
+void calibration(unsigned char * incoming){
     int n;
     char buffer[64];
-    n = sprintf(buffer, "Calibration ID %c would now have Calibration Value: %x", ID, value);
+
 }
 
-void testing(char testID, int value){
-    int n;
-    char buffer[64];
-    n = sprintf(buffer, "Testing %c with value %x", testID, value);
+void testing(unsigned char* incoming){
+    int payload = (incoming[5]<<24) | (incoming[6]<<16) | (incoming[7]<<8) | incoming[8];
+    switch (incoming[3]){
+        case 0x0:
+            //motor1(payload);
+            break;
+        case 0x1:
+            //motor2(payload);
+            break;
+        case 0x2:
+            //motor3(payload);
+            break;
+        case 0x3:
+            //motor4(payload);
+            break;
+        case 0x4:
+            //piezo(payload);
+            break;
+        default :
+            Serial.println("Error in testing() due to invalid incoming[3]");
+            break;
+    }
 }
+/*The protocolSend function accepts 3 unsigned Chars and one int payload (4 Byte!). 
+ *These it prints serially in the form of our protocol. 
+ */
+void protocolSend(unsigned char dataType, unsigned char dataSource, unsigned char dataSubSource, int payload){
+    unsigned char toSend [10];
 
-void protocolSend(unsigned char dataType, unsigned char dataSource, unsigned char mode, int payload){
-    unsigned char tests [4];
-    int tmp;
-    for(int i = 0; i < 4; i++) {
+    toSend[0] = 0x11;
+    toSend[1] = 0x01;
+    toSend[2] = dataType;
+    toSend[3] = dataSource;
+    toSend[4] = dataSubSource;
+    for(int i = 5; i < 9; i++) {
         // tmp = payload && (0xFF << ((4-i)*8));
-        tests[i] = (unsigned char) payload >> ((4-i)*8);
+        toSend[i] = (unsigned char) payload >> ((9-i)*8);
     }
-    Serial.println("Protocol Send Test:");
+    toSend[10] = 0x12;
+
+    for(int i = 0; i<11; i++){
+        Serial.print(toSend[i]);
+    }
+    webSocket.broadcastBIN()
+    webSocket
+    //Serial.println("Protocol Send Test:");
+    Serial.print(0x11);
+    Serial.print(dataType);
+    Serial.print(dataSource);
+    Serial.print(axis);
+
     for(int i = 0; i < 4; i++) {
-        Serial.println(tests[i]);
+        Serial.print(tests[i]);
     }
-    Serial.println("END Protocol Send Test!");
-    // tmp = sprintf("01%x%x%x%x", dataType, dataSource, mode, payload);
+    Serial.println(0x12);
+    //Serial.println("END Protocol Send Test!");
+    //tmp = sprintf("01%x%x%x%x", dataType, dataSource, mode, payload);
 }
