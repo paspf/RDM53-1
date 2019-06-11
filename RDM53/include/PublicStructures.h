@@ -28,7 +28,7 @@
  * 1    : Websockets
  * 2    : Serial
  */
-typedef struct deviceConfig {
+struct deviceConfig {
     unsigned int mode = 0x0200;
     short debugPort = 0;
 };

@@ -10,7 +10,7 @@
 /*protocolEnter() takes the incoming protocol and sends the commands to
  *their corresponding functions.
  */
-int protocolEnter(unsigned char* incoming, size_t length)
+void protocolEnter(unsigned char* incoming, size_t length)
 {
     int payload = 0;
     Serial.println("Payload JAN:");
@@ -76,7 +76,6 @@ int protocolEnter(unsigned char* incoming, size_t length)
             break;
         }
     }
-    return NULL;
 }
 /*autonomous is responsible for calling functions that will be part of the autonomous mode.
  * 
@@ -84,9 +83,8 @@ int protocolEnter(unsigned char* incoming, size_t length)
 void autonomous(int autonomyNum)
 { 
     //Put functions leading to Autonomy here
-    int n;
     char buffer[128];
-    n = sprintf(buffer, "Autonomy mode %x will now commence", autonomyNum);
+    sprintf(buffer, "Autonomy mode %x will now commence", autonomyNum);
     Serial.println(buffer);
 }
 /*remoteControl() is responsible for giving the steering function its payload.
@@ -95,7 +93,6 @@ void autonomous(int autonomyNum)
 void remoteControl(unsigned char* incoming)
 {
     int payload = (incoming[5]<<24) | (incoming[6]<<16) | (incoming[7]<<8) | incoming[8];
-    int n;
     char buffer[128];
     switch (incoming[3])
         {
@@ -113,14 +110,12 @@ void remoteControl(unsigned char* incoming)
             webSocket.broadcastTXT("Error: remoteControl");
             break;
         }
-    n = sprintf(buffer, "Remote ID %d would now have Value: %x", incoming[3], payload);
+    sprintf(buffer, "Remote ID %d would now have Value: %x", incoming[3], payload);
     Serial.println(buffer);
 }
 
 void calibration(unsigned char * incoming){
-    int n;
-    char buffer[64];
-
+    // if something needs calibration this function will be filled
 }
 /*testing() takes a 4 Byte unsigned Char and tests the variables that are to be tested.
  *Please implement return values and testing function.
@@ -284,21 +279,24 @@ void getValues(uint8_t dataSource, uint8_t dataSubSource){
 void protocolSend(unsigned char dataType, unsigned char dataSource, unsigned char dataSubSource, int payload){
     unsigned char toSend [10];
     
-    toSend[0] = 0x11; // start value
-    toSend[1] = 0x01; // from ESP
+    toSend[0] = 0x11; // start byte
+    toSend[1] = 0x01; // indicator "data from RDM53"
     toSend[2] = dataType;
     toSend[3] = dataSource;
     toSend[4] = dataSubSource;
-    for(int i = 5; i < 9; i++) {
-        // tmp = payload && (0xFF << ((4-i)*8));
-        toSend[i] = (unsigned char) payload >> ((9-i)*8);
-    }
-    toSend[10] = 0x12;
 
-    for(int i = 0; i<11; i++){
-        Serial.print(toSend[i]);
+    for(int i = 5; i < 9; i++) {
+        toSend[i] = payload >> ((8-i) >> 3);
     }
-    webSocket.broadcastBIN(toSend, sizeof(toSend));
+    toSend[9] = 0x12;
+
+    /*
+    Serial.println("Data: ");
+    for(int i = 0; i<10; i++){
+        Serial.print(toSend[i], HEX);
+    }
+    */
+    // webSocket.broadcastBIN(toSend, sizeof(toSend));
     // webSocket
     //Serial.println("Protocol Send Test:");
     //Serial.println("END Protocol Send Test!");

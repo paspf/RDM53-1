@@ -16,10 +16,10 @@ void analyseString() {
   webSocket.broadcastTXT(inputString);
   if(inputString.startsWith("DEBUG ")) {
     if(inputString.substring(6, 18) == "protocolSend") {
-        // protocolSend(unsigned char dataType, unsigned char dataSource, unsigned char mode, int payload)
-        webSocket.broadcastTXT("DEBUG protocolSend is working!!!!!");
+      Serial.println("protocolSend():");
+        protocolSend(0x10, 0x20, 0x30, 0xFE203040);
+        // webSocket.broadcastTXT("DEBUG protocolSend is working!!!!!");
     }
-    // call jans function
   }
   inputString = "";
 }
@@ -78,6 +78,8 @@ void webSocketEvent(uint8_t num, WStype_t type, uint8_t * payload, size_t length
         }
       // webSocket.sendBIN(num, payload, lenght);           // send binary message to client
       break;
+    default:
+      yield();
   }
 }
 /*
@@ -93,7 +95,7 @@ void serialReceive() {
       binary = false;
     }
     if(lastEl == 0 && inChar == 0x11) {
-      webSocket.broadcastTXT("0x11 found!");
+      // webSocket.broadcastTXT("0x11 found!");
       lastEl++;
       continue;
     }
@@ -102,19 +104,19 @@ void serialReceive() {
     }
     else if(binary == true && lastEl == 9 && inChar == 0x12) {
       protocolEnter(inputBinary, 128);
-      webSocket.broadcastTXT("line 104");
+      // webSocket.broadcastTXT("line 105");
     }
     else if(binary == true && lastEl < 10) {
       inputBinary[lastEl] = inChar;
-      webSocket.broadcastTXT("line 100");
+      // webSocket.broadcastTXT("line 109");
     }
     else if(binary == false) {
       analyseString();
-      webSocket.broadcastTXT("Analyse String");
+      // webSocket.broadcastTXT("Analyse String");
     }
     else {                                                      // if the incoming character is a carriage return, set a flag
       Serial.read();
-      // webSocket.broadcastTXT("line 112 length:");
+      // webSocket.broadcastTXT("line 117 length:");
       // char lastElStr[100];
       // sprintf(lastElStr, "%d", lastEl);
       // webSocket.broadcastTXT(lastElStr);

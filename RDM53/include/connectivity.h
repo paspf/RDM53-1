@@ -7,12 +7,13 @@
  */
 #include <Arduino.h>
 #include "WebSocketsServer.h"
+#include "protocol.h"
 
 #ifndef RDM_MAIN
     extern String inputString;
     extern WebSocketsServer webSocket;
     extern unsigned char inputBinary[128]; 
-    extern int protocolEnter(unsigned char*, size_t);
+    extern void protocolEnter(unsigned char*, size_t);
 #endif
 
 void analyseString();
