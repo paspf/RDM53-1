@@ -51,4 +51,5 @@ class EnginesInterface {
     void setEFR(bool, unsigned char);
     void setEBL(bool, unsigned char);
     void setEBR(bool, unsigned char);
+    void stopE();
 };

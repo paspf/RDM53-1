@@ -138,6 +138,9 @@ void testing(unsigned char* incoming){
             enginesInt.setEBR(incoming[7],incoming[8]);
             break;
         case 0x4:
+            enginesInt.stopE();
+            break;
+        case 0x5:
             //piezo(payload);
             break;
         default :

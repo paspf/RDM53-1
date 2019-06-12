@@ -106,3 +106,17 @@ void EnginesInterface::setEBR(bool dir, unsigned char value) {
     ledcWrite(EBR2_PWM_CH, value);
   }
 }
+
+/*
+ * Stop all engines
+ */
+void EnginesInterface::stopE() {
+  ledcWrite(EFL1_PWM_CH, 0);
+  ledcWrite(EFL2_PWM_CH, 0);
+  ledcWrite(EFR1_PWM_CH, 0);
+  ledcWrite(EFR2_PWM_CH, 0);
+  ledcWrite(EBL1_PWM_CH, 0);
+  ledcWrite(EBL2_PWM_CH, 0);
+  ledcWrite(EBR1_PWM_CH, 0);
+  ledcWrite(EBR2_PWM_CH, 0);
+}
