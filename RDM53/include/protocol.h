@@ -10,6 +10,7 @@
 #include <stdio.h>
 #include <Arduino.h>
 #include <WebSocketsServer.h>
+// #include "PublicStructures.h"
 
 
 #ifndef RDM_MAIN
@@ -17,6 +18,8 @@
     extern WebSocketsServer webSocket;
     #include "PublicStructures.h"
     extern deviceConfig dC;
+    #include <EnginesInterface.h>
+    extern EnginesInterface enginesInt;
 #endif
 
 void protocolEnter(unsigned char*, size_t);

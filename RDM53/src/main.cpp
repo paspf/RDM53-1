@@ -12,7 +12,7 @@
 
 
 void setup() {
-  Serial.begin(115200);
+  Serial.begin(230400);
   //ESP32Init ESP32InitObj;
   //ESP32InitObj.RDMWiFiInit();
   RDMWiFiInit();

@@ -13,16 +13,17 @@
 void protocolEnter(unsigned char* incoming, size_t length)
 {
     int payload = 0;
-    Serial.println("Payload JAN:");
+    /*Serial.println("Payload JAN:");
     Serial.println(incoming[5], HEX);
     Serial.println(incoming[6], HEX);
     Serial.println(incoming[7], HEX);
     Serial.println(incoming[8], HEX);
     Serial.println("END PAYLOAD JAN");
     webSocket.broadcastTXT("test");
+    */
 
     payload = (incoming[5]<<24) | (incoming[6]<<16) | (incoming[7]<<8) | incoming[8];
-    Serial.println(payload, HEX);
+    // Serial.println(payload, HEX);
 
     if(incoming[1]== 2) //switchMode
     {
@@ -56,18 +57,16 @@ void protocolEnter(unsigned char* incoming, size_t length)
         }
     }
     if(incoming[1] == 3){ //receiveData
-        // für compiler::::
-        unsigned char in[2];
         switch (incoming[2])
         {
         case 0x0: //RemoteControlData
             remoteControl(incoming);
             break;
         case 0x1: //Calibration
-            calibration(in);
+            calibration(incoming);
             break;
         case 0x2: //Testing
-            testing(in);
+            testing(incoming);
             break;
         case 0x3: //GetValues
             getValues(incoming[3], incoming[4]);
@@ -125,16 +124,18 @@ void testing(unsigned char* incoming){
     int payload = (incoming[5]<<24) | (incoming[6]<<16) | (incoming[7]<<8) | incoming[8];
     switch (incoming[3]){
         case 0x0:
-            //motor1(payload);
+            // 11 03 02 00 00 00 00 00 B0 12
+            enginesInt.setEFL(incoming[7],incoming[8]);
             break;
         case 0x1:
-            //motor2(payload);
+            // 11 03 02 01 00 00 00 00 50 12
+            enginesInt.setEFR(incoming[7],incoming[8]);
             break;
         case 0x2:
-            //motor3(payload);
+            enginesInt.setEBL(incoming[7],incoming[8]);
             break;
         case 0x3:
-            //motor4(payload);
+            enginesInt.setEBR(incoming[7],incoming[8]);
             break;
         case 0x4:
             //piezo(payload);

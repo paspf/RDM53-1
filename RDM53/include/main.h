@@ -14,6 +14,7 @@
 #include "connectivity.h"
 #include "protocol.h"
 #include "lineTracking.h"
+#include "EnginesInterface.h"
 // #include "lidar.h"
 
 
@@ -34,3 +35,5 @@ lineTrackInterface lineSensorFrontLeft(36);
 lineTrackInterface lineSensorFrontRight(39);
 lineTrackInterface lineSensorBackLeft(34);
 lineTrackInterface lineSensorBackRight(32);
+
+EnginesInterface enginesInt;
