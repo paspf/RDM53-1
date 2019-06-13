@@ -15,6 +15,7 @@
 #include "protocol.h"
 #include "lineTracking.h"
 #include "EnginesInterface.h"
+#include "steering.h"
 // #include "lidar.h"
 
 
@@ -37,3 +38,4 @@ lineTrackInterface lineSensorBackLeft(34);
 lineTrackInterface lineSensorBackRight(32);
 
 EnginesInterface enginesInt;
+SteeringInterface steering;

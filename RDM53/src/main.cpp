@@ -36,7 +36,8 @@ void loop() {
     case 0x0100:
       // Remote Control (static)
       webSocket.broadcastTXT("Remote Control static set!");
-      dC.mode = 0x0200;
+      // steering.staticEngines();
+      //dC.mode = 0x0200;
       break;
     case 0x0101:
       // Remote Control (dynamic)

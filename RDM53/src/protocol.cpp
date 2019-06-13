@@ -99,11 +99,13 @@ void remoteControl(unsigned char* incoming)
             //speed(strtol(payload);
             Serial.println("Vor/ Rueck!");
             webSocket.broadcastTXT("Vor/ Rueck!");
+            // steering.setVal(0, payload);
             break;
         case 0x1: // turn value
             //turnrate(strtol(payload);
-            Serial.println("Turn Value!");
+            Serial.println("Turn Value: !");
             webSocket.broadcastTXT("TurnValue!");
+            steering.setVal(1, payload);
         default:
             Serial.println("Error: remoteControl");
             webSocket.broadcastTXT("Error: remoteControl");

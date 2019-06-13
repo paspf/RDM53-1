@@ -2,44 +2,71 @@
  * using the EnginesInterface
  *
  * Creation Date: 12.06.2019
- * Last worked on:
- * By:
  * Author: Jan Kühnemund
  */
 
 #include <steering.h>
-#include <EnginesInterface.h>
-
-EnginesInterface engines;
-
-void staticSteering(){}
-
-void dynamicSteering(){}
-
-int setSpeed(bool dir, int setSpeed){
-    if(dir == 0){
-        int currentSpeed = setSpeed;
-        return currentSpeed;
-    }
-    return 0;
-}
-
-void setTurn(int currentSpeed){
-
-}
-
-void getMoving(bool dir,int currentSpeed)
+/*
+ * valType: 0 = speed, 1 = turnrate
+ * valType = 0: value 0-255 speed forward, 256-511 speed backward
+ * valType = 1: value 0-127 left, 128 straight, 129-255 right
+ */
+void SteeringInterface::setVal(bool valType, int value)
 {
-    if(currentSpeed < 255 * 0.8 && dir == 0){
-        engines.setEFL(0, 255);
-        engines.setEFR(0, 255);
-        engines.setEFL(0, 255);
-        engines.setEFL(0, 255);
+    
+    if(valType == 0){ //Speed is set
+        if(value > 0xFF){
+            dir = 0;
+            speedValNow = 0xFF - value % 0xFF;
+        }
+        else{
+            dir = 1;
+            speedValNow = value % 0xFF;
+        }
     }
-    else if(currentSpeed < 255 * 0.8 && dir == 1){
-        engines.setEFL(1, 255);
-        engines.setEFR(1, 255);
-        engines.setEFL(1, 255);
-        engines.setEFL(1, 255);        
+    else
+    if(valType == 1){
+        turnValGiven = value % 0xFF;
     }
+}
+
+
+void SteeringInterface::setPilot()
+{
+    if(speedValPrevious == 0 && speedValNow != 0){
+        starter();
+        speedValPrevious = speedValNow;
+    }
+    if (startTime < millis() - 50)
+    {
+        int turnValue = (0xFF - speedValNow) * ((turnValGiven-0x80)/0x80);
+        int enginesLeft = speedValNow - turnValue;
+        int enginesRight = speedValNow + turnValue;
+        staticEngines();
+    }
+    
+}
+
+void SteeringInterface::starter()
+{
+    startTime = millis();
+    if(dir == 0){
+        enginesInt.setEFL(0, 255);
+        enginesInt.setEFR(0, 255);
+        enginesInt.setEFL(0, 255);
+        enginesInt.setEFL(0, 255);
+    }
+    else if(dir == 1){
+        enginesInt.setEFL(1, 255);
+        enginesInt.setEFR(1, 255);
+        enginesInt.setEFL(1, 255);
+        enginesInt.setEFL(1, 255);      
+    }
+}
+
+void SteeringInterface::staticEngines(){
+    enginesInt.setEFL(dir, enginesLeft);
+    enginesInt.setEBL(dir, enginesLeft);
+    enginesInt.setEFR(dir, enginesRight);
+    enginesInt.setEBR(dir, enginesRight);
 }
