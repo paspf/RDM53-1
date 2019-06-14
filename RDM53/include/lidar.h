@@ -5,25 +5,42 @@
  * Date: 2019 06 10
  * Author: Pascal Pfeiffer
  */
-
 #include "Adafruit_VL53L0X.h"
 
-// objects for the vl53l0x
-Adafruit_VL53L0X lox1 = Adafruit_VL53L0X();
-Adafruit_VL53L0X lox2 = Adafruit_VL53L0X();
+// port expander I2C adress
+#define EXP_ADDRESS 0x20
 
-// this holds the measurement
-VL53L0X_RangingMeasurementData_t lox1measure;
-VL53L0X_RangingMeasurementData_t lox2measure2;
-
-// address we will assign if dual sensor is present
+// sensor I2C adresses
 #define LOX1_ADDRESS 0x30
 #define LOX2_ADDRESS 0x31
+#define LOX3_ADDRESS 0x32
+#define LOX4_ADDRESS 0x33
+#define LOX5_ADDRESS 0x34
+#define LOX6_ADDRESS 0x35
+#define LOX7_ADDRESS 0x36
 
-// set the pins to shutdown
-#define LOX1_SHT 34
-#define LOX2_SHT 32
+// Assignment to port expander
+#define SHT_LOX1 0x1
+#define SHT_LOX2 0x2
+#define SHT_LOX3 0x4
+#define SHT_LOX4 0x8
+#define SHT_LOX5 0x10
+#define SHT_LOX6 0x20
+#define SHT_LOX7 0x40
 
-void setID();
+class lidar{
+    private:
+    bool isInit = false;
+    // objects for the vl53l0x
+    Adafruit_VL53L0X lox1 = Adafruit_VL53L0X();
+    Adafruit_VL53L0X lox2 = Adafruit_VL53L0X();
+    void setID();
+    public:
+    // this holds the measurement
+    VL53L0X_RangingMeasurementData_t measure1;
+    VL53L0X_RangingMeasurementData_t measure2;
+    void expanderWrite(int, uint8_t);
+    void initLox();
+    int readLOXSensors();
+};
 
-void initLox();
