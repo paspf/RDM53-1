@@ -4,8 +4,18 @@
  *
  *Author: Jan Kühnemund
  */
-
 #include <protocol.h>
+#ifndef RDM_MAIN
+    extern String inputString;
+    extern WebSocketsServer webSocket;
+    #include "PublicStructures.h"
+    extern deviceConfig dC;
+    #include <EnginesInterface.h>
+    extern EnginesInterface enginesInt;
+    #include "steering.h"
+    extern SteeringInterface steering;
+#endif
+
 
 /*protocolEnter() takes the incoming protocol and sends the commands to
  *their corresponding functions.

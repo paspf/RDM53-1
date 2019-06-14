@@ -4,8 +4,12 @@
  * Creation Date: 12.06.2019
  * Author: Jan Kühnemund
  */
-
 #include <steering.h>
+#ifndef RDM_MAIN
+    #include <EnginesInterface.h>
+    extern EnginesInterface enginesInt;
+#endif
+
 /*
  * valType: 0 = speed, 1 = turnrate
  * valType = 0: value 0-255 speed forward, 256-511 speed backward

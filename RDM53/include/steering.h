@@ -5,10 +5,7 @@
  * Author: Jan Kühnemund
  */
 #include <Arduino.h>
-#ifndef RDM_MAIN
-    #include <EnginesInterface.h>
-    extern EnginesInterface enginesInt;
-#endif
+
 
 
 class SteeringInterface{

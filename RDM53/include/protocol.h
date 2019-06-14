@@ -13,16 +13,7 @@
 // #include "PublicStructures.h"
 
 
-#ifndef RDM_MAIN
-    extern String inputString;
-    extern WebSocketsServer webSocket;
-    #include "PublicStructures.h"
-    extern deviceConfig dC;
-    // #include <EnginesInterface.h>
-    // extern EnginesInterface enginesInt;
-    #include "steering.h"
-    extern SteeringInterface steering;
-#endif
+
 
 void protocolEnter(unsigned char*, size_t);
 void autonomous(int);

@@ -6,7 +6,13 @@
  * Author: Pascal Pfeiffer
  */
 #include "connectivity.h"
-
+#ifndef RDM_MAIN
+    extern String inputString;
+    extern WebSocketsServer webSocket;
+    extern unsigned char inputBinary[128]; 
+    extern void protocolEnter(unsigned char*, size_t);
+    #include "protocol.h"
+#endif
 /*
  * Analyse Strings and interpret commands
  */
