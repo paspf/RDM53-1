@@ -15,6 +15,7 @@ void setup() {
   Serial.begin(230400);
   //ESP32Init ESP32InitObj;
   //ESP32InitObj.RDMWiFiInit();
+  interruptInitialization();
   RDMWiFiInit();
   OTAirInit();
   webSocket.begin();                                                      // start the websocket server
@@ -28,6 +29,7 @@ void loop() {
   ArduinoOTA.handle();
   serialReceive();
   webSocket.loop();
+  interruptWorkers();
   // Serial.println(millis());
   switch(dC.mode) {
     case 0x0200:
