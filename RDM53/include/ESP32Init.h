@@ -7,19 +7,18 @@
  */
 
 
-// #include "main.h"
 #include "mainUSR.h"
 #include <Arduino.h>
 #include <WiFi.h>
 #include "time.h"
 #include <rom/rtc.h>
-// #include <WiFiClientSecure.h>
+#include <WiFiClientSecure.h>
 #include "esp_wpa2.h"
 #include <ESPmDNS.h>
 #include <WiFiUdp.h>
 #include <ArduinoOTA.h>
 
-#define NTP_SERVER_IS "pool.ntp.org"
+
 #define GMT_OFFSET_SEC 3600
 #define DAYLIGHT_OFFSET_SEC 3600
 //const char *ntpServerIs = "pool.ntp.org";
@@ -30,5 +29,6 @@
 void RDMWiFiInit();
 void setUpHomeWiFi();
 void setUpTHMWifi();
-void printLocalTime();
+int printLocalTime();
 void OTAirInit();
+
