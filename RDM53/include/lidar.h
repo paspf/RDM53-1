@@ -36,9 +36,14 @@ class lidar{
     Adafruit_VL53L0X lox2 = Adafruit_VL53L0X();
     void setID();
     public:
-    // this holds the measurement
-    VL53L0X_RangingMeasurementData_t measure1;
-    VL53L0X_RangingMeasurementData_t measure2;
+    // this holds the measurements
+    VL53L0X_RangingMeasurementData_t measureLidar1; // L1 in schematic
+    VL53L0X_RangingMeasurementData_t measureLidar2; // L2 in schematic
+    VL53L0X_RangingMeasurementData_t measureLidar3; // L3 in schematic
+    VL53L0X_RangingMeasurementData_t measureLidar4; // L4 in schematic
+    VL53L0X_RangingMeasurementData_t measureLidar5; // L5 in schematic
+    VL53L0X_RangingMeasurementData_t measureLidar6; // L6 in schematic
+    VL53L0X_RangingMeasurementData_t measureLidar7; // L7 in schematic
     void expanderWrite(int, uint8_t);
     void initLox();
     int readLOXSensors();

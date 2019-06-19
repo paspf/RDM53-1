@@ -74,13 +74,13 @@ int lidar::readLOXSensors() {
     Serial.println("Not all Lidar Sensor initialized!");
     return 1;
   }
-  lox1.rangingTest(&measure1, false); // pass in 'true' to get debug data printout!
-  lox2.rangingTest(&measure2, false); // pass in 'true' to get debug data printout!
+  lox1.rangingTest(&measureLidar1, false); // pass in 'true' to get debug data printout!
+  lox2.rangingTest(&measureLidar2, false); // pass in 'true' to get debug data printout!
 
   // print sensor one reading
   Serial.print("1: ");
-  if(measure1.RangeStatus != 4) {     // if not out of range
-    Serial.print(measure1.RangeMilliMeter);
+  if(measureLidar1.RangeStatus != 4) {     // if not out of range
+    Serial.print(measureLidar1.RangeMilliMeter);
   } else {
     Serial.print("Out of range");
   }
@@ -89,8 +89,8 @@ int lidar::readLOXSensors() {
 
   // print sensor two reading
   Serial.print("2: ");
-  if(measure2.RangeStatus != 4) {
-    Serial.print(measure2.RangeMilliMeter);
+  if(measureLidar2.RangeStatus != 4) {
+    Serial.print(measureLidar2.RangeMilliMeter);
   } else {
     Serial.print("Out of range");
   }
