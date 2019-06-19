@@ -5,7 +5,7 @@
  * 
  * Date: 2019 05 21
  * Author: Pascal Pfeiffer
- * Project Members: Pascal Pfeiffer, Jan Kühnemund, Taha Tekdemir, Hakim Nasser, Justin Neumann
+ * Project Members: Pascal Pfeiffer, Jan Kühnemund, Taha Tekdemir (derbabo), Hakim Nasser, Justin Neumann
  */
 
 #include "main.h"
