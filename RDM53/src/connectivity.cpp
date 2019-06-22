@@ -5,7 +5,10 @@
  * Date: 2019 05 26
  * Author: Pascal Pfeiffer
  */
+#include <Arduino.h>
 #include "connectivity.h"
+
+
 #ifndef RDM_MAIN
     extern String inputString;
     extern WebSocketsServer webSocket;
@@ -13,6 +16,23 @@
     extern void protocolEnter(unsigned char*, size_t);
     #include "protocol.h"
 #endif
+
+/*
+ * Send binary Data to Websocket Client or (and) over the serial connection as String
+ */
+void sendBinCharArr(unsigned char *charArr, size_t length) {
+  #ifdef SEND_SERIAL
+    Serial.println("Data: ");
+    for(int i = 0; i < length; i++) {
+      Serial.print(charArr[i], HEX);
+    }
+  #endif
+  #ifdef SEND_WEBSOCKET
+    webSocket.broadcastBIN(charArr, length, false);
+  #endif
+}
+
+
 /*
  * Analyse Strings and interpret commands
  */
@@ -23,7 +43,7 @@ void analyseString() {
   if(inputString.startsWith("DEBUG ")) {
     if(inputString.substring(6, 18) == "protocolSend") {
       Serial.println("protocolSend():");
-        protocolSend(0x10, 0x20, 0x30, 0xFE203040);
+        protocolSend(0x82, 0x93, 0x30, 0xFE203040);
         // webSocket.broadcastTXT("DEBUG protocolSend is working!!!!!");
     }
   }

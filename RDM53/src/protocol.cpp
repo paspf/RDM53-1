@@ -2,9 +2,11 @@
  *This file contains all the protocol functions for the ESP32
  *
  *
- *Author: Jan Kühnemund
+ *Author: Jan Kühnemund, Pascal Pfeiffer
  */
+
 #include <protocol.h>
+#include "connectivity.h"
 #ifndef RDM_MAIN
     extern String inputString;
     extern WebSocketsServer webSocket;
@@ -289,8 +291,9 @@ void getValues(uint8_t dataSource, uint8_t dataSubSource){
     }
 }
 
-/*The protocolSend function accepts 3 unsigned Chars and one int payload (4 Byte!). 
- *These it prints serially in the form of our protocol. 
+/*
+ * The protocolSend function accepts 3 unsigned Chars and one int payload (4 Byte!). 
+ * The function fits the data in the protocol structure and sends them out
  */
 void protocolSend(unsigned char dataType, unsigned char dataSource, unsigned char dataSubSource, int payload){
     unsigned char toSend [10];
@@ -301,18 +304,16 @@ void protocolSend(unsigned char dataType, unsigned char dataSource, unsigned cha
     toSend[3] = dataSource;
     toSend[4] = dataSubSource;
 
-    for(int i = 5; i < 9; i++) {
-        toSend[i] = payload >> ((8-i) >> 3);
-    }
-    toSend[9] = 0x12;
+    toSend[5] = payload >> 24;
+    toSend[6] = payload >> 16;
+    toSend[7] = payload >> 8;
+    toSend[8] = payload;
 
-    /*
-    Serial.println("Data: ");
-    for(int i = 0; i<10; i++){
-        Serial.print(toSend[i], HEX);
-    }
-    */
-    // webSocket.broadcastBIN(toSend, sizeof(toSend));
+    /* for(int i = 5; i < 9; i++) {
+        toSend[i] = payload >> ((8-i) >> 3);
+    } */
+    toSend[9] = 0x12;
+    sendBinCharArr(toSend, 10);
     // webSocket
     //Serial.println("Protocol Send Test:");
     //Serial.println("END Protocol Send Test!");
