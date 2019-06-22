@@ -18,7 +18,7 @@
 #include "steering.h"
 #include "lidar.h"
 #include "interruptRoutines.h"
-
+#include "ObstacleInterface.h"
 
 /**** structures ****/
 #include "PublicStructures.h"
@@ -30,6 +30,7 @@ unsigned char inputBinary[128];
 
 /**** Public structures ****/
 deviceConfig dC;
+obstBuff obstBuffer;
 
 /**** Public Objects ****/
 WebSocketsServer webSocket = WebSocketsServer(81);                // open webSocket Server on port 81
