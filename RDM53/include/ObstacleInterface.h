@@ -34,5 +34,7 @@ class ObstacleInterface {
   int angleofobstacle;
   
   void initobstacledata();
-  int getstartposition();
+  int getstartPosition();
+  int checkIfObstacleExist(int);
+  void fillObstacleStructure(int,int,int);
 };

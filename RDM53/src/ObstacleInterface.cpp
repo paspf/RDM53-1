@@ -15,34 +15,46 @@ extern obstBuff obstBuffer;
 //ermittelt die Hindernissdaten zum Fahrzeug
 void ObstacleInterface::initobstacledata(){
 
+  int angleObstacleToCar;
+  int distanceObstacleToCar;
   int i;
   for(i=0;i<20;i++){
-    obstBuffer.obstacles[i].obstacleDetectionTime = millis();
-    obstBuffer.obstacles[i].obstacleID = i;
 
     if(lidarSensors.measureLidar1.RangeMilliMeter <= 1200 && lidarSensors.measureLidar4.RangeMilliMeter <= 1200) {
-    obstBuffer.obstacles[i].distanceObstacteToCar = lidarSensors.measureLidar1.RangeMilliMeter;
-    obstBuffer.obstacles[i].angleObstacleToCar = 0;
+    distanceObstacleToCar = lidarSensors.measureLidar1.RangeMilliMeter;
+    angleObstacleToCar = 0;
+    fillObstacleStructure(i,angleObstacleToCar,distanceObstacleToCar);
+    continue;
     }
     if(lidarSensors.measureLidar3.RangeMilliMeter <= 1200 && lidarSensors.measureLidar4.RangeMilliMeter <= 1200){
-    obstBuffer.obstacles[i].distanceObstacteToCar = lidarSensors.measureLidar4.RangeMilliMeter;
-    obstBuffer.obstacles[i].angleObstacleToCar = 45;
+    distanceObstacleToCar = lidarSensors.measureLidar4.RangeMilliMeter;
+    angleObstacleToCar = 45;
+    fillObstacleStructure(i,angleObstacleToCar,distanceObstacleToCar);
+    continue;
     }
     if(lidarSensors.measureLidar5.RangeMilliMeter <= 1200){
-    obstBuffer.obstacles[i].distanceObstacteToCar = lidarSensors.measureLidar5.RangeMilliMeter;
-    obstBuffer.obstacles[i].angleObstacleToCar = 90;
+    distanceObstacleToCar = lidarSensors.measureLidar5.RangeMilliMeter;
+    angleObstacleToCar = 90;
+    fillObstacleStructure(i,angleObstacleToCar,distanceObstacleToCar);
+    continue;
     }
     if(lidarSensors.measureLidar6.RangeMilliMeter <= 1200){
-    obstBuffer.obstacles[i].distanceObstacteToCar = lidarSensors.measureLidar6.RangeMilliMeter;
-    obstBuffer.obstacles[i].angleObstacleToCar = 180;
+    distanceObstacleToCar = lidarSensors.measureLidar6.RangeMilliMeter;
+    angleObstacleToCar = 180;
+    fillObstacleStructure(i,angleObstacleToCar,distanceObstacleToCar);
+    continue;
     }
     if(lidarSensors.measureLidar7.RangeMilliMeter <= 1200){
-    obstBuffer.obstacles[i].distanceObstacteToCar = lidarSensors.measureLidar7.RangeMilliMeter;
-    obstBuffer.obstacles[i].angleObstacleToCar = 270;
+    distanceObstacleToCar = lidarSensors.measureLidar7.RangeMilliMeter;
+    angleObstacleToCar = 270;
+    fillObstacleStructure(i,angleObstacleToCar,distanceObstacleToCar);
+    continue;
     }
     if(lidarSensors.measureLidar1.RangeMilliMeter <= 1200 && lidarSensors.measureLidar2.RangeMilliMeter <= 1200){
-    obstBuffer.obstacles[i].distanceObstacteToCar = lidarSensors.measureLidar1.RangeMilliMeter;
-    obstBuffer.obstacles[i].angleObstacleToCar = 315;
+    distanceObstacleToCar = lidarSensors.measureLidar1.RangeMilliMeter;
+    angleObstacleToCar = 315;
+    fillObstacleStructure(i,angleObstacleToCar,distanceObstacleToCar);
+    continue;
     }
     else {
     Serial.print("No Obstacle in proximity");
@@ -55,7 +67,28 @@ void ObstacleInterface::initobstacledata(){
     obstacleID = oID;
 }
  */
-int ObstacleInterface::getstartposition(){
+int ObstacleInterface::getstartPosition(){
+
+}
+
+int ObstacleInterface::checkIfObstacleExist(int angl){
+
+  for(int i=0;i<20;i++){
+    if(obstBuffer.obstacles[i].angleObstacleToCar == angl){
+      return 0;
+    }
+  }
+  return 1;
+}
+
+void ObstacleInterface::fillObstacleStructure(int i,int angle, int distance){
+
+    if (!checkIfObstacleExist(angle)){
+    obstBuffer.obstacles[i].angleObstacleToCar = angle;
+    obstBuffer.obstacles[i].distanceObstacteToCar = distance;
+    obstBuffer.obstacles[i].obstacleDetectionTime = millis();
+    obstBuffer.obstacles[i].obstacleID = i;
+    }
 
 }
 
