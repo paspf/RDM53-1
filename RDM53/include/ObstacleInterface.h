@@ -6,6 +6,7 @@
  * Date: 2019 06 20
  * Author: Taha Tekdemir
  */
+
 struct obstBuff {
   ObstacleBuffer obstacles[30];
   int lastUpdated = 0;
@@ -32,8 +33,6 @@ class ObstacleInterface {
   int anglestart;
   int angleofobstacle;
   
-  int initobstacleposition();
-  int initobstacledistance();
+  void initobstacledata();
   int getstartposition();
-  void setobstacleID(int);
 };
