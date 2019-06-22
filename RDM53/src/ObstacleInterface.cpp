@@ -11,6 +11,7 @@
 #include <lidar.h>
 extern  lidar ldsensor; //lidar Objekt erstellt um mit Sensordaten arbeiten zu können
 
+
 //ermittelt die Winkelposition des Hindernisses relativ zum Fahrzeug
 int ObstacleInterface::initobstacleposition(){
 
@@ -43,6 +44,7 @@ int ObstacleInterface::initobstacleposition(){
 //ermittelt den Abstand Lidarsensor(Fahrzeug) zum Hindernis
 int ObstacleInterface::initobstacledistance(){
 
+  starttime = millis();
   switch (angleofobstacle){
     case 0: distancecar = ldsensor.measureLidar1.RangeMilliMeter; break;
     case 45: distancecar = ldsensor.measureLidar4.RangeMilliMeter; break;
@@ -60,4 +62,7 @@ void ObstacleInterface::setobstacleID(int oID){
     obstacleID = oID;
 }
 
+int ObstacleInterface::getstartposition(){
+
+}
 

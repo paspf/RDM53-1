@@ -12,6 +12,7 @@ class ObstacleInterface {
   public: 
   ObstacleInterface();
 
+  int starttime;
   int obstacleID;
   int distancecar;
   int distancestart;
@@ -21,7 +22,7 @@ class ObstacleInterface {
   
   int initobstacleposition();
   int initobstacledistance();
+  int getstartposition();
   void setobstacleID(int);
 
- 
 };
