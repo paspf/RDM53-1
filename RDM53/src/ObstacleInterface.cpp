@@ -9,9 +9,9 @@
 
 #include <ObstacleInterface.h>
 #include <lidar.h>
-extern  lidar ldsensor;
+extern  lidar ldsensor; //lidar Objekt erstellt um mit Sensordaten arbeiten zu können
 
-
+//ermittelt die Winkelposition des Hindernisses relativ zum Fahrzeug
 int ObstacleInterface::initobstacleposition(){
 
   if(ldsensor.measureLidar1.RangeStatus != 4 && ldsensor.measureLidar4.RangeStatus != 4) {
@@ -40,7 +40,7 @@ int ObstacleInterface::initobstacleposition(){
 }
 
 
-
+//ermittelt den Abstand Lidarsensor(Fahrzeug) zum Hindernis
 int ObstacleInterface::initobstacledistance(){
 
   switch (angleofobstacle){
