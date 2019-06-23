@@ -25,14 +25,9 @@ class ObstacleBuffer {
 
 class ObstacleInterface {
   public: 
-  ObstacleInterface();
-  int obstacleDetectionTime;
-  int obstacleID;
-  int distanceObstacteToCar;
-  int distanceToStartPosition;
-  int anglestart;
-  int angleofobstacle;
   
+  ObstacleInterface();
+
   void initobstacledata();
   int getstartPosition();
   int checkIfObstacleExist(int*);
