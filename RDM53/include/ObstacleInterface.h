@@ -35,6 +35,6 @@ class ObstacleInterface {
   
   void initobstacledata();
   int getstartPosition();
-  int checkIfObstacleExist(int);
-  void fillObstacleStructure(int,int,int);
+  int checkIfObstacleExist(int*);
+  void fillObstacleStructure(int,int*,int*);
 };
