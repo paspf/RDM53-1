@@ -9,31 +9,31 @@
 #include <Arduino.h>
 
 // Engine front left
-#define EFL1_PIN 26
+#define EFL1_PIN 14
 #define EFL1_PWM_CH 0
 
-#define EFL2_PIN 27
+#define EFL2_PIN 12
 #define EFL2_PWM_CH 1
 
 // Engine front right
-#define EFR1_PIN 14
+#define EFR1_PIN 16
 #define EFR1_PWM_CH 2
 
-#define EFR2_PIN 12
+#define EFR2_PIN 17
 #define EFR2_PWM_CH 3
 
 // Engine back left
-#define EBL1_PIN 33
+#define EBL1_PIN 26
 #define EBL1_PWM_CH 4
 
-#define EBL2_PIN 17
+#define EBL2_PIN 27
 #define EBL2_PWM_CH 5
 
 // Engine back right
 #define EBR1_PIN 4
 #define EBR1_PWM_CH 6
 
-#define EBR2_PIN 16
+#define EBR2_PIN 33
 #define EBR2_PWM_CH 7
 
 // general PWM

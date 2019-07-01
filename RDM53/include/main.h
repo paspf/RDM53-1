@@ -8,6 +8,11 @@
 /**** includes ****/
 #define RDM_MAIN
 
+#define LT_FL_PIN 36
+#define LT_FR_PIN 32
+#define LT_BL_PIN 34
+#define LT_BR_PIN 39
+
 #include "WebSocketsServer.h"
 #include "mainUSR.h"
 #include "ESP32Init.h"
@@ -34,10 +39,10 @@ obstBuff obstBuffer;
 
 /**** Public Objects ****/
 WebSocketsServer webSocket = WebSocketsServer(81);                // open webSocket Server on port 81
-lineTrackInterface lineSensorFrontLeft(36);
-lineTrackInterface lineSensorFrontRight(39);
-lineTrackInterface lineSensorBackLeft(34);
-lineTrackInterface lineSensorBackRight(32);
+lineTrackInterface lineSensorFrontLeft(LT_FL_PIN);
+lineTrackInterface lineSensorFrontRight(LT_FR_PIN);
+lineTrackInterface lineSensorBackLeft(LT_BL_PIN);
+lineTrackInterface lineSensorBackRight(LT_BR_PIN);
 
 EnginesInterface enginesInt;
 SteeringInterface steering;
