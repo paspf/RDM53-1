@@ -40,17 +40,11 @@ void SteeringInterface::setVal(bool valType, int value)
 
 void SteeringInterface::setPilot()
 {
-    if(speedValPrevious == 0 && speedValNow != 0){
-        starter();
-        speedValPrevious = speedValNow;
-    }
-    if (startTime < millis() - 50)
-    {
-        int turnValue = (0xFF - speedValNow) * ((turnValGiven-0x80)/0x80);
-        int enginesLeft = speedValNow - turnValue;
-        int enginesRight = speedValNow + turnValue;
-        staticEngines();
-    }
+    int turnValue = (0xFF - speedValNow) * ((turnValGiven-0x80)/0x80);
+    int enginesLeft = speedValNow - turnValue;
+    int enginesRight = speedValNow + turnValue;
+    staticEngines();
+    
 }
 
 void SteeringInterface::starter()
