@@ -50,13 +50,25 @@ void SteeringInterface::setVal(bool valType, int value)
 void SteeringInterface::setPilot()
 {
     //int turnValue = (0xFF - speedValNow) * ((turnValGiven-0x80)/0x80);
-    if(turnValGiven > 0x80) //right
-    {
-        enginesRight = speedValNow - turnValGiven;
+    if(speedValNow > 0x79){
+        if(turnValGiven > 0x80) //right
+        {
+            enginesRight = speedValNow - turnValGiven;
+        }
+        else if(turnValGiven < 0x80) //left
+        {
+            enginesLeft = speedValNow - turnValGiven;
+        }
+        else
+        {
+            enginesLeft = speedValNow;
+            enginesRight = speedValNow;
+        }
     }
-    else if(turnValGiven < 0x80) //left
+    else
     {
-        enginesLeft = speedValNow - turnValGiven;
+        enginesLeft = speedValNow;
+        enginesRight = speedValNow;
     }
     staticEngines();
     
