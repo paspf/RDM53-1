@@ -7,6 +7,8 @@
  */
 
 #include "ESP32Init.h"
+#include "piezo.h"
+extern PiezoInterface piezo;
 
 WiFiClientSecure client;
 // wifi root certificate
@@ -72,12 +74,14 @@ const char* root_ca= \
         Serial.print("\n\rConnecting Wifi: ");
         Serial.println(RDM_SSID);
         int i = 0;
+        piezo.setPiezo(600);
         while(WiFi.status() != WL_CONNECTED && i < 25) {                        // try to connect with WiFi network
             delay(300);
             Serial.print(".");
             i++;
         }
         if( i >= 25) {
+            piezo.setPiezo(400);
             Serial.println("Unable to connect to WiFi Network, WiFi disabled!");
             WiFi.disconnect(true);                                                // reconnect to WiFi Network disabled
             WiFi.mode(WIFI_OFF);                                                  // turn off WiFi SW
@@ -106,6 +110,7 @@ const char* root_ca= \
                 tCnt++;
             } while (tCnt < 5 && printLocalTime() == 1);
             Serial.println("-----------------------");
+            piezo.noSound();
         }
     }
 

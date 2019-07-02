@@ -24,6 +24,7 @@
 #include "lidar.h"
 #include "interruptRoutines.h"
 #include "ObstacleInterface.h"
+#include  "piezo.h"
 
 /**** structures ****/
 #include "PublicStructures.h"
@@ -48,3 +49,5 @@ EnginesInterface enginesInt;
 SteeringInterface steering;
 
 lidar lidarSensors;
+
+PiezoInterface piezo;
