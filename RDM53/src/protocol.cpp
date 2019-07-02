@@ -122,6 +122,7 @@ void remoteControl(unsigned char* incoming)
             Serial.println("Turn Value: !");
             webSocket.broadcastTXT("TurnValue!");
             steering.setVal(1, payload);
+            break;
         default:
             Serial.println("Error: remoteControl");
             webSocket.broadcastTXT("Error: remoteControl");
