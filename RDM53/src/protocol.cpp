@@ -50,10 +50,10 @@ void protocolEnter(unsigned char* incoming, size_t length)
             break;
         case 0x1: //RemoteControl
             //Start thread remotecontrol and break other threads.
-            // enable remote control
-            dC.mode = 0x0100 | incoming[8];
+            // 11 02 01 00 00 00 00 00 00-0f 12 (static)
+            // 11 02 01 00 00 00 00 00 10-1f 12 (dynamic)
+            dC.mode = 0x010000 | incoming[8];
             // Serial.println(dC.mode, HEX);
-
             break;
         case 0x2:
             //Break Autonomy and RemoteControl. DeepSleepMode?
@@ -108,10 +108,11 @@ void remoteControl(unsigned char* incoming)
     switch (incoming[3])
         {
         case 0x0: // forward / backward
+            // 11 03 00 00 00 00 00 0x xx 12
             //speed(strtol(payload);
             Serial.println("Vor/ Rueck!");
             webSocket.broadcastTXT("Vor/ Rueck!");
-            // steering.setVal(0, payload);
+            steering.setVal(0, payload);
             break;
         case 0x1: // turn value
             //turnrate(strtol(payload);
@@ -146,12 +147,15 @@ void testing(unsigned char* incoming){
             enginesInt.setEFR(incoming[7],incoming[8]);
             break;
         case 0x2:
+            // 11 03 02 02 00 00 00 00 FF 12
             enginesInt.setEBL(incoming[7],incoming[8]);
             break;
         case 0x3:
+            // 11 03 02 03 00 00 00 00 FF 12
             enginesInt.setEBR(incoming[7],incoming[8]);
             break;
         case 0x4:
+            // 11 03 02 03 00 00 00 00 00 12
             enginesInt.stopE();
             break;
         case 0x5:

@@ -33,14 +33,14 @@ void loop() {
   interruptWorkers();
   // Serial.println(millis());
   switch(dC.mode) {
-    case 0x0200:
+    case 0x020000:
       // Mode : Pause
       break;
-    case 0x0100:
+    case 0x010000:
       // Remote Control (static)
-      webSocket.broadcastTXT("Remote Control static set!");
-      // steering.staticEngines();
-      //dC.mode = 0x0200;
+      //webSocket.broadcastTXT("Remote Control static set!");
+      //Serial.println("Static is Set!");
+      steering.setPilot();
       break;
     case 0x0101:
       // Remote Control (dynamic)
