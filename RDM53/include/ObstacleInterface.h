@@ -7,11 +7,6 @@
  * Author: Taha Tekdemir
  */
 
-struct obstBuff {
-  ObstacleBuffer obstacles[30];
-  int lastUpdated = 0;
-};
-
 
 class ObstacleBuffer {
   public:
@@ -32,4 +27,10 @@ class ObstacleInterface {
   int getstartPosition();
   int checkIfObstacleExist(int*);
   void fillObstacleStructure(int,int*,int*);
+};
+
+
+struct obstBuff {
+  ObstacleBuffer obstacles[30];
+  int lastUpdated = 0;
 };

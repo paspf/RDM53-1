@@ -77,7 +77,7 @@ const char* root_ca= \
             Serial.print(".");
             i++;
         }
-        if( i >= 60) {
+        if( i >= 25) {
             Serial.println("Unable to connect to WiFi Network, WiFi disabled!");
             WiFi.disconnect(true);                                                // reconnect to WiFi Network disabled
             WiFi.mode(WIFI_OFF);                                                  // turn off WiFi SW

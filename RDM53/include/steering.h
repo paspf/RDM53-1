@@ -11,8 +11,8 @@
 class SteeringInterface{
     public:
     int speedValPrevious;
-    int speedValNow;
-    int turnValGiven;
+    int speedValNow = 255; // do not drive
+    int turnValGiven = 128; // do not turn
     int enginesLeft;
     int enginesRight;
     int startTime;
