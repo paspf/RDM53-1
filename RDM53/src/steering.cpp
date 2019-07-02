@@ -33,7 +33,10 @@ void SteeringInterface::setVal(bool valType, int value)
         turnValGiven = value % 0xFF;
     }
 }
-
+/*
+ * setPilot has to be called periodically so that the engine Values are set correctly.
+ * setPilot does not accept values. It uses values in the steering object.
+ */
 
 void SteeringInterface::setPilot()
 {
@@ -48,7 +51,6 @@ void SteeringInterface::setPilot()
         int enginesRight = speedValNow + turnValue;
         staticEngines();
     }
-    
 }
 
 void SteeringInterface::starter()
