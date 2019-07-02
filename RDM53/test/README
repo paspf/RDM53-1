@@ -15,5 +15,6 @@ Befehle:
 -Motor Vorne Links:
 -Motor Hinten Rechts:
 -Motor Hinten Links:
--remoteControl Speed:
+-remoteControl Speed:110300000000000xxx12 (1st x: 1 vor / 0 rück) (2nd & 3rd x: 00 = stop/ FF = Full Speed)
 -remoteControl Turnrate:
+-Set Static RemoteControl: 11020100000000000012

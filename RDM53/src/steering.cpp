@@ -23,15 +23,15 @@ void SteeringInterface::setVal(bool valType, int value)
 {
     
     if(valType == 0){ //Speed is set
-        if(value > 0xFF){
+        if(value > 0xFF){//forwards
             Serial.println("if 1");
             dir = 0;
-            speedValNow = 0xFF - (0xFF & value);
+            speedValNow = (0xFF & value);
         }
-        else{
+        else{//backwards
             Serial.println("if 1 else");
             dir = 1;
-            speedValNow = (0xFF & value);
+            speedValNow = 0xFF - (0xFF & value);
         }
     }
     else if(valType == 1){
