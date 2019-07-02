@@ -32,6 +32,10 @@ void SteeringInterface::setVal(bool valType, int value)
     if(valType == 1){
         turnValGiven = value % 0xFF;
     }
+    Serial.print("speedValNow set to: ");
+    Serial.println(speedValNow);
+    Serial.print("turnValGiven set to:");
+    Serial.println(turnValGiven);
 }
 /*
  * setPilot has to be called periodically so that the engine Values are set correctly.

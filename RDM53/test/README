@@ -10,5 +10,10 @@ in the development cycle.
 More information about PIO Unit Testing:
 - https://docs.platformio.org/page/plus/unit-testing.html
 
-Jan is still here.
-Lel.
+Befehle:
+-Motor Vorne Rechts:
+-Motor Vorne Links:
+-Motor Hinten Rechts:
+-Motor Hinten Links:
+-remoteControl Speed:
+-remoteControl Turnrate:
