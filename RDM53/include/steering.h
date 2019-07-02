@@ -16,7 +16,7 @@ class SteeringInterface{
     int enginesLeft;
     int enginesRight;
     int startTime;
-    bool dir;
+    bool dir = true;
     void setPilot();
     void setVal(bool, int);
     void staticEngines();

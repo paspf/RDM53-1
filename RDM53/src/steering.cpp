@@ -13,10 +13,10 @@
 /*
  * valType: 0 = speed, 1 = turnrate
  * valType = 0: value 0-255 speed forward, 256-511 speed backward
- * speed 00 -> backwards stop
- * speed FF -> backwards
- * speed 1 00 -> forwards max speed
- * speed 1 FF -> forwards stop
+ * speed 0 00 -> backwards max speed
+ * speed 0 FF -> backwards stop
+ * speed 1 00 -> forwards stop
+ * speed 1 FF -> forwards max speed
  * valType = 1: value 0-127 left, 128 straight, 129-255 right
  */
 void SteeringInterface::setVal(bool valType, int value)
