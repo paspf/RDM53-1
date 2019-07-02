@@ -30,9 +30,10 @@ void protocolEnter(unsigned char* incoming, size_t length)
     Serial.println(incoming[6], HEX);
     Serial.println(incoming[7], HEX);
     Serial.println(incoming[8], HEX);
-    Serial.println("END PAYLOAD JAN");
+    Serial.println("END PAYLOAD JAN");*/
     webSocket.broadcastTXT("test");
-    */
+    Serial.println("test");
+    
 
     payload = (incoming[5]<<24) | (incoming[6]<<16) | (incoming[7]<<8) | incoming[8];
     // Serial.println(payload, HEX);
@@ -73,6 +74,8 @@ void protocolEnter(unsigned char* incoming, size_t length)
         {
         case 0x0: //RemoteControlData
             remoteControl(incoming);
+            webSocket.broadcastTXT("remotControl");
+            Serial.println("remoteControl");
             break;
         case 0x1: //Calibration
             calibration(incoming);
