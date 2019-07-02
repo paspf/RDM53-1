@@ -54,7 +54,7 @@ void protocolEnter(unsigned char* incoming, size_t length)
             // 11 02 01 00 00 00 00 00 00-0f 12 (static)
             // 11 02 01 00 00 00 00 00 10-1f 12 (dynamic)
             dC.mode = 0x010000 | incoming[8];
-            // Serial.println(dC.mode, HEX);
+            Serial.println(dC.mode, HEX);
             break;
         case 0x2:
             //Break Autonomy and RemoteControl. DeepSleepMode?
