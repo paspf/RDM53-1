@@ -13,6 +13,10 @@
 /*
  * valType: 0 = speed, 1 = turnrate
  * valType = 0: value 0-255 speed forward, 256-511 speed backward
+ * speed 00 -> backwards stop
+ * speed FF -> backwards
+ * speed 1 00 -> forwards max speed
+ * speed 1 FF -> forwards stop
  * valType = 1: value 0-127 left, 128 straight, 129-255 right
  */
 void SteeringInterface::setVal(bool valType, int value)
@@ -20,16 +24,17 @@ void SteeringInterface::setVal(bool valType, int value)
     
     if(valType == 0){ //Speed is set
         if(value > 0xFF){
+            Serial.println("if 1");
             dir = 0;
-            speedValNow = 0xFF - value % 0xFF;
+            speedValNow = 0xFF - (0xFF & value);
         }
         else{
+            Serial.println("if 1 else");
             dir = 1;
-            speedValNow = value % 0xFF;
+            speedValNow = (0xFF & value);
         }
     }
-    else
-    if(valType == 1){
+    else if(valType == 1){
         turnValGiven = value % 0xFF;
     }
     Serial.print("speedValNow set to: ");
@@ -45,8 +50,8 @@ void SteeringInterface::setVal(bool valType, int value)
 void SteeringInterface::setPilot()
 {
     int turnValue = (0xFF - speedValNow) * ((turnValGiven-0x80)/0x80);
-    int enginesLeft = speedValNow - turnValue;
-    int enginesRight = speedValNow + turnValue;
+    enginesLeft = speedValNow - turnValue;
+    enginesRight = speedValNow + turnValue;
     staticEngines();
     
 }
