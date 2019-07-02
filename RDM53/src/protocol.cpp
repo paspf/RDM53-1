@@ -158,7 +158,7 @@ void testing(unsigned char* incoming){
             enginesInt.setEBR(incoming[7],incoming[8]);
             break;
         case 0x4:
-            // 11 03 02 03 00 00 00 00 00 12
+            // 11 03 02 04 00 00 00 00 00 12
             enginesInt.stopE();
             break;
         case 0x5:

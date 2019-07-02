@@ -11,12 +11,12 @@
 class SteeringInterface{
     public:
     int speedValPrevious = 0;
-    int speedValNow = 255; // do not drive
+    int speedValNow = 0; // do not drive
     int turnValGiven = 128; // do not turn
     int enginesLeft;
     int enginesRight;
     int startTime;
-    bool dir = true;
+    bool dir = false; // forwards
     void setPilot();
     void setVal(bool, int);
     void staticEngines();
