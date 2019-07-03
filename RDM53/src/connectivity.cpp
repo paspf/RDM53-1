@@ -37,8 +37,8 @@ void sendBinCharArr(unsigned char *charArr, size_t length) {
  * Analyse Strings and interpret commands
  */
 void analyseString() {
-  Serial.print("String received:");
-  Serial.println(inputString);
+  //Serial.print("String received:");
+  //Serial.println(inputString);
   webSocket.broadcastTXT(inputString);
   if(inputString.startsWith("DEBUG ")) {
     if(inputString.substring(6, 18) == "protocolSend") {
@@ -54,16 +54,18 @@ void analyseString() {
  * Analyse bytewise transmitted data
  */
 void analyseBinary(unsigned char *inputBinary, size_t length) {
-  Serial.println("Binary received:");
-  Serial.printf((char*)inputBinary);
-  Serial.println();
+  //Serial.println("Binary received:");
+  //Serial.printf((char*)inputBinary);
+  //Serial.println();
+  /*
   if(length > 1) {
       if(inputBinary[0] == 0x1) {
-    Serial.println("Byte 1 = 0x1");
+    //Serial.println("Byte 1 = 0x1");
     if(inputBinary[1] == 0x8F)
-      Serial.println("Byte 2 = 0x8F");
+      //Serial.println("Byte 2 = 0x8F");
+      
     }
-  }
+  } */
 }
 
 /*
@@ -93,11 +95,11 @@ void webSocketEvent(uint8_t num, WStype_t type, uint8_t * payload, size_t length
       // webSocket.broadcastTXT("message here");            // send data to all connected clients
       break;
     case WStype_BIN:                                          // Receive binary data
-        Serial.printf("[%u] get binary lenght: %u\n", num, length);
+        //Serial.printf("[%u] get binary lenght: %u\n", num, length);
         if (length > 128)
             Serial.printf("Binary Data to large");
         else {
-          Serial.println("Web bin!");
+          //Serial.println("Web bin!");
           // analyseBinary(payload, lenght);
           protocolEnter(payload, length);
           // hexdump(payload, lenght);

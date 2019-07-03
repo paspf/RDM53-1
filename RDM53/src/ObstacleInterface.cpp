@@ -63,7 +63,7 @@ void ObstacleInterface::initobstacledata(){
     continue;
     }
     else {
-    Serial.print("No Obstacle in proximity");
+    //Serial.print("No Obstacle in proximity");
     }   
   }
 }
