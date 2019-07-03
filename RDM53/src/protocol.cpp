@@ -63,8 +63,8 @@ void protocolEnter(unsigned char* incoming, size_t length)
             enginesInt.stopE();
             break;
         case 0x3:
-            //
-            dC.mode = 0x30000 + incoming[8];
+            // dC.mode = 0x30000 + incoming[8];
+            esp_restart();
             break;
         default:
             Serial.println("ERROR: protocolEnter: Undefined Mode set due to invalid incoming[2]");
