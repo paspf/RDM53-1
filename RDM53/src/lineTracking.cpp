@@ -32,4 +32,9 @@ int lineTrackInterface::readRawSensorValue() {
 */
 int lineTrackInterface::getColorCode() {
     int rawValue = analogRead(pin);
+    int colCode = 4;
+    if(rawValue < 200) {
+        colCode = 0;
+    }
+    return colCode;
 }

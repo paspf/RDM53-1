@@ -74,7 +74,7 @@ void ObstacleInterface::initobstacledata(){
 }
  */
 int ObstacleInterface::getstartPosition(){
-
+  return 0;
 }
 
 int ObstacleInterface::checkIfObstacleExist(int *a){
