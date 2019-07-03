@@ -24,15 +24,11 @@ void SteeringInterface::setVal(bool valType, int value)
     if(valType == 0){ //Speed is set
         if(value > 0xFF){//forwards
             //Serial.println("if 1");
-            dirLeft = 0;
-            dirRight = 0;
             dirGen = 0;
             speedValNow = (0xFF & value);
         }
         else{//backwards
             //Serial.println("if 1 else");
-            dirLeft = 1;
-            dirRight = 1;
             dirGen = 1;
             speedValNow = 0xFF - (0xFF & value);
         }
@@ -59,73 +55,55 @@ void SteeringInterface::setPilot()
 {
     dirLeft = dirGen;
     dirRight = dirGen;
+    Serial.print("Speed Set to: ");
+    Serial.println(speedValNow);
 
     if(turnValGiven == 0x00)
     {
         turnValGiven++;
     }
 
-    if(turnValGiven > 0x80)
+    if(turnValGiven > 0x89) //Right
     {
-        double turnPercent = 1.0-(double(0xFF & turnValGiven)-128.0) /128.0;
+        double turnPercent = (double(0xFF & turnValGiven)-128.0) /128.0;
         Serial.print("turnPercentRight: ");
         Serial.println(turnPercent);
-        if (dirRight == false)
+        
+        if(turnPercent > 0.5) 
         {
-            dirRight = true;
+            dirRight = !dirGen;   
+            enginesRight = speedValNow * (turnPercent - 0.5);
         }
-        else if (dirRight == true)
-        {
-            dirRight = false;
-        } 
-        enginesRight = speedValNow * turnPercent;       
+        else {
+            enginesRight = speedValNow * (1.0 - turnPercent * 2);       
+        }
+        enginesLeft = speedValNow;
     }
 
-    else if(turnValGiven < 0x80)
+    else if(turnValGiven < 0x76) //Left
     {        
-        double turnPercent = -(double(0xFF & turnValGiven) / 128.0) +1.0 ;
+        double turnPercent = 1.0 -(double(0xFF & turnValGiven) / 128.0);
         Serial.print("turnPercentLeft: ");
-        Serial.println(turnPercent);        
-
-        if (dirLeft == false)
-            {
-                dirLeft = true;
-            }
-        else if (dirLeft == true)
-            {
-                dirLeft = false;
-            }
-        enginesLeft = speedValNow * turnPercent;
+        Serial.println(turnPercent);
+        
+        if(turnPercent > 0.5) 
+        {
+            dirLeft = !dirGen;    
+            enginesLeft = speedValNow * (turnPercent - 0.5);
+        }
+        else {
+            enginesRight = speedValNow * (1.0 - turnPercent * 2);       
+        }   
         enginesRight = speedValNow;
-
     }
-
     else
     {
         enginesLeft = speedValNow;
         enginesRight = speedValNow;
-        dirLeft = dirGen;
-        dirRight = dirGen;
     }
+
     staticEngines();
     
-}
-
-void SteeringInterface::starter()
-{
-    startTime = millis();
-    if(dirLeft == 0 && dirRight == 0){
-        enginesInt.setEFL(0, 255);
-        enginesInt.setEFR(0, 255);
-        enginesInt.setEFL(0, 255);
-        enginesInt.setEFL(0, 255);
-    }
-    else if(dirLeft == 1 && dirRight == 1){
-        enginesInt.setEFL(1, 255);
-        enginesInt.setEFR(1, 255);
-        enginesInt.setEFL(1, 255);
-        enginesInt.setEFL(1, 255);      
-    }
 }
 
 void SteeringInterface::staticEngines(){

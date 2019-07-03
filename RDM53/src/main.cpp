@@ -27,6 +27,7 @@ void setup() {
 }
 
 void loop() {
+  //int startTime = millis();
   ArduinoOTA.handle();
   serialReceive();
   webSocket.loop();
@@ -36,12 +37,20 @@ void loop() {
     case 0x020000:
       // Mode : Pause
       break;
-    case 0x010000:
+    case 0x010000:{
       // Remote Control (static)
       //webSocket.broadcastTXT("Remote Control static set!");
       //Serial.println("Static is Set!");
+      bool go = true;
+      if(millis() % 500 < 100 && go == true)
+      {
+      go = false;
       steering.setPilot();
-      break;
+      }
+      if(millis() % 500 > 100){
+        go = true;
+      }
+    }break;
     case 0x0101:
       // Remote Control (dynamic)
       webSocket.broadcastTXT("Remote Control dynamic Set!");

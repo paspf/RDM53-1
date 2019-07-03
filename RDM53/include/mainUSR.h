@@ -9,9 +9,9 @@
 #define WIFI_HOME
 #ifdef WIFI_HOME
     //#define RDM_SSID "house4_IOT"
-    #define RDM_SSID "Taha Tekdemir"
+    #define RDM_SSID "GalaxyS5"
     //#define RDM_SSID_PW "SuppenIOT!Net"
-    #define RDM_SSID_PW "12345678"
+    #define RDM_SSID_PW "13371337"
     #define NTP_SERVER_IS "pool.ntp.org"
 #endif
 

@@ -31,8 +31,8 @@ void protocolEnter(unsigned char* incoming, size_t length)
     Serial.println(incoming[7], HEX);
     Serial.println(incoming[8], HEX);
     Serial.println("END PAYLOAD JAN");*/
-    webSocket.broadcastTXT("test");
-    Serial.println("test");
+    //webSocket.broadcastTXT("test");
+    //Serial.println("test");
     
 
     payload = (incoming[5]<<24) | (incoming[6]<<16) | (incoming[7]<<8) | incoming[8];
@@ -54,11 +54,13 @@ void protocolEnter(unsigned char* incoming, size_t length)
             // 11 02 01 00 00 00 00 00 00-0f 12 (static)
             // 11 02 01 00 00 00 00 00 10-1f 12 (dynamic)
             dC.mode = 0x010000 | incoming[8];
-            Serial.println(dC.mode, HEX);
+            //Serial.println(dC.mode, HEX);
             break;
         case 0x2:
             //Break Autonomy and RemoteControl. DeepSleepMode?
+            // 11 02 02 00 00 00 00 00 00 00 12
             dC.mode = 0x20000 + incoming[8];
+            enginesInt.stopE();
             break;
         case 0x3:
             //
@@ -74,8 +76,8 @@ void protocolEnter(unsigned char* incoming, size_t length)
         {
         case 0x0: //RemoteControlData
             remoteControl(incoming);
-            webSocket.broadcastTXT("remotControl");
-            Serial.println("remoteControl");
+            //webSocket.broadcastTXT("remotControl");
+            //Serial.println("remoteControl");
             break;
         case 0x1: //Calibration
             calibration(incoming);
@@ -113,14 +115,14 @@ void remoteControl(unsigned char* incoming)
         case 0x0: // forward / backward
             // 11 03 00 00 00 00 00 0x xx 12
             //speed(strtol(payload);
-            Serial.println("Vor/ Rueck!");
-            webSocket.broadcastTXT("Vor/ Rueck!");
+            //Serial.println("Vor/ Rueck!");
+            //webSocket.broadcastTXT("Vor/ Rueck!");
             steering.setVal(0, payload);
             break;
         case 0x1: // turn value
             //turnrate(strtol(payload);
-            Serial.println("Turn Value: !");
-            webSocket.broadcastTXT("TurnValue!");
+            //Serial.println("Turn Value: !");
+            //webSocket.broadcastTXT("TurnValue!");
             steering.setVal(1, payload);
             break;
         default:
@@ -128,8 +130,8 @@ void remoteControl(unsigned char* incoming)
             webSocket.broadcastTXT("Error: remoteControl");
             break;
         }
-    sprintf(buffer, "Remote ID %d would now have Value: %x", incoming[3], payload);
-    Serial.println(buffer);
+    //sprintf(buffer, "Remote ID %d would now have Value: %x", incoming[3], payload);
+    //Serial.println(buffer);
 }
 
 void calibration(unsigned char * incoming){

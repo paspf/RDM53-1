@@ -29,7 +29,7 @@ void lidar::expanderWrite(int i2caddr, byte data)
  * Initilaize all Lidar sensors
  */
 void lidar::initLox() {
-  Serial.println("VL53L0X init");
+  //Serial.println("VL53L0X init");
 
   // reset all lox sensors
   expanderWrite(EXP_ADDRESS, 0x00);

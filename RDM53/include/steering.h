@@ -22,5 +22,4 @@ class SteeringInterface{
     void setPilot();
     void setVal(bool, int);
     void staticEngines();
-    void starter();
 };
