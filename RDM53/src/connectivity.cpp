@@ -8,7 +8,6 @@
 #include <Arduino.h>
 #include "connectivity.h"
 
-
 #ifndef RDM_MAIN
     extern String inputString;
     extern WebSocketsServer webSocket;
@@ -18,7 +17,8 @@
 #endif
 
 /*
- * Send binary Data to Websocket Client or (and) over the serial connection as String
+ * Send binary Data to Websocket Client
+ * Send String with Hex Numbers over Serial connection
  */
 void sendBinCharArr(unsigned char *charArr, size_t length) {
   #ifdef SEND_SERIAL
@@ -29,6 +29,61 @@ void sendBinCharArr(unsigned char *charArr, size_t length) {
   #endif
   #ifdef SEND_WEBSOCKET
     webSocket.broadcastBIN(charArr, length, false);
+  #endif
+}
+
+/*
+ * Send binary Data to Websocket Client or (and) over the serial connection as String
+ */
+void sendBinArr(unsigned char *charArr, size_t length) {
+  #ifdef SEND_SERIAL
+    for(int i = 0; i < length; i++) {
+      Serial.print(charArr[i]);
+    }
+  #endif
+  #ifdef SEND_WEBSOCKET
+    webSocket.broadcastBIN(charArr, length, false);
+  #endif
+}
+
+/*
+ * Send a String to Websocket Client or (and) over the serial connection
+ */
+void sendString(unsigned char *charArr, size_t length) {
+  #ifdef SEND_SERIAL
+    Serial.println("Data: ");
+    for(int i = 0; i < length; i++) {
+      Serial.print(charArr[i], HEX);
+    }
+  #endif
+  #ifdef SEND_WEBSOCKET
+    webSocket.broadcastTXT(charArr, length, false);
+  #endif
+}
+
+/*
+ * Send a String to Websocket Client or (and) over the serial connection
+ */
+void sendString(String str) {
+  #ifdef SEND_SERIAL
+    Serial.println(str);
+  #endif
+  #ifdef SEND_WEBSOCKET
+   webSocket.broadcastTXT(str);
+  #endif
+}
+
+/*
+ * Send a String to Websocket Client or (and) over the serial connection
+ */
+void sendString(int value) {
+  #ifdef SEND_SERIAL
+    Serial.println(value);
+  #endif
+  #ifdef SEND_WEBSOCKET
+    char charArr[64];
+    sprintf(charArr, "%i", value);
+    webSocket.broadcastTXT(charArr, 64);
   #endif
 }
 
@@ -48,24 +103,6 @@ void analyseString() {
     }
   }
   inputString = "";
-}
-
-/*
- * Analyse bytewise transmitted data
- */
-void analyseBinary(unsigned char *inputBinary, size_t length) {
-  //Serial.println("Binary received:");
-  //Serial.printf((char*)inputBinary);
-  //Serial.println();
-  /*
-  if(length > 1) {
-      if(inputBinary[0] == 0x1) {
-    //Serial.println("Byte 1 = 0x1");
-    if(inputBinary[1] == 0x8F)
-      //Serial.println("Byte 2 = 0x8F");
-      
-    }
-  } */
 }
 
 /*

@@ -109,7 +109,6 @@ void autonomous(int autonomyNum)
 void remoteControl(unsigned char* incoming)
 {
     int payload = (incoming[5]<<24) | (incoming[6]<<16) | (incoming[7]<<8) | incoming[8];
-    char buffer[128];
     switch (incoming[3])
         {
         case 0x0: // forward / backward
@@ -142,7 +141,7 @@ void calibration(unsigned char * incoming){
  * 
  */
 void testing(unsigned char* incoming){
-    int payload = (incoming[5]<<24) | (incoming[6]<<16) | (incoming[7]<<8) | incoming[8];
+    // int payload = (incoming[5]<<24) | (incoming[6]<<16) | (incoming[7]<<8) | incoming[8];
     switch (incoming[3]){
         case 0x0:
             // 11 03 02 00 00 00 00 00 B0 12
@@ -177,7 +176,7 @@ void testing(unsigned char* incoming){
  *  
  */
 void getValues(uint8_t dataSource, uint8_t dataSubSource){
-    uint32_t dummy; //REMOVE THIS AND SEND REAL DATA!!!!!!!
+    uint32_t dummy = 0; //REMOVE THIS AND SEND REAL DATA!!!!!!!
     switch (dataSource)
     {
     case 0x0: //Lidar 1
