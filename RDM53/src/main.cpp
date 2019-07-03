@@ -37,24 +37,21 @@ void loop() {
     case 0x020000:
       // Mode : Pause
       break;
-    case 0x010000:{
+    case 0x010000:
       // Remote Control (static)
-      //webSocket.broadcastTXT("Remote Control static set!");
-      //Serial.println("Static is Set!");
       bool go = true;
-      if(millis() % 500 < 100 && go == true)
-      {
-      go = false;
-      steering.setPilot();
+      if(millis() % 500 < 100 && go == true) {
+        go = false;
+        steering.setPilot();
       }
       if(millis() % 500 > 100){
         go = true;
       }
-    }break;
+      break;
     case 0x0101:
       // Remote Control (dynamic)
       webSocket.broadcastTXT("Remote Control dynamic Set!");
-      dC.mode = 0x0200;
+      dC.mode = 0x020000;
       break;
     default:
       webSocket.broadcastTXT("Error in dc.Mode");
