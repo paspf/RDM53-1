@@ -1,3 +1,9 @@
+/*
+ * This file contains styles for the RDM Webinterface
+ * Date: 2019 07 04
+ * Author: Pascal Pfeiffer
+ */
+ 
 #PageContent {
 	position:relative;
 	width: 80%;
@@ -37,4 +43,29 @@ body {
 	font-family: Calibri, Georgia, serif;
 	font-size: 1em;
 	color: black;
+}
+
+button {
+	font-family: Calibri, Georgia, serif;
+	font-size: 1em;
+	background-color: white;
+	border: 3px solid black;
+	border-radius: 5px; 
+    color: black;
+    /* padding: 2px 2px; */
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    margin: 2px 1em;
+    -webkit-transition-duration: 0.3s;
+    transition-duration: 0.3s;
+    cursor: pointer;
+}
+
+button:hover {
+	/* background-color: #008CBA; /* turquoise*/
+	background-color: #000000;
+    color: white;
+	border-radius: 0px; 
+	/* border-bottom: 3px solid #5858FA; */
 }
