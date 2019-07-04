@@ -33,21 +33,13 @@ void loop() {
   webSocket.loop();
   interruptWorkers();
   // Serial.println(millis());
-  bool go;
   switch(dC.mode) {
     case 0x020000:
       // Mode : Pause
       break;
     case 0x010000:
       // Remote Control (static)
-      go = true;
-      if(millis() % 500 < 100 && go == true) {
-        go = false;
-        steering.setPilot();
-      }
-      if(millis() % 500 > 100){
-        go = true;
-      }
+      steering.setPilot();
       break;
     case 0x0101:
       // Remote Control (dynamic)

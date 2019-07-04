@@ -19,7 +19,8 @@ class SteeringInterface{
     bool dirLeft = false;
     bool dirRight = false;
     bool dirGen = false;
-    void setPilot();
+    bool valUpdate = false; // valUpdate is set, when setVal is called
+    int setPilot();
     void setVal(bool, int);
     void staticEngines();
 };

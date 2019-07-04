@@ -36,6 +36,7 @@ void SteeringInterface::setVal(bool valType, int value)
     else if(valType == 1){
         turnValGiven = (value & 0xFF);
     }
+    valUpdate = true;
     /*
     Serial.print("speedValNow set to: ");
     Serial.println(speedValNow);
@@ -51,12 +52,16 @@ void SteeringInterface::setVal(bool valType, int value)
  * 
  */
 
-void SteeringInterface::setPilot()
+int SteeringInterface::setPilot()
 {
+    // check if a val update has occured
+    if(valUpdate == false) {
+        return -1;
+    }
     dirLeft = dirGen;
     dirRight = dirGen;
-    Serial.print("Speed Set to: ");
-    Serial.println(speedValNow);
+    // Serial.print("Speed Set to: ");
+    // Serial.println(speedValNow);
 
     if(turnValGiven == 0x00)
     {
@@ -103,7 +108,10 @@ void SteeringInterface::setPilot()
     }
 
     staticEngines();
-    
+
+    // actual value is now set, no further update required
+    valUpdate = false;
+    return 0;
 }
 
 void SteeringInterface::staticEngines(){

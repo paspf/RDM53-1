@@ -5,6 +5,9 @@
  * Author: Pascal Pfeiffer
  */
 
+#ifndef PUB_STRUCT
+#define PUB_STRUCT
+
 /*
  * This struct is used for the device states and modes
  * mode:
@@ -31,4 +34,7 @@
 struct deviceConfig {
     unsigned int mode = 0x020000;
     short debugPort = 0;
+    bool remoteControlDynamicUpdate = false;
 };
+
+#endif
