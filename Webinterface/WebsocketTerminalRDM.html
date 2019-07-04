@@ -1,0 +1,269 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title>Websocket Terminal for RDM53</title>
+<link rel="stylesheet" type="text/css" href="ProperToolStyle.css" />
+
+<body>
+
+
+
+<div id="PageContent">
+	<h1><a href='/Tools/WebsocketTerminal.html' target="_self" >Websocket Terminal for RDM53</a> </h1><br>
+	last update: 04 07 2019 <br> <br> <br>
+	Server IP Adress: 	<span id="WebSocketIPScreen"></span>
+						<button type="button" id="IPSocket" onclick="EndWebsocketClient();" value="IPInput1">Disconnect</button><br>
+	Status: 			<span id="WebSocketConnectionStateScreen"> disconnected </span><br>
+	String Command: 			<input id="TerminalInputStr" type="text" style="width:40em" placeholder="Enter String commands!" />
+						<button type="button" id="websocketStrCmdSend" onclick="sendCommandOnClick(value);" value="TerminalInputStr">Send</button></br>
+	Hex Command:		<input id="TerminalInputHex" type="text" style="width:40em" placeholder="Enter Hex commands!" />
+						<button type="button" id="websocketHexCmdSend" onclick="WebHexCmdSend(value);" value="TerminalInputHex">Send</button></br>
+	Sent strings: </br>
+	<textarea name="text" id="commandStore" style="width:40%" rows="10" readonly placeholder="Sent data appears here..." ></textarea>
+	<textarea name="text" id="receiveStore" style="width:40%" rows="10" readonly placeholder="Received data appears here..." ></textarea><br>
+	<textarea name="text" style="width:40%" id="StoreHexSent" rows="10" readonly placeholder="Sent Hex values appear here" ></textarea>
+	<textarea name="text" style="width:40%" id="StoreHexReceived" rows="10" readonly placeholder="Received Hex values appear here" ></textarea></br>
+    <textarea name="text" style="width:81%" id="AllStore" rows="10" readonly placeholder="All data appears here..."></textarea>
+	
+	<div>
+		<h1>Joystick Steuerung</h1>
+		<button type="button" onclick="OnJoystickConnect();" value="Joystick">Joystick verbinden</button>
+	</div>
+	<div>
+		<h1> Quick Commands </h1>
+		<h2> Modes </h2>
+		<button type="button" id="websocketStrCmdSend" onclick="sendCommandOnClick(value);" value=0x11020000000000000012>Autonomous</button></br>
+		<button type="button" id="websocketStrCmdSend" onclick="sendCommandOnClick(value);" value=0x11020100000000000012>Remote Control Static</button></br>
+		<button type="button" id="websocketStrCmdSend" onclick="sendCommandOnClick(value);" value=0x11020100000000001012>Remote Control Dynamic</button></br>
+		<button type="button" id="websocketStrCmdSend" onclick="sendCommandOnClick(value);" value=0x11020300000000000012>Reboot RDM53</button></br>
+</div>
+
+</body>
+<script>
+    //var WebSocketIPAdress = 'ws://192.168.178.252:81';
+    //var WebSocketIPAdress = 'wss://echo.websocket.org';
+	//var WebSocketIPAdress = 'ws://192.168.178.29:81';
+	//var WebSocketIPAdress = 'ws://172.20.10.7:81';
+	var WebSocketIPAdress = 'ws://192.168.178.29:81';
+
+var my_gamepad = null;
+
+function OnJoystickConnect() {
+    window.addEventListener("gamepadconnected", function(e) {
+		my_gamepad = e.gamepad;
+	})
+	window.setInterval(CheckJoy, 250); // CheckJoy wird alle 250ms aufgerufen
+}
+
+function CheckJoy() {
+	if(my_gamepad != null) {
+		console.log("Joy %f %f", my_gamepad.axes[0], my_gamepad.axes[3]);
+		var xAxes = my_gamepad.axes[0] * 128 + 128; //LeftRight
+		var yAxes = 0;
+		var direction = 1;
+		if(my_gamepad.axes[3] > 0){
+			direction = 0;
+			yAxes = 255 - my_gamepad.axes[3] * 255;
+		}
+		else
+		{
+			direction = 1;
+			yAxes = -my_gamepad.axes[3] * 255;
+		}
+		if(xAxes > 255) {
+			xAxes = 255;
+		}
+		if(xAxes < 1) {
+			xAxes = 1;
+		}
+		console.log("LeftRight: %f, Velocity: %f, direction: %d", xAxes, yAxes, direction);
+
+		var binary = new Uint8Array(10);
+		binary[0] = 0x11;
+		binary[1] = 0x03;
+		binary[2] = 0x00;
+		binary[3] = 0x00;
+		binary[4] = 0x00;
+		binary[5] = 0x00;
+		binary[6] = 0x00;
+		binary[7] = direction;
+		binary[8] = yAxes;
+		binary[9] = 0x12;
+		WebConnection.send(binary);
+		binary[3] = 0x01;
+		binary[7] = 0x00;
+		binary[8] = xAxes;
+		WebConnection.send(binary);
+		if (my_gamepad.buttons[0] == true){
+			binary[1] = 0x02;
+			binary[2] = 0x01;
+			binary[8] = 0x00;
+			WebConnection.send(binary);
+		}
+	}
+}
+
+document.getElementById("WebSocketIPScreen").innerHTML = WebSocketIPAdress;
+    var WebConnection = new WebSocket(WebSocketIPAdress, ['arduino']);
+    WebConnection.binaryType = "arraybuffer"; //Binaertyp auf arraybuffer setzen
+
+WebConnection.onopen = function () {
+	console.log("Succesful connected!");
+    screenStatus(true);
+};
+
+WebConnection.onerror = function (error) {
+	console.log('WebSocket Error: ', error);
+	screenStatus(2);
+};
+
+WebConnection.onmessage = function (e) {
+	// receive String
+	if(typeof e.data === 'string' ) {
+		console.log('Server: ', e.data);
+		storeReceivedData(e.data);
+   }
+	// receive Array
+	if(e.data instanceof ArrayBuffer ){
+	  var hexBuf = buf2hex(e.data);
+      console.log("Received arraybuffer: " + hexBuf);
+	  StoreReceivedHexData(hexBuf);
+   }
+   console.log("Something received");
+};
+
+WebConnection.onclose = function (e) {
+	screenStatus(false);
+}
+
+function sendCommandOnClick(element) { // sends commands to the client
+	var tosend;
+	tosend = document.getElementById(element).value; // get the data, which has to be sent
+	WebConnection.send(tosend);
+	console.log(tosend);
+	storeSentData(tosend, true);
+}
+
+function buf2hex(buffer) { // buffer is an ArrayBuffer
+  return Array.prototype.map.call(new Uint8Array(buffer), x => ('00' + x.toString(16)).slice(-2)).join('');
+}
+
+function StrToByteArr(str) {
+	var charArr = str.split('');
+	var hexPos = str.length - 1;
+	var numOfBytes = 0;
+	if ( str.length % 2 == 0)
+		 numOfBytes = parseInt(str.length/2);
+	else
+		numOfBytes = parseInt(str.length/2) + 1;
+	
+	var binary = new Uint8Array(numOfBytes);
+	for(var i = 0; i < numOfBytes; i++) {
+		binary[i] = parseInt(charArr[hexPos], 16);
+		hexPos--;
+		if (hexPos >= 0) {
+			var shifted = parseInt(charArr[hexPos], 16) << 4;
+			hexPos--;
+			binary[i] = binary[i] | shifted;
+		}
+		console.log(binary[i].toString(16));
+		
+	}
+	return binary.reverse();
+	//return binary;
+}
+
+function StoreReceivedHexData(toStore) {
+	try { 																	// code that may cause an error
+        var inStorage = document.getElementById("StoreHexReceived").value; 		// get old data
+        toStore = toStore + "\r"; 											// add newline to new data
+        inStorage = inStorage + toStore;									// connect data
+        document.getElementById("StoreHexReceived").value = inStorage; 			// write new data on page
+    }
+    catch (e) { 																// on error
+        console.log("Could not store data in StoreHexReceived");
+    }
+}
+
+function WebHexCmdSend(commandSrc) {
+	var tosendStr = document.getElementById(commandSrc).value;
+	var toSend = StrToByteArr(tosendStr);
+	WebConnection.send(toSend.buffer);
+	// StoreSentData("0x" + tosendStr);
+	
+	try { 																	// code that may cause an error
+        var inStorage = document.getElementById("StoreHexSent").value; 		// get old data
+        var toStore = tosendStr + "\r"; 											// add newline to new data
+        inStorage = inStorage + toStore;									// connect data
+        document.getElementById("StoreHexSent").value = inStorage; 			// write new data on page
+    }
+    catch (e) { 																// on error
+        console.log("Could not store data in StoreHexSent");
+    }
+	
+};
+
+function EndWebsocketClient() {
+	console.log("close");
+	WebConnection.close();
+	screenStatus(0);
+}
+function screenStatus(status) {
+	if(status == 1) {
+		document.getElementById("WebSocketConnectionStateScreen").innerHTML = "<span style='color:green'> Connected! </span>";
+	}
+	else if(status == 0) {
+		document.getElementById("WebSocketConnectionStateScreen").innerHTML = "<span style='color:blue'> Disconnected! </span>";
+	}
+	else if(status == 2) {
+		document.getElementById("WebSocketConnectionStateScreen").innerHTML = "<span style='color:red'> ERROR! </span>";
+	}
+	
+}
+
+function storeSentData(toStore) {
+	try{ 																	// code that may cause an error
+		var inStorage = document.getElementById("commandStore").value; 		// get old data
+		toStore = toStore + "\r"; 											// add newline to new data
+		inStorage = inStorage + toStore;									// connect data
+		document.getElementById("commandStore").value = inStorage; 			// write new data on page
+	}
+	catch(e){ 																// on error
+		console.log("Could not store data in commandStore");
+	}
+	try{ 																	// code that may cause an error
+		inStorage = document.getElementById("AllStore").value; 				// get old data
+		toStore = new Date() + " cmd : " + toStore; 						// add newline to new data
+		inStorage = inStorage + toStore;									// connect data
+		document.getElementById("AllStore").value = inStorage; 				// write new data on page
+	}
+	catch(e){ 																// on error
+		console.log("Could not store data in AllStore");
+	}
+}
+function storeReceivedData(toStore) {
+	try{ 																	// code that may cause an error
+		var inStorage = document.getElementById("receiveStore").value; 		// get old data
+		toStore = toStore + "\r"; 											// add newline to new data
+		inStorage = inStorage + toStore;									// connect data
+		document.getElementById("receiveStore").value = inStorage; 			// write new data on page
+	}
+	catch(e){ 																// on error
+		console.log("Could not store data in receiveStore");
+    }
+
+	try{ 																	// code that may cause an error
+		inStorage = document.getElementById("AllStore").value; 			// get old data
+		toStore = new Date() + " " + WebSocketIPAdress + " : " + toStore; 		// add newline to new data
+		inStorage = inStorage + toStore;									// connect data
+		document.getElementById("AllStore").value = inStorage; 				// write new data on page
+	}
+	catch(e){ 																// on error
+		console.log("Could not store data in AllStore");
+	}
+}
+
+
+
+</script>
