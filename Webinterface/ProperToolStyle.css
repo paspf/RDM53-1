@@ -1,0 +1,40 @@
+#PageContent {
+	position:relative;
+	width: 80%;
+	overflow: auto;
+	margin: 2em auto 2em auto;
+	padding: 2em;
+    	border: 2px solid black;
+    	border-radius: 5px;
+	box-shadow: 5px 5px 20px rgba(0, 0, 0, .4);
+	/* box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); */
+}
+
+h1 {
+	text-align:left;
+	font-family: Calibri, Georgia, serif;
+	font-size: 3em;
+	color: black;
+	font-weight: lighter;
+}
+h1 a{
+	text-align:left;
+	font-family: Calibri, Georgia, serif;
+	font-size: 1em;
+	color: black;
+	font-weight: lighter;
+}
+h2 {
+	text-align:left;
+	font-family: Calibri, Georgia, serif;
+	font-size: 2em;
+	color: black;
+	font-weight: lighter;
+}
+
+body {
+	text-align:left;
+	font-family: Calibri, Georgia, serif;
+	font-size: 1em;
+	color: black;
+}
