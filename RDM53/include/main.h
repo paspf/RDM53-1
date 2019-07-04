@@ -24,7 +24,8 @@
 #include "lidar.h"
 #include "interruptRoutines.h"
 #include "ObstacleInterface.h"
-#include  "piezo.h"
+#include "piezo.h"
+#include "HCSR04P.h"
 
 /**** structures ****/
 #include "PublicStructures.h"
@@ -51,3 +52,5 @@ SteeringInterface steering;
 lidar lidarSensors;
 
 PiezoInterface piezo;
+
+HCSR04P ultraSonic(2, 15, 4000);

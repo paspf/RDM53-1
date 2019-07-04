@@ -13,6 +13,9 @@
 
     #define SEND_WEBSOCKET
     #define SEND_SERIAL
+    #define ERROR_MESSAGES // sould always sent
+    #define DEBUG_LEVEL_0 //highest debug level
+    #define DEBUG_LEVEL_1 //lower debug level
 
     void analyseString();
 
