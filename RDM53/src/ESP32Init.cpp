@@ -8,6 +8,8 @@
 
 #include "ESP32Init.h"
 #include "piezo.h"
+#include <esp_wifi.h>
+
 extern PiezoInterface piezo;
 
 WiFiClientSecure client;
@@ -48,6 +50,8 @@ const char* root_ca= \
         // ensure WiFi is disconnected
         WiFi.disconnect(true);
         WiFi.mode(WIFI_STA);
+        // disable wifi power saving
+        esp_wifi_set_ps (WIFI_PS_NONE);
         #ifdef WIFI_HOME
             Serial.println("Set up Home WiFi");
             setUpHomeWiFi();

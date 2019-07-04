@@ -25,7 +25,11 @@
 
     void sendBinCharArr(unsigned char*, size_t);
 
-    void sendString(int);
+    void sendStringln(int);
+
+    void sendStringln(String);
+
+    void sendString(String);
 
     void sendString(unsigned char *, size_t);
 
