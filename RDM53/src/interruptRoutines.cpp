@@ -62,4 +62,5 @@ void interruptWorkers() {
 
       //Serial.print("An KEY 2 1interrupt has occurred.\n");
   }
+  yield();
 }

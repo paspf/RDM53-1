@@ -41,7 +41,7 @@ void loop() {
       // Remote Control (static)
       steering.setPilot();
       break;
-    case 0x0101:
+    case 0x010001:
       // Remote Control (dynamic)
       webSocket.broadcastTXT("Remote Control dynamic Set!");
       dC.mode = 0x020000;
@@ -49,8 +49,8 @@ void loop() {
     default:
       webSocket.broadcastTXT("Error in dc.Mode");
   }
-
+  //Serial.print("Runtime: ");
+  //Serial.println( millis()- startTime);
   // do not use other delays (this should be the only delay in project) !!!!!
   delay(10);
-
 }

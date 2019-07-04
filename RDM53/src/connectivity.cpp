@@ -66,6 +66,18 @@ void sendString(unsigned char *charArr, size_t length) {
  */
 void sendString(String str) {
   #ifdef SEND_SERIAL
+    Serial.print(str);
+  #endif
+  #ifdef SEND_WEBSOCKET
+   webSocket.broadcastTXT(str);
+  #endif
+}
+
+/*
+ * Send a String to Websocket Client or (and) over the serial connection
+ */
+void sendStringln(String str) {
+  #ifdef SEND_SERIAL
     Serial.println(str);
   #endif
   #ifdef SEND_WEBSOCKET
@@ -76,7 +88,7 @@ void sendString(String str) {
 /*
  * Send a String to Websocket Client or (and) over the serial connection
  */
-void sendString(int value) {
+void sendStringln(int value) {
   #ifdef SEND_SERIAL
     Serial.println(value);
   #endif
@@ -92,9 +104,8 @@ void sendString(int value) {
  * Analyse Strings and interpret commands
  */
 void analyseString() {
-  //Serial.print("String received:");
-  //Serial.println(inputString);
-  webSocket.broadcastTXT(inputString);
+  sendString("String received: ");
+  sendStringln(inputString);
   if(inputString.startsWith("DEBUG ")) {
     if(inputString.substring(6, 18) == "protocolSend") {
       Serial.println("protocolSend():");

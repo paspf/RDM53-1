@@ -12,10 +12,10 @@
  * This struct is used for the device states and modes
  * mode:
  * ----------------------------------------------------
- * PROTOCOL     PAYLOAD (4 Byte)
+ * PROTOCOL     PAYLOAD (last payload byte)
  * 2rd Byte     START     END
  * ----------------------------------------------------
- * 0x00 00 00 + payload        : Autonomous
+ * 0x00 00 00 + 0x00      0xFF : Autonomous
  * 0x01 00 00 + 0x00      0x0F : Remote Control (static)
  * 0x01 00 00 + 0x10      0x1F : Remote Control (dynamic)
  * 0x02 00 00 + 0x00      0x00 : Pause
