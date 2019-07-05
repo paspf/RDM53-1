@@ -31,16 +31,31 @@
     <textarea name="text" style="width:81%" id="AllStore" rows="10" readonly placeholder="All data appears here..."></textarea>
 	
 	<div>
+		<h1>Device Values</h1>
+		<table>
+			  <tr>
+				<th><button type="button" id="buttonBatteryStatus" onclick="WebHexCmdSend(id);" value="11030310000000000012">Battery status</button></th>
+				<th><div id="BatteryStatusDisplay"></div></th>
+			  </tr>
+			  <tr>
+				<td><button type="button" id="buttonUltrasonicValues" onclick="WebHexCmdSend(id);" value="11030310000000000012">Ultrasonic values</button></td>
+				<td>val</td>
+			  </tr>
+		</table> 
+	</div>
+	<div>
 		<h1>Joystick Steuerung</h1>
-		<button type="button" onclick="OnJoystickConnect();" value="Joystick">Joystick verbinden</button>
+		<button type="button" onclick="OnJoystickConnect();" value="Joystick">Connect Joystick</button>
+		<button type="button" onclick="OnJoystickDisconnect();" value="JoystickDisconnect">Disconnect Joystick</button>
 	</div>
 	<div>
 		<h1> Quick Commands </h1>
 		<h2> Modes </h2>
-		<button type="button" id="websocketStrCmdSend" onclick="sendCommandOnClick(value);" value=0x11020000000000000012>Autonomous</button></br>
-		<button type="button" id="websocketStrCmdSend" onclick="sendCommandOnClick(value);" value=0x11020100000000000012>Remote Control Static</button></br>
-		<button type="button" id="websocketStrCmdSend" onclick="sendCommandOnClick(value);" value=0x11020100000000001012>Remote Control Dynamic</button></br>
-		<button type="button" id="websocketStrCmdSend" onclick="sendCommandOnClick(value);" value=0x11020300000000000012>Reboot RDM53</button></br>
+		<button type="button" id="buttonChill" onclick="WebHexCmdSend(id);" value="1102020000000000000012">Chill</button></br>
+		<button type="button" id="buttonAutonomous0" onclick="WebHexCmdSend(id);" value="11020000000000000012">Autonomous</button></br>
+		<button type="button" id="buttonRCS0" onclick="WebHexCmdSend(id);" value="11020100000000000012">Remote Control Static</button></br>
+		<button type="button" id="buttonRCD0" onclick="WebHexCmdSend(id);" value="11020100000000001012">Remote Control Dynamic</button></br>
+		<button type="button" id="buttonRebootRDM0" onclick="WebHexCmdSend(id);" value="11020300000000000012">Reboot RDM53</button></br>
 </div>
 
 </body>
@@ -49,15 +64,21 @@
     //var WebSocketIPAdress = 'wss://echo.websocket.org';
 	//var WebSocketIPAdress = 'ws://192.168.178.29:81';
 	//var WebSocketIPAdress = 'ws://172.20.10.7:81';
-	var WebSocketIPAdress = 'ws://192.168.178.29:81';
+	var WebSocketIPAdress = 'ws://192.168.43.243:81';
 
 var my_gamepad = null;
+var refreshIntervalIdJoystick = null;
 
 function OnJoystickConnect() {
     window.addEventListener("gamepadconnected", function(e) {
 		my_gamepad = e.gamepad;
 	})
-	window.setInterval(CheckJoy, 250); // CheckJoy wird alle 250ms aufgerufen
+	refreshIntervalIdJoystick = window.setInterval(CheckJoy, 250); // CheckJoy wird alle 250ms aufgerufen
+}
+
+function OnJoystickDisconnect() {
+	clearInterval(refreshIntervalIdJoystick);
+	window.removeEventListener('gamepadconnected', my_gamepad);
 }
 
 function CheckJoy() {
@@ -132,13 +153,30 @@ WebConnection.onmessage = function (e) {
 	if(e.data instanceof ArrayBuffer ){
 	  var hexBuf = buf2hex(e.data);
       console.log("Received arraybuffer: " + hexBuf);
-	  StoreReceivedHexData(hexBuf);
+	  if(checkIfValIsKnown(hexBuf)) {
+		StoreReceivedHexData(hexBuf);
+	}
    }
    console.log("Something received");
 };
 
 WebConnection.onclose = function (e) {
 	screenStatus(false);
+}
+
+function checkIfValIsKnown(value) {
+	var retVal = 1;
+	var dev = value.substring(2, 10);
+	switch(dev) {
+	  case "01001000":
+		payload = value.substring(10, 18);
+		document.getElementById("BatteryStatusDisplay").innerHTML = parseInt(payload, 16).toString() + "%";
+		break;
+	  default:
+	  console.log("unknown binary stream");
+	  retVal = 1;
+	} 
+	return retVal;
 }
 
 function sendCommandOnClick(element) { // sends commands to the client

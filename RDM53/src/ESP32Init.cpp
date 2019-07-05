@@ -7,10 +7,10 @@
  */
 
 #include "ESP32Init.h"
-#include "piezo.h"
+//#include "piezo.h"
 #include <esp_wifi.h>
 
-extern PiezoInterface piezo;
+//extern PiezoInterface piezo;
 
 WiFiClientSecure client;
 // wifi root certificate
@@ -189,5 +189,17 @@ void OTAirInit() {
         esp_wifi_sta_wpa2_ent_enable(&config); //set config settings to enable function
         WiFi.begin(RDM_SSID); //connect to wifi
         client.setCACert(root_ca);
+    }
+
+    uint8_t getBatteryPercentage() {
+    int rawValue = analogRead(35);
+    if(rawValue > 2446) {
+        return 100;
+    }
+    else if(rawValue < 2295) {
+        return 0;
+    }
+    rawValue = constrain(rawValue, 2295, 2446);
+    return map(rawValue, 2295, 2446, 0, 100);
     }
  // };

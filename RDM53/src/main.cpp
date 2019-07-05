@@ -28,6 +28,10 @@ void setup() {
 
 void loop() {
   //int startTime = millis();
+  if(WiFi.status() != WL_CONNECTED && dC.wiFiNotificationSent == false) {
+    Serial.println("WiFi lost");
+    dC.wiFiNotificationSent = true;
+  }
   ArduinoOTA.handle();
   serialReceive();
   webSocket.loop();

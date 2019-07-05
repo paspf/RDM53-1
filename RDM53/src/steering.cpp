@@ -8,6 +8,7 @@
 #ifndef RDM_MAIN
     #include <EnginesInterface.h>
     extern EnginesInterface enginesInt;
+    #include "connectivity.h"
 #endif
 
 /*
@@ -37,13 +38,9 @@ void SteeringInterface::setVal(bool valType, int value)
         turnValGiven = (value & 0xFF);
     }
     valUpdate = true;
-    /*
-    Serial.print("speedValNow set to: ");
-    Serial.println(speedValNow);
-    Serial.print("turnValGiven set to:");
-    Serial.println(turnValGiven);
-    */
+    //sendString("Inside Steering.setVal");
 }
+
 /*
  * setPilot has to be called periodically so that the engine Values are set correctly.
  * setPilot does not accept values. It uses values in the steering object.
@@ -51,17 +48,15 @@ void SteeringInterface::setVal(bool valType, int value)
  * Status 02.07.2019: RDM can turn. However it either turns in a circle or it does so very slowly.
  * 
  */
-
 int SteeringInterface::setPilot()
 {
     // check if a val update has occured
     if(valUpdate == false) {
         return -1;
+        //sendString("Set Pilot: no new value");
     }
     dirLeft = dirGen;
     dirRight = dirGen;
-    // Serial.print("Speed Set to: ");
-    // Serial.println(speedValNow);
 
     if(turnValGiven == 0x00)
     {
@@ -106,7 +101,7 @@ int SteeringInterface::setPilot()
         enginesLeft = speedValNow;
         enginesRight = speedValNow;
     }
-
+    //sendString("Set Pilot: end of Function");
     staticEngines();
 
     // actual value is now set, no further update required

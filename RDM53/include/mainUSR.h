@@ -12,8 +12,8 @@
     //#define RDM_SSID_PW "SuppenIOT!Net"
     //#define RDM_SSID "GalaxyS5"
     //#define RDM_SSID_PW "13371337"
-    #define RDM_SSID "Fischfilet (Feine Sahne)"
-    #define RDM_SSID_PW "c^Wk6mf85@MFTs*!vAs6B8@q8eu#rh*$vg3A8gJST36Ej#uy2Md3!Zh93J2sgCZ"
+    #define RDM_SSID "Nokia 8"
+    #define RDM_SSID_PW "Pascal12"
     #define NTP_SERVER_IS "pool.ntp.org"
 #endif
 
@@ -26,4 +26,4 @@
 
 #define RDM_SSID_USR "autoiem"
 #define RDM_SSID_IDNT "autoiem"
-
+//#define RDM_SSID_IDNT "eduroam@thm.de"

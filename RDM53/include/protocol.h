@@ -22,3 +22,4 @@ void calibration(unsigned char*, int);
 void testing(unsigned char*, int);
 void protocolSend(unsigned char, unsigned char, unsigned char, int);
 void getValues(uint8_t, uint8_t);
+// uint8_t getBatteryPercentage();

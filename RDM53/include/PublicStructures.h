@@ -35,6 +35,7 @@ struct deviceConfig {
     unsigned int mode = 0x020000;
     short debugPort = 0;
     bool remoteControlDynamicUpdate = false;
+    bool wiFiNotificationSent = false;
 };
 
 #endif

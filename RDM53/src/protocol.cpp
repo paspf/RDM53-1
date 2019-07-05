@@ -7,6 +7,8 @@
 
 #include <protocol.h>
 #include "connectivity.h"
+
+
 #ifndef RDM_MAIN
     extern String inputString;
     extern WebSocketsServer webSocket;
@@ -16,7 +18,9 @@
     extern EnginesInterface enginesInt;
     #include "steering.h"
     extern SteeringInterface steering;
+    #include "ESP32Init.h"
 #endif
+
 
 
 /*
@@ -47,6 +51,7 @@ void protocolEnter(unsigned char* incoming, size_t length)
         case 0x0: //Autonomous
             //Start thread autonomy and breaking all other threads.
             // payload == autonomous mode
+            sendString("Autonomous mode");
             autonomous(payload);
             dC.mode = 0x0000 + incoming[8];
             break;
@@ -54,21 +59,26 @@ void protocolEnter(unsigned char* incoming, size_t length)
             //Start thread remotecontrol and break other threads.
             // 11 02 01 00 00 00 00 00 00-0f 12 (static)
             // 11 02 01 00 00 00 00 00 10-1f 12 (dynamic)
+            sendString("Remote Control Mode");
             dC.mode = 0x010000 | incoming[8];
             //Serial.println(dC.mode, HEX);
             break;
         case 0x2:
             //Break Autonomy and RemoteControl. DeepSleepMode?
             // 11 02 02 00 00 00 00 00 00 00 12
-            dC.mode = 0x20000 + incoming[8];
+            sendString("Pause Mode");
+            dC.mode = 0x20000;
             enginesInt.stopE();
             break;
         case 0x3:
-            // dC.mode = 0x30000 + incoming[8];
+            sendString("Restart ESP in 1 second...");
+            delay(20);
+            yield();
+            delay(980);
             esp_restart();
             break;
         default:
-            Serial.println("ERROR: protocolEnter: Undefined Mode set due to invalid incoming[2]");
+            sendString("ERROR: protocolEnter: Undefined Mode set due to invalid incoming[2]");
             break;
         }
     }
@@ -88,6 +98,7 @@ void protocolEnter(unsigned char* incoming, size_t length)
             break;
         case 0x3: //GetValues
             getValues(incoming[3], incoming[4]);
+            break;
         default:
             webSocket.broadcastTXT("Error: protocolEnter: Undefined ReceiveData");
             break;
@@ -292,6 +303,10 @@ void getValues(uint8_t dataSource, uint8_t dataSubSource){
     case 0xF: //Phototransistor HR
         //webSocket.broadcastBIN(dataSource, sizeof(dataSource));
         protocolSend(0x0, dataSource, dataSubSource, dummy);
+        break;
+    case 0x10: // battery percentage
+        // 11 03 03 10 00 00 00 00 00 12
+        protocolSend(0x0, dataSource, dataSubSource, getBatteryPercentage());
         break;
     default:
         webSocket.broadcastTXT("Error: GetValue Unknown dataSource query");

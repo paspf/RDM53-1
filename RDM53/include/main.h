@@ -14,7 +14,7 @@
 #define LT_BR_PIN 39
 
 #include "WebSocketsServer.h"
-#include "mainUSR.h"
+//#include "mainUSR.h"
 #include "ESP32Init.h"
 #include "connectivity.h"
 #include "protocol.h"
