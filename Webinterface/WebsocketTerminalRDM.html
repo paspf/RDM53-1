@@ -38,8 +38,8 @@
 				<th><div id="BatteryStatusDisplay"></div></th>
 			  </tr>
 			  <tr>
-				<td><button type="button" id="buttonUltrasonicValues" onclick="WebHexCmdSend(id);" value="11030310000000000012">Ultrasonic values</button></td>
-				<td>val</td>
+				<td><button type="button" id="buttonUltrasonicValues" onclick="WebHexCmdSend(id);" value="11030308000000000012">Ultrasonic values</button></td>
+				<td><div id="UltrasonicValuesDisplay">none</div></td>
 			  </tr>
 		</table> 
 	</div>
@@ -168,9 +168,13 @@ function checkIfValIsKnown(value) {
 	var retVal = 1;
 	var dev = value.substring(2, 10);
 	switch(dev) {
-	  case "01001000":
-		payload = value.substring(10, 18);
-		document.getElementById("BatteryStatusDisplay").innerHTML = parseInt(payload, 16).toString() + "%";
+		case "01001000":
+			payload = value.substring(10, 18);
+			document.getElementById("BatteryStatusDisplay").innerHTML = parseInt(payload, 16).toString() + "%";
+		break;
+		case "01000800":
+			payload = value.substring(10, 18);
+			document.getElementById("UltrasonicValuesDisplay").innerHTML = parseInt(payload, 16).toString() + "mm";
 		break;
 	  default:
 	  console.log("unknown binary stream");

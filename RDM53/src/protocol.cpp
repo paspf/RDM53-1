@@ -7,6 +7,7 @@
 
 #include <protocol.h>
 #include "connectivity.h"
+#include "HCSR04P.h"
 
 
 #ifndef RDM_MAIN
@@ -19,6 +20,7 @@
     #include "steering.h"
     extern SteeringInterface steering;
     #include "ESP32Init.h"
+    extern HCSR04P ultraSonic;
 #endif
 
 
@@ -218,12 +220,12 @@ void getValues(uint8_t dataSource, uint8_t dataSubSource){
         protocolSend(0x0, dataSource, dataSubSource, dummy);
         break;
     case 0x7: //Ultraschall 1
-        //webSocket.broadcastBIN(dataSource, sizeof(dataSource));
+        // 11 03 03 07 00 00 00 00 00 12
         protocolSend(0x0, dataSource, dataSubSource, dummy);
         break;
     case 0x8: //Ultraschall 2
-        //webSocket.broadcastBIN(dataSource, sizeof(dataSource));
-        protocolSend(0x0, dataSource, dataSubSource, dummy);
+        // 11 03 03 08 00 00 00 00 00 12
+        protocolSend(0x0, dataSource, dataSubSource, ultraSonic.dist());
         break;
     case 0x9: //Gyroscope
         switch (dataSubSource)
