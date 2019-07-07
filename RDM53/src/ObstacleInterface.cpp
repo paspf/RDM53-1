@@ -9,8 +9,10 @@
 
 #include <ObstacleInterface.h>
 #include <lidar.h>
+#include <HCSR04P.h>
 extern  lidar lidarSensors; //lidar object to work directly with the sensor data (RangeMillimeter)
 extern obstBuff obstBuffer;
+extern HCSR04P ultraSonic(2, 15, 4000);
 
 //detect the obstacledata to the car 
 void ObstacleInterface::initobstacledata(){
@@ -21,7 +23,7 @@ void ObstacleInterface::initobstacledata(){
   for(i=0;i<20;i++){ //20 buffer obstacles (virtual)
 
     //obstacle in front of the car (directly)
-    if(lidarSensors.measureLidar1.RangeMilliMeter <= 1200 && lidarSensors.measureLidar4.RangeMilliMeter <= 1200) {
+    if(ultraSonic.dist() <= 1200 && lidarSensors.measureLidar1.RangeMilliMeter <= 1200 && lidarSensors.measureLidar4.RangeMilliMeter <= 1200) {
     distanceObstacleToCar = lidarSensors.measureLidar1.RangeMilliMeter;
     angleObstacleToCar = 0;
     fillObstacleStructure(i,&angleObstacleToCar,&distanceObstacleToCar);
