@@ -17,7 +17,7 @@
  * valType: 0 = speed, 1 = turnrate
  * valType = 0: value 0-255 speed forward, 256-511 speed backward
  * speed 0 00 -> backwards stop
- * speed 0 FF -> backwards
+ * speed 0 FF -> backwards max Speed
  * speed 1 00 -> forwards max speed
  * speed 1 FF -> forwards stop
  * valType = 1: value 0-127 left, 128 straight, 129-255 right
@@ -71,15 +71,25 @@ int SteeringInterface::setPilot()
         Serial.print("turnPercentRight: ");
         Serial.println(turnPercent);
         
-        if(turnPercent > 0.5) 
+        if ((dirGen == 0 && speedValNow < 64) || (dirGen == 1 && speedValNow > 191)){
+            if(turnPercent > 0.5) 
+            {
+                dirRight = !dirGen;   
+                enginesRight = speedValNow * (turnPercent - 0.5);
+            }
+            else {
+                enginesRight = speedValNow * (1.0 - turnPercent * 2);       
+            }
+            enginesLeft = speedValNow;
+        }
+        else
         {
-            dirRight = !dirGen;   
-            enginesRight = speedValNow * (turnPercent - 0.5);
+            enginesRight = turnPercent * 0xFF;
+            enginesLeft = turnPercent * 0xFF;
+            dirRight = !dirGen;
         }
-        else {
-            enginesRight = speedValNow * (1.0 - turnPercent * 2);       
-        }
-        enginesLeft = speedValNow;
+        
+        
     }
 
     else if(turnValGiven < 0x76) //Left
@@ -88,15 +98,24 @@ int SteeringInterface::setPilot()
         Serial.print("turnPercentLeft: ");
         Serial.println(turnPercent);
         
-        if(turnPercent > 0.5) 
-        {
-            dirLeft = !dirGen;    
-            enginesLeft = speedValNow * (turnPercent - 0.5);
+        if ((dirGen == 0 && speedValNow < 64) || (dirGen == 1 && speedValNow > 191)){
+            if(turnPercent > 0.5) 
+            {
+                dirLeft = !dirGen;    
+                enginesLeft = speedValNow * (turnPercent - 0.5);
+            }
+            else {
+                enginesRight = speedValNow * (1.0 - turnPercent * 2);       
+            }   
+            enginesRight = speedValNow;
         }
-        else {
-            enginesRight = speedValNow * (1.0 - turnPercent * 2);       
-        }   
-        enginesRight = speedValNow;
+        else
+        {
+            enginesRight = turnPercent * 0xFF;
+            enginesLeft = turnPercent * 0xFF;
+            dirLeft = !dirGen;
+        }
+        
     }
     else
     {
