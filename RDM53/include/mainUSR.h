@@ -20,7 +20,7 @@
 //#define WIFI_THM
 #ifdef WIFI_THM
     #define RDM_SSID "THMgast"
-    #define RDM_SSID_PW "xi7nPKs8Nx"
+    #define RDM_SSID_PW ""
     #define NTP_SERVER_IS "ntp.fh-friedberg.de"
 #endif
 

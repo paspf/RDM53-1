@@ -13,7 +13,7 @@
 extern  lidar lidarSensors; //lidar object to work directly with the sensor data (RangeMillimeter)
 extern obstBuff obstBuffer;
 
-HCSR04P ultraSon(2, 15, 4000);
+extern HCSR04P ultraSon;
 
 //detect the obstacledata to the car 
 void ObstacleInterface::initobstacledata(){

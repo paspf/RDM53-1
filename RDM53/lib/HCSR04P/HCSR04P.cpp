@@ -54,6 +54,9 @@ int HCSR04P::dist(int n) const {
 	noInterrupts();
 	float d = pulseIn(this->echo[n], HIGH, timeOut);
 	interrupts();
+	if(d == 0.0) {
+		return 0xFFFF;
+	}
 	return d / 5.8;
 }
 
