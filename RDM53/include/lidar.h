@@ -5,6 +5,9 @@
  * Date: 2019 06 10
  * Author: Pascal Pfeiffer
  */
+
+#ifndef LIDAR_H
+#define LIDAR_H
 #include "Adafruit_VL53L0X.h"
 
 // port expander I2C adress
@@ -49,3 +52,4 @@ class lidar{
     int readLOXSensors();
 };
 
+#endif

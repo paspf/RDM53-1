@@ -21,6 +21,8 @@
     extern SteeringInterface steering;
     #include "ESP32Init.h"
     extern HCSR04P ultraSonic;
+    #include "lidar.h"
+    extern lidar lidarSensors;
 #endif
 
 
@@ -192,30 +194,38 @@ void getValues(uint8_t dataSource, uint8_t dataSubSource){
     switch (dataSource)
     {
     case 0x0: //Lidar 1
+        // 11 03 03 00 00 00 00 00 00 12
         //webSocket.broadcastBIN(dataSource, sizeof(dataSource));
-        protocolSend(0x0, dataSource, dataSubSource, dummy);
+        lidarSensors.readLOXSensors();
+        protocolSend(0x0, dataSource, dataSubSource, lidarSensors.measureLidar1.RangeMilliMeter);
         break;
     case 0x1: //Lidar 2
+        // 11 03 03 01 00 00 00 00 00 12
         //webSocket.broadcastBIN(dataSource, sizeof(dataSource));
         protocolSend(0x0, dataSource, dataSubSource, dummy);
         break;
     case 0x2: //Lidar 3
+        // 11 03 03 02 00 00 00 00 00 12
         //webSocket.broadcastBIN(dataSource, sizeof(dataSource));
         protocolSend(0x0, dataSource, dataSubSource, dummy);
         break;
     case 0x3: //Lidar 4
+        // 11 03 03 03 00 00 00 00 00 12
         //webSocket.broadcastBIN(dataSource, sizeof(dataSource));
         protocolSend(0x0, dataSource, dataSubSource, dummy);
         break;
     case 0x4: //Lidar 5
+        // 11 03 03 04 00 00 00 00 00 12
         //webSocket.broadcastBIN(dataSource, sizeof(dataSource));
         protocolSend(0x0, dataSource, dataSubSource, dummy);
         break;
     case 0x5: //Lidar 6
+        // 11 03 03 05 00 00 00 00 00 12
         //webSocket.broadcastBIN(dataSource, sizeof(dataSource));
         protocolSend(0x0, dataSource, dataSubSource, dummy);
         break;
     case 0x6: //Lidar 7
+        // 11 03 03 06 00 00 00 00 00 12
         //webSocket.broadcastBIN(dataSource, sizeof(dataSource));
         protocolSend(0x0, dataSource, dataSubSource, dummy);
         break;
