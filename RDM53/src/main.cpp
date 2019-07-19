@@ -18,7 +18,7 @@ void setup() {
   interruptInitialization();
   RDMWiFiInit();
   OTAirInit();
-  // lidarSensors.initLox();
+  lidarSensors.initLox();
   webSocket.begin();                                                      // start the websocket server
   webSocket.onEvent(webSocketEvent);                                      // what to do on event...
 

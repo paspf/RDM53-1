@@ -34,9 +34,12 @@
 class lidar{
     private:
     bool isInit = false;
-    // objects for the vl53l0x
+    // objects for the vl53l0x (Lidar sensors)
     Adafruit_VL53L0X lox1 = Adafruit_VL53L0X();
     Adafruit_VL53L0X lox2 = Adafruit_VL53L0X();
+    Adafruit_VL53L0X lox3 = Adafruit_VL53L0X();
+    Adafruit_VL53L0X lox4 = Adafruit_VL53L0X();
+    Adafruit_VL53L0X lox5 = Adafruit_VL53L0X();
     void setID();
     public:
     // this holds the measurements
@@ -50,6 +53,7 @@ class lidar{
     void expanderWrite(int, uint8_t);
     void initLox();
     int readLOXSensors();
+    int printLOXValues();
 };
 
 #endif
