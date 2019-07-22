@@ -191,15 +191,14 @@ void OTAirInit() {
         client.setCACert(root_ca);
     }
 
+    /*
+     * uint8_t getBatteryPercentage()
+     * This function reads out the battery
+     * voltage an calculates a value from 0 to 100 %
+     */
     uint8_t getBatteryPercentage() {
     int rawValue = analogRead(35);
-    if(rawValue > 2446) {
-        return 100;
-    }
-    else if(rawValue < 2295) {
-        return 0;
-    }
-    rawValue = constrain(rawValue, 2295, 2446);
-    return map(rawValue, 2295, 2446, 0, 100);
+    rawValue = constrain(rawValue, 2250, 2446);
+    return map(rawValue, 2250, 2446, 0, 100);
     }
  // };
