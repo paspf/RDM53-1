@@ -40,6 +40,8 @@ class lidar{
     Adafruit_VL53L0X lox3 = Adafruit_VL53L0X();
     Adafruit_VL53L0X lox4 = Adafruit_VL53L0X();
     Adafruit_VL53L0X lox5 = Adafruit_VL53L0X();
+    Adafruit_VL53L0X lox6 = Adafruit_VL53L0X();
+    Adafruit_VL53L0X lox7 = Adafruit_VL53L0X();
     void setID();
     public:
     // this holds the measurements

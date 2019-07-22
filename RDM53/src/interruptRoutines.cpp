@@ -48,6 +48,7 @@ void interruptWorkers() {
       // disable interrupts on both CPU cores, and spinlock tasks on other CPU
       portENTER_CRITICAL(&mux);
       interruptCounterKey1 = 0;
+      Serial.println("Key1 Pressed!");
       // enable interrupts on both CPU cores, disable spinlock
       portEXIT_CRITICAL(&mux);
 
@@ -56,6 +57,7 @@ void interruptWorkers() {
   if(interruptCounterKey2 > 0){
       // disable interrupts on both CPU cores, and spinlock tasks on other CPU
       portENTER_CRITICAL(&mux);
+      Serial.println("Key2Pressed!");
       interruptCounterKey2 = 0;
       // enable interrupts on both CPU cores, disable spinlock
       portEXIT_CRITICAL(&mux);

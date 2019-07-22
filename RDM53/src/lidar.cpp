@@ -92,15 +92,34 @@ void lidar::setID() {
   expanderWrite(EXP_ADDRESS, SHT_LOX1 | SHT_LOX2 | SHT_LOX3 | SHT_LOX4 | SHT_LOX5);
   //delay(10);
 
-  // initing LOX4
+  // initing LOX5
   if(!lox5.begin(LOX5_ADDRESS)) {
     Serial.println(F("Failed to boot fifth VL53L0X"));
     return;
   }
 
+  // activating LOX6
+  expanderWrite(EXP_ADDRESS, SHT_LOX1 | SHT_LOX2 | SHT_LOX3 | SHT_LOX4 | SHT_LOX5 |SHT_LOX6);
+  //delay(10);
+
+  // initing LOX6
+  if(!lox6.begin(LOX6_ADDRESS)) {
+    Serial.println(F("Failed to boot sixth VL53L0X"));
+    return;
+  }
+
+  // activating LOX7
+  expanderWrite(EXP_ADDRESS, SHT_LOX1 | SHT_LOX2 | SHT_LOX3 | SHT_LOX4 | SHT_LOX5 | SHT_LOX6 | SHT_LOX7);
+  //delay(10);
+
+  // initing LOX6
+  if(!lox7.begin(LOX7_ADDRESS)) {
+    Serial.println(F("Failed to boot seventh VL53L0X"));
+    return;
+  }
+
   // activate all
   // expanderWrite(EXP_ADDRESS, 0x7F);
-
   isInit = true;
 }
 
@@ -118,7 +137,9 @@ int lidar::readLOXSensors() {
   lox2.rangingTest(&measureLidar2, false); // pass in 'true' to get debug data printout!
   lox3.rangingTest(&measureLidar3, false); // pass in 'true' to get debug data printout!
   lox4.rangingTest(&measureLidar4, false); // pass in 'true' to get debug data printout!
-  lox4.rangingTest(&measureLidar5, false); // pass in 'true' to get debug data printout!
+  lox5.rangingTest(&measureLidar5, false); // pass in 'true' to get debug data printout!
+  lox6.rangingTest(&measureLidar6, false); // pass in 'true' to get debug data printout!
+  lox7.rangingTest(&measureLidar7, false); // pass in 'true' to get debug data printout!
   return 0;
 }
 
@@ -169,6 +190,22 @@ int lidar::printLOXValues() {
   Serial.print(" 5: ");
   if(measureLidar5.RangeStatus != 4) {
     Serial.print(measureLidar5.RangeMilliMeter);
+  } else {
+    Serial.print("Out of range");
+  }
+
+  // print sensor six reading
+  Serial.print(" 6: ");
+  if(measureLidar6.RangeStatus != 4) {
+    Serial.print(measureLidar6.RangeMilliMeter);
+  } else {
+    Serial.print("Out of range");
+  }
+
+  // print sensor seven reading
+  Serial.print(" 7: ");
+  if(measureLidar7.RangeStatus != 4) {
+    Serial.print(measureLidar7.RangeMilliMeter);
   } else {
     Serial.print("Out of range");
   }
