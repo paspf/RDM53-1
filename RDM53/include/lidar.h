@@ -13,38 +13,57 @@
 // port expander I2C adress
 #define EXP_ADDRESS 0x20
 
+/*
+ * Port expander pinning:
+ * P0 -> lidar back             0x35 LOX5 measureLidar[5]
+ * P1 -> lidar right            0x34 LOX4 measureLidar[4]
+ * P2 -> front left down        0x32 LOX1 measureLidar[1]
+ * P3 -> Links left             0x36 LOX6 measureLidar[6]
+ * P4 -> lidar front left up    0x30 LOX0 measureLidar[0]
+ * P5 -> lidar front right down 0x31 LOX2 measureLidar[2]
+ * P6 -> lidar front right up   0x33 LOX3 measureLidar[3]
+ */
 // sensor I2C adresses
-#define LOX1_ADDRESS 0x30
-#define LOX2_ADDRESS 0x31
-#define LOX3_ADDRESS 0x32
-#define LOX4_ADDRESS 0x33
-#define LOX5_ADDRESS 0x34
-#define LOX6_ADDRESS 0x35
-#define LOX7_ADDRESS 0x36
+#define LOX0_ADDRESS 0x30
+#define LOX1_ADDRESS 0x31
+#define LOX2_ADDRESS 0x32
+#define LOX3_ADDRESS 0x33
+#define LOX4_ADDRESS 0x34
+#define LOX5_ADDRESS 0x35
+#define LOX6_ADDRESS 0x36
 
-// Assignment to port expander
+// Assign lox to port expander
+#define SHT_LOX0 0x10
+#define SHT_LOX1 0x04
+#define SHT_LOX2 0x20
+#define SHT_LOX3 0x40
+#define SHT_LOX4 0x02
+#define SHT_LOX5 0x01
+#define SHT_LOX6 0x08
+/*
 #define SHT_LOX1 0x1
 #define SHT_LOX2 0x2
 #define SHT_LOX3 0x4
 #define SHT_LOX4 0x8
 #define SHT_LOX5 0x10
 #define SHT_LOX6 0x20
-#define SHT_LOX7 0x40
+#define SHT_LOX7 0x40 */
 
-class lidar{
+class lidar {
     private:
     bool isInit = false;
     // objects for the vl53l0x (Lidar sensors)
+    Adafruit_VL53L0X lox0 = Adafruit_VL53L0X();
     Adafruit_VL53L0X lox1 = Adafruit_VL53L0X();
     Adafruit_VL53L0X lox2 = Adafruit_VL53L0X();
     Adafruit_VL53L0X lox3 = Adafruit_VL53L0X();
     Adafruit_VL53L0X lox4 = Adafruit_VL53L0X();
     Adafruit_VL53L0X lox5 = Adafruit_VL53L0X();
     Adafruit_VL53L0X lox6 = Adafruit_VL53L0X();
-    Adafruit_VL53L0X lox7 = Adafruit_VL53L0X();
     void setID();
     public:
     // this holds the measurements
+    // unused
     VL53L0X_RangingMeasurementData_t measureLidar1; // L1 in schematic
     VL53L0X_RangingMeasurementData_t measureLidar2; // L2 in schematic
     VL53L0X_RangingMeasurementData_t measureLidar3; // L3 in schematic
@@ -52,6 +71,8 @@ class lidar{
     VL53L0X_RangingMeasurementData_t measureLidar5; // L5 in schematic
     VL53L0X_RangingMeasurementData_t measureLidar6; // L6 in schematic
     VL53L0X_RangingMeasurementData_t measureLidar7; // L7 in schematic
+    // used
+    VL53L0X_RangingMeasurementData_t measureLidar[7];
     void expanderWrite(int, uint8_t);
     void initLox();
     int readLOXSensors();

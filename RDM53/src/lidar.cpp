@@ -37,7 +37,6 @@ void lidar::initLox() {
   // all unreset
   expanderWrite(EXP_ADDRESS, 0x7F);
   delay(10);
-
   setID();
 }
 
@@ -47,74 +46,70 @@ void lidar::initLox() {
  */
 void lidar::setID() {
   isInit = false;
-  
-  // activating LOX1 and reseting other LOX
-  expanderWrite(EXP_ADDRESS, SHT_LOX1);
-  // initing LOX1
-  if(!lox1.begin(LOX1_ADDRESS)) {
-    Serial.println(F("Failed to boot first VL53L0X"));
-    expanderWrite(EXP_ADDRESS, B11000001);
+  /*
+  * Port expander pinning:
+  * P0 -> lidar back             0x35 LOX5 measureLidar[5]
+  * P1 -> lidar right            0x34 LOX4 measureLidar[4]
+  * P2 -> front left down        0x32 LOX1 measureLidar[1]
+  * P3 -> Links left             0x36 LOX6 measureLidar[6]
+  * P4 -> lidar front left up    0x30 LOX0 measureLidar[0]
+  * P5 -> lidar front right down 0x31 LOX2 measureLidar[2]
+  * P6 -> lidar front right up   0x33 LOX3 measureLidar[3]
+  */
+  // activating LOX5 and reseting other LOX
+  expanderWrite(EXP_ADDRESS, SHT_LOX5);
+  // initing LOX5
+  if(!lox5.begin(LOX5_ADDRESS)) {
+    Serial.println(F("Failed to boot P0: fifth VL53L0X"));
     return;
   }
   delay(10);
  
-  // activating LOX2
-  expanderWrite(EXP_ADDRESS, SHT_LOX1 | SHT_LOX2);
-  //delay(10);
-
-  // initing LOX2
-  if(!lox2.begin(LOX2_ADDRESS)) {
-    Serial.println(F("Failed to boot second VL53L0X"));
-    return;
-  }
-
-  // activating LOX3
-  expanderWrite(EXP_ADDRESS, SHT_LOX1 | SHT_LOX2 | SHT_LOX3);
-  //delay(10);
-
-  // initing LOX3
-  if(!lox3.begin(LOX3_ADDRESS)) {
-    Serial.println(F("Failed to boot third VL53L0X"));
-    return;
-  }
-
   // activating LOX4
-  expanderWrite(EXP_ADDRESS, SHT_LOX1 | SHT_LOX2 | SHT_LOX3 | SHT_LOX4);
-  //delay(10);
-
+  expanderWrite(EXP_ADDRESS, SHT_LOX5 | SHT_LOX4);
   // initing LOX4
   if(!lox4.begin(LOX4_ADDRESS)) {
-    Serial.println(F("Failed to boot fourth VL53L0X"));
+    Serial.println(F("Failed to boot P1: fourth VL53L0X"));
     return;
   }
 
-  // activating LOX5
-  expanderWrite(EXP_ADDRESS, SHT_LOX1 | SHT_LOX2 | SHT_LOX3 | SHT_LOX4 | SHT_LOX5);
-  //delay(10);
-
-  // initing LOX5
-  if(!lox5.begin(LOX5_ADDRESS)) {
-    Serial.println(F("Failed to boot fifth VL53L0X"));
+  // activating LOX1
+  expanderWrite(EXP_ADDRESS, SHT_LOX5 | SHT_LOX4 | SHT_LOX1);
+  // initing LOX1
+  if(!lox1.begin(LOX1_ADDRESS)) {
+    Serial.println(F("Failed to boot P2: first VL53L0X"));
     return;
   }
 
   // activating LOX6
-  expanderWrite(EXP_ADDRESS, SHT_LOX1 | SHT_LOX2 | SHT_LOX3 | SHT_LOX4 | SHT_LOX5 |SHT_LOX6);
-  //delay(10);
-
+  expanderWrite(EXP_ADDRESS, SHT_LOX5 | SHT_LOX4 | SHT_LOX1 | SHT_LOX6);
   // initing LOX6
   if(!lox6.begin(LOX6_ADDRESS)) {
-    Serial.println(F("Failed to boot sixth VL53L0X"));
+    Serial.println(F("Failed to boot P3: sixth VL53L0X"));
     return;
   }
 
-  // activating LOX7
-  expanderWrite(EXP_ADDRESS, SHT_LOX1 | SHT_LOX2 | SHT_LOX3 | SHT_LOX4 | SHT_LOX5 | SHT_LOX6 | SHT_LOX7);
-  //delay(10);
+  // activating LOX0
+  expanderWrite(EXP_ADDRESS, SHT_LOX5 | SHT_LOX4 | SHT_LOX1 | SHT_LOX6 | SHT_LOX0);
+  // initing LOX0
+  if(!lox0.begin(LOX0_ADDRESS)) {
+    Serial.println(F("Failed to boot P4: VL53L0X zero"));
+    return;
+  }
 
-  // initing LOX6
-  if(!lox7.begin(LOX7_ADDRESS)) {
-    Serial.println(F("Failed to boot seventh VL53L0X"));
+  // activating LOX2
+  expanderWrite(EXP_ADDRESS, SHT_LOX5 | SHT_LOX4 | SHT_LOX1 | SHT_LOX6 | SHT_LOX0 |SHT_LOX2);
+  // initing LOX2
+  if(!lox2.begin(LOX2_ADDRESS)) {
+    Serial.println(F("Failed to boot P5: second VL53L0X"));
+    return;
+  }
+
+  // activating LOX3
+  expanderWrite(EXP_ADDRESS, SHT_LOX5 | SHT_LOX4 | SHT_LOX1 | SHT_LOX6 | SHT_LOX0 |SHT_LOX2 | SHT_LOX3);
+  // initing LOX3
+  if(!lox3.begin(LOX3_ADDRESS)) {
+    Serial.println(F("Failed to boot P6: third VL53L0X"));
     return;
   }
 
@@ -133,13 +128,13 @@ int lidar::readLOXSensors() {
     Serial.println("Not all Lidar Sensor initialized!");
     return 1;
   }
-  lox1.rangingTest(&measureLidar1, false); // pass in 'true' to get debug data printout!
-  lox2.rangingTest(&measureLidar2, false); // pass in 'true' to get debug data printout!
-  lox3.rangingTest(&measureLidar3, false); // pass in 'true' to get debug data printout!
-  lox4.rangingTest(&measureLidar4, false); // pass in 'true' to get debug data printout!
-  lox5.rangingTest(&measureLidar5, false); // pass in 'true' to get debug data printout!
-  lox6.rangingTest(&measureLidar6, false); // pass in 'true' to get debug data printout!
-  lox7.rangingTest(&measureLidar7, false); // pass in 'true' to get debug data printout!
+  lox0.rangingTest(&measureLidar[0], false); // pass in 'true' to get debug data printout!
+  lox1.rangingTest(&measureLidar[1], false); // pass in 'true' to get debug data printout!
+  lox2.rangingTest(&measureLidar[2], false); // pass in 'true' to get debug data printout!
+  lox3.rangingTest(&measureLidar[3], false); // pass in 'true' to get debug data printout!
+  lox4.rangingTest(&measureLidar[4], false); // pass in 'true' to get debug data printout!
+  lox5.rangingTest(&measureLidar[5], false); // pass in 'true' to get debug data printout!
+  lox6.rangingTest(&measureLidar[6], false); // pass in 'true' to get debug data printout!
   return 0;
 }
 
@@ -155,57 +150,57 @@ int lidar::printLOXValues() {
   }
   
     // print sensor one reading
-  Serial.print("1: ");
-  if(measureLidar1.RangeStatus != 4) {     // if not out of range
-    Serial.print(measureLidar1.RangeMilliMeter);
+  Serial.print("0: ");
+  if(measureLidar[0].RangeStatus != 4) {     // if not out of range
+    Serial.print(measureLidar[0].RangeMilliMeter);
   } else {
     Serial.print("Out of range");
   }
 
   // print sensor two reading
-  Serial.print(" 2: ");
-  if(measureLidar2.RangeStatus != 4) {
-    Serial.print(measureLidar2.RangeMilliMeter);
+  Serial.print(" 1: ");
+  if(measureLidar[1].RangeStatus != 4) {
+    Serial.print(measureLidar[1].RangeMilliMeter);
   } else {
     Serial.print("Out of range");
   }
 
   // print sensor three reading
-  Serial.print(" 3: ");
-  if(measureLidar3.RangeStatus != 4) {
-    Serial.print(measureLidar3.RangeMilliMeter);
+  Serial.print(" 2: ");
+  if(measureLidar[2].RangeStatus != 4) {
+    Serial.print(measureLidar[2].RangeMilliMeter);
   } else {
     Serial.print("Out of range");
   }
 
   // print sensor four reading
-  Serial.print(" 4: ");
-  if(measureLidar4.RangeStatus != 4) {
-    Serial.print(measureLidar4.RangeMilliMeter);
+  Serial.print(" 3: ");
+  if(measureLidar[3].RangeStatus != 4) {
+    Serial.print(measureLidar[3].RangeMilliMeter);
   } else {
     Serial.print("Out of range");
   }
   
   // print sensor five reading
-  Serial.print(" 5: ");
-  if(measureLidar5.RangeStatus != 4) {
-    Serial.print(measureLidar5.RangeMilliMeter);
+  Serial.print(" 4: ");
+  if(measureLidar[4].RangeStatus != 4) {
+    Serial.print(measureLidar[4].RangeMilliMeter);
   } else {
     Serial.print("Out of range");
   }
 
   // print sensor six reading
-  Serial.print(" 6: ");
-  if(measureLidar6.RangeStatus != 4) {
-    Serial.print(measureLidar6.RangeMilliMeter);
+  Serial.print(" 5: ");
+  if(measureLidar[5].RangeStatus != 4) {
+    Serial.print(measureLidar[5].RangeMilliMeter);
   } else {
     Serial.print("Out of range");
   }
 
   // print sensor seven reading
-  Serial.print(" 7: ");
-  if(measureLidar7.RangeStatus != 4) {
-    Serial.print(measureLidar7.RangeMilliMeter);
+  Serial.print(" 6: ");
+  if(measureLidar[6].RangeStatus != 4) {
+    Serial.print(measureLidar[6].RangeMilliMeter);
   } else {
     Serial.print("Out of range");
   }

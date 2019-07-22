@@ -36,11 +36,39 @@
 			  <tr>
 				<th><button type="button" id="buttonBatteryStatus" onclick="WebHexCmdSend(id);" value="11030310000000000012">Battery status</button></th>
 				<th><div id="BatteryStatusDisplay"></div></th>
+				
+				<td><button type="button" id="buttonLidar0Values" onclick="WebHexCmdSend(id);" value="11030300000000000012">Lidar 0</button></td>
+				<td><div id="buttonLidar0ValuesDisplay">none</div></td>
+				
+				<td><button type="button" id="buttonLidar1Values" onclick="WebHexCmdSend(id);" value="11030301000000000012">Lidar 1</button></td>
+				<td><div id="buttonLidar1ValuesDisplay">none</div></td>
+				
+				<td><button type="button" id="buttonLidar2Values" onclick="WebHexCmdSend(id);" value="11030302000000000012">Lidar 2</button></td>
+				<td><div id="buttonLidar2ValuesDisplay">none</div></td>
+				
+				<td><button type="button" id="buttonLidar3Values" onclick="WebHexCmdSend(id);" value="11030303000000000012">Lidar 3</button></td>
+				<td><div id="buttonLidar3ValuesDisplay">none</div></td>
 			  </tr>
 			  <tr>
 				<td><button type="button" id="buttonUltrasonicValues" onclick="WebHexCmdSend(id);" value="11030308000000000012">Ultrasonic values</button></td>
 				<td><div id="UltrasonicValuesDisplay">none</div></td>
+
+				<td><button type="button" id="buttonLidar6Values" onclick="WebHexCmdSend(id);" value="11030306000000000012">Lidar 6</button></td>
+				<td><div id="buttonLidar6ValuesDisplay">none</div></td>
+				
+				<td> </td>
+				<td> </td>
+				<td> </td>
+				<td> </td>
+				<td><button type="button" id="buttonLidar4Values" onclick="WebHexCmdSend(id);" value="11030304000000000012">Lidar 4</button></td>
+				<td><div id="buttonLidar4ValuesDisplay">none</div></td>
+				
 			  </tr>
+			  <tr>
+				<td> </td>
+				<td> </td>
+				<td><button type="button" id="buttonLidar5Values" onclick="WebHexCmdSend(id);" value="11030305000000000012">Lidar 6</button></td>
+				<td><div id="buttonLidar5ValuesDisplay">none</div></td>
 		</table> 
 	</div>
 	<div>
@@ -178,6 +206,34 @@ function checkIfValIsKnown(value) {
 		case "01000800":
 			payload = value.substring(10, 18);
 			document.getElementById("UltrasonicValuesDisplay").innerHTML = parseInt(payload, 16).toString() + "mm";
+		break;
+		case "01000000":
+			payload = value.substring(10, 18);
+			document.getElementById("buttonLidar0ValuesDisplay").innerHTML = parseInt(payload, 16).toString() + "mm";
+		break;
+		case "01000100":
+			payload = value.substring(10, 18);
+			document.getElementById("buttonLidar1ValuesDisplay").innerHTML = parseInt(payload, 16).toString() + "mm";
+		break;
+		case "01000200":
+			payload = value.substring(10, 18);
+			document.getElementById("buttonLidar2ValuesDisplay").innerHTML = parseInt(payload, 16).toString() + "mm";
+		break;
+		case "01000300":
+			payload = value.substring(10, 18);
+			document.getElementById("buttonLidar3ValuesDisplay").innerHTML = parseInt(payload, 16).toString() + "mm";
+		break;
+		case "01000400":
+			payload = value.substring(10, 18);
+			document.getElementById("buttonLidar4ValuesDisplay").innerHTML = parseInt(payload, 16).toString() + "mm";
+		break;
+		case "01000500":
+			payload = value.substring(10, 18);
+			document.getElementById("buttonLidar5ValuesDisplay").innerHTML = parseInt(payload, 16).toString() + "mm";
+		break;
+		case "01000600":
+			payload = value.substring(10, 18);
+			document.getElementById("buttonLidar6ValuesDisplay").innerHTML = parseInt(payload, 16).toString() + "mm";
 		break;
 	  default:
 	  console.log("unknown binary stream");
