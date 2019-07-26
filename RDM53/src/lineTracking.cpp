@@ -24,10 +24,11 @@ int lineTrackInterface::readRawSensorValue() {
 
 /*
  * Read out sensor value and calculate color
- * 0 - white (floor)
- * 1 - black (playground)
- * 2 - Gelb (enemy goal)
- * 3 - dark green (our goal)
+ * 0 - white (floor) 1600
+ * 1 - black (playground) 2800 - 2900
+ * 2 - Gelb (enemy goal) 1200 - 1300
+ * 3 - dark green (our goal) 1100 - 1199
+ * 5 - blue 1800 - 1999
  * 4 - Error
 */
 int lineTrackInterface::getColorCode() {
