@@ -199,10 +199,20 @@ void getValues(uint8_t dataSource, uint8_t dataSubSource){
     switch (dataSource)
     {
     case 0x0: // Lidar 0
-        // 11 03 03 00 00 00 00 00 00 12
-        lidarSensors.readLOXSensors();
-        // lidarSensors.printLOXValues();
-        protocolSend(0x0, dataSource, dataSubSource, lidarSensors.measureLidar[0].RangeMilliMeter);
+        switch(dataSubSource) 
+        {
+            case 0x0:
+                // 11 03 03 00 00 00 00 00 00 12
+                lidarSensors.readLOXSensors();
+                // lidarSensors.printLOXValues();
+                protocolSend(0x0, dataSource, dataSubSource, lidarSensors.measureLidar[0].RangeMilliMeter);
+                break;
+            case 0xFF:
+                // 11 03 03 00 FF 00 00 00 00 12
+                lidarSensors.readLOXSensors();
+                lidarSensors.printLOXValues();
+            break;
+        }
         break;
     case 0x1: // Lidar 1
         // 11 03 03 01 00 00 00 00 00 12

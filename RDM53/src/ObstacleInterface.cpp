@@ -24,43 +24,43 @@ void ObstacleInterface::initobstacledata(){
   for(i=0;i<20;i++){ //20 buffer obstacles (virtual)
 
     //obstacle in front of the car (directly)
-    if(ultraSon.dist() <= 1200 && lidarSensors.measureLidar1.RangeMilliMeter <= 1200 && lidarSensors.measureLidar4.RangeMilliMeter <= 1200) {
-    distanceObstacleToCar = lidarSensors.measureLidar1.RangeMilliMeter;
+    if(ultraSon.dist() <= 1200 && lidarSensors.measureLidar[0].RangeMilliMeter <= 1200 && lidarSensors.measureLidar[3].RangeMilliMeter <= 1200) {
+    distanceObstacleToCar = lidarSensors.measureLidar[0].RangeMilliMeter;
     angleObstacleToCar = 0;
     fillObstacleStructure(i,&angleObstacleToCar,&distanceObstacleToCar);
     continue;
     }
     //obstacle at the right front of the car 
-    if(lidarSensors.measureLidar3.RangeMilliMeter <= 1200 && lidarSensors.measureLidar4.RangeMilliMeter <= 1200){
-    distanceObstacleToCar = lidarSensors.measureLidar4.RangeMilliMeter;
+    if(lidarSensors.measureLidar[2].RangeMilliMeter <= 1200 && lidarSensors.measureLidar[3].RangeMilliMeter <= 1200){
+    distanceObstacleToCar = lidarSensors.measureLidar[3].RangeMilliMeter;
     angleObstacleToCar = 45;
     fillObstacleStructure(i,&angleObstacleToCar,&distanceObstacleToCar);
     continue;
     }
     //obstacle at the rigth side of the car 
-    if(lidarSensors.measureLidar5.RangeMilliMeter <= 1200){
-    distanceObstacleToCar = lidarSensors.measureLidar5.RangeMilliMeter;
+    if(lidarSensors.measureLidar[4].RangeMilliMeter <= 1200){
+    distanceObstacleToCar = lidarSensors.measureLidar[4].RangeMilliMeter;
     angleObstacleToCar = 90;
     fillObstacleStructure(i,&angleObstacleToCar,&distanceObstacleToCar);
     continue;
     }
     //obstacle behind the car 
-    if(lidarSensors.measureLidar6.RangeMilliMeter <= 1200){
-    distanceObstacleToCar = lidarSensors.measureLidar6.RangeMilliMeter;
+    if(lidarSensors.measureLidar[5].RangeMilliMeter <= 1200){
+    distanceObstacleToCar = lidarSensors.measureLidar[5].RangeMilliMeter;
     angleObstacleToCar = 180;
     fillObstacleStructure(i,&angleObstacleToCar,&distanceObstacleToCar);
     continue;
     }
     //obstacle at the left side of the car 
-    if(lidarSensors.measureLidar7.RangeMilliMeter <= 1200){
-    distanceObstacleToCar = lidarSensors.measureLidar7.RangeMilliMeter;
+    if(lidarSensors.measureLidar[6].RangeMilliMeter <= 1200){
+    distanceObstacleToCar = lidarSensors.measureLidar[6].RangeMilliMeter;
     angleObstacleToCar = 270;
     fillObstacleStructure(i,&angleObstacleToCar,&distanceObstacleToCar);
     continue;
     }
     //obstacle at the left front of the car 
-    if(lidarSensors.measureLidar1.RangeMilliMeter <= 1200 && lidarSensors.measureLidar2.RangeMilliMeter <= 1200){
-    distanceObstacleToCar = lidarSensors.measureLidar1.RangeMilliMeter;
+    if(lidarSensors.measureLidar[0].RangeMilliMeter <= 1200 && lidarSensors.measureLidar[1].RangeMilliMeter <= 1200){
+    distanceObstacleToCar = lidarSensors.measureLidar[0].RangeMilliMeter;
     angleObstacleToCar = 315;
     fillObstacleStructure(i,&angleObstacleToCar,&distanceObstacleToCar);
     continue;
