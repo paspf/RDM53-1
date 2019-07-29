@@ -26,6 +26,7 @@
 #include "ObstacleInterface.h"
 #include "piezo.h"
 #include "HCSR04P.h"
+#include "LineFollower.h"
 
 /**** structures ****/
 #include "PublicStructures.h"
@@ -54,3 +55,5 @@ lidar lidarSensors;
 PiezoInterface piezo;
 
 HCSR04P ultraSonic(2, 15, 4000);
+
+LineFollower followLine;
