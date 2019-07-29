@@ -340,16 +340,17 @@ void getValues(uint8_t dataSource, uint8_t dataSubSource){
         protocolSend(0x0, dataSource, dataSubSource, getBatteryPercentage());
         break;
     case 0x11: // line color front left
-        protocolSend(0x0, dataSource, dataSubSource, dummy);
+        // 11 03 03 11 00 00 00 00 00 12
+        protocolSend(0x0, dataSource, dataSubSource, lineSensorFrontLeft.getColorCode());
         break;
     case 0x12: // line color front right
-        protocolSend(0x0, dataSource, dataSubSource, dummy);
+        protocolSend(0x0, dataSource, dataSubSource, lineSensorFrontLeft.getColorCode());
         break;
     case 0x13: // line color back left
-        protocolSend(0x0, dataSource, dataSubSource, dummy);
+        protocolSend(0x0, dataSource, dataSubSource, lineSensorFrontLeft.getColorCode());
         break;
     case 0x14: // line color back right
-        protocolSend(0x0, dataSource, dataSubSource, dummy);
+        protocolSend(0x0, dataSource, dataSubSource, lineSensorFrontLeft.getColorCode());
         break;
     default:
         webSocket.broadcastTXT("Error: GetValue Unknown dataSource query");

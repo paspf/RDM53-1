@@ -44,17 +44,25 @@ int lineTrackInterface::calibrateSensor(int bl0, int bl1, int wh0, int wh1, int 
 */
 int lineTrackInterface::getColorCode() {
     int rawValue = analogRead(pin);
-    if(rawValue >= black[0] || rawValue <= black[1]) {
+    // Serial.print("rawVal: ");
+    // Serial.println(rawValue);
+
+    if(rawValue >= black[0] && rawValue <= black[1]) {
+        // Serial.println("black!");
         return 0;
     }
-    else if(rawValue >= white[0] || rawValue <= white[1]) {
+    else if(rawValue >= white[0] && rawValue <= white[1]) {
+        // Serial.println("white!");
         return 1;
     }
-    else if(rawValue >= yellow[0] || rawValue <= yellow[1]) {
+    else if(rawValue >= yellow[0] && rawValue <= yellow[1]) {
+        // Serial.println("yellow!");
         return 2;
     }
-    else if(rawValue >= green[0] || rawValue <= green[1]) {
+    else if(rawValue >= green[0] && rawValue <= green[1]) {
+        // Serial.println("green!");
         return 3;
     }
+    // Serial.println("err!");
     return -1;
 }

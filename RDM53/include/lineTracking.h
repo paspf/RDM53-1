@@ -20,7 +20,7 @@ class lineTrackInterface {
      * Best sensors: FL, BR
      * white yellow and green are not consistant
      */
-    short black[2] = {2800,2900};
+    short black[2] = {2500,4095};
     short white[2] = {1300,1400};
     short yellow[2] = {1200,1300};
     short green[2] = {1100,1199};

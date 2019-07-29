@@ -18,6 +18,13 @@ void LineFollower::followLine(){
     int rawValueBL = lineSensorBackLeft.getColorCode();
     int rawValueBR = lineSensorBackRight.getColorCode();
     
+    steering.setVal(0,0x01FF);
+    //Serial.println("followline");
+    if (rawValueBL != 0 && rawValueFL != 0 && rawValueBR != 0 && rawValueFR != 0) {
+        steering.setVal(0,0x100);
+        return;
+    }
+
     // stripe is on left side, line found
     if(rawValueFL == 0 && rawValueBL != 0){
         steering.setVal(1,255);

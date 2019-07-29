@@ -52,17 +52,21 @@ void loop() {
       break;
     case 0x000000:
       // Autonomous 0
-      webSocket.broadcastTXT("Autonomous 0 is set - Line Follower");
+      //webSocket.broadcastTXT("Autonomous 0 is set - Line Follower");
       followLine.followLine();
+      steering.setPilot();
       // dC.mode = 0x020000;
+      break;
     case 0x000001:
       // Autonomous 1
       webSocket.broadcastTXT("Autonomous 1 is set");
       dC.mode = 0x020000;
+      break;
     case 0x000002:
       // Autonomous 2
       webSocket.broadcastTXT("Autonomous 2 is set");
       dC.mode = 0x020000;
+      break;
     default:
       webSocket.broadcastTXT("Error in dc.Mode");
   }
