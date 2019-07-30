@@ -30,10 +30,10 @@ void SteeringInterface::setVal(bool valType, int value)
         if(value > 0xFF){//forwards
             dirGen = 0;
             speedValNow = (0xFF & value);
-            #ifdef DEBUG_STEERING
+                        #ifdef DEBUG_STEERING
             Serial.print("SpeedValNow setVal forwards: ");
             Serial.println(speedValNow);
-            #endif
+            #endif        
         }
         else{//backwards
             //Serial.println("if 1 else");
@@ -156,4 +156,20 @@ void SteeringInterface::staticEngines(){
     enginesInt.setEBL(dirLeft, enginesLeft);
     enginesInt.setEFR(dirRight, enginesRight);
     enginesInt.setEBR(dirRight, enginesRight);
+}
+
+/*
+ * Drive forward
+ * no turn
+ */
+void SteeringInterface::setForward(int speed) {
+    return;
+}
+
+/*
+ * drive backward
+ * no turn
+ */
+void SteeringInterface::setBackward(int speed) {
+    return;
 }

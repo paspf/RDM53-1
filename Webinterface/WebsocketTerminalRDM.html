@@ -82,9 +82,9 @@
 				<th><div id="LTFRDisplay" style="border-style: solid; width: 1em; height: 1em"></div></th>
 			</tr>
 			<tr>
-				<th><button type="button" id="buttonLTBLValues" onclick="WebHexCmdSend(id);" value="11030313000000000012">LT FL</button></th>
+				<th><button type="button" id="buttonLTBLValues" onclick="WebHexCmdSend(id);" value="11030313000000000012">LT BL</button></th>
 				<th><div id="LTBLDisplay" style="border-style: solid; width: 1em; height: 1em"></div></th>
-				<th><button type="button" id="buttonLTBRValues" onclick="WebHexCmdSend(id);" value="11030314000000000012">LT FR</button></th>
+				<th><button type="button" id="buttonLTBRValues" onclick="WebHexCmdSend(id);" value="11030314000000000012">LT BR</button></th>
 				<th><div id="LTBRDisplay" style="border-style: solid; width: 1em; height: 1em"></div></th>
 			</tr>
 		</table>
@@ -113,8 +113,8 @@
     //var WebSocketIPAdress = 'wss://echo.websocket.org';
 	//var WebSocketIPAdress = 'ws://192.168.178.29:81';
 	//var WebSocketIPAdress = 'ws://172.20.10.7:81';
-	//var WebSocketIPAdress = 'ws://192.168.43.156:81';
-	var WebSocketIPAdress = 'ws://172.20.10.9:81';
+	var WebSocketIPAdress = 'ws://192.168.43.156:81';
+	//var WebSocketIPAdress = 'ws://172.20.10.9:81';
 
 var my_gamepad = null;
 var refreshIntervalIdJoystick = null;
@@ -254,18 +254,22 @@ function checkIfValIsKnown(value) {
 			payload = value.substring(10, 18);
 			document.getElementById("buttonLidar6ValuesDisplay").innerHTML = parseInt(payload, 16).toString() + "mm";
 		break;
-		case "0100110000":
+		case "01001100":
 			payload = value.substring(10, 18);
 			document.getElementById("LTFLDisplay").innerHTML = parseInt(payload, 16).toString();
-		case "0100120000":
+		break;
+		case "01001200":
 			payload = value.substring(10, 18);
 			document.getElementById("LTFRDisplay").innerHTML = parseInt(payload, 16).toString();
-		case "0100130000":
+		break;
+		case "01001300":
 			payload = value.substring(10, 18);
 			document.getElementById("LTBLDisplay").innerHTML = parseInt(payload, 16).toString();
-		case "0100140000":
+		break;
+		case "01001400":
 			payload = value.substring(10, 18);
 			document.getElementById("LTBRDisplay").innerHTML = parseInt(payload, 16).toString();
+		break;
 	  default:
 	  console.log("unknown binary stream");
 	  retVal = 1;

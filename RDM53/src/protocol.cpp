@@ -314,23 +314,27 @@ void getValues(uint8_t dataSource, uint8_t dataSubSource){
         break;
     case 0xC: //Phototransistor front left raw value
         // 11 03 03 0C 00 00 00 00 00 12
-        Serial.println(lineSensorFrontLeft.readRawSensorValue());
-        protocolSend(0x0, dataSource, dataSubSource, lineSensorFrontLeft.readRawSensorValue());
+        lineSensorFrontLeft.readSensor();
+        Serial.println(lineSensorFrontLeft.getRawSensorValue());
+        protocolSend(0x0, dataSource, dataSubSource, lineSensorFrontLeft.getRawSensorValue());
         break;
     case 0xD: //Phototransistor front right raw value
         // 11 03 03 0D 00 00 00 00 00 12
-        Serial.println(lineSensorFrontRight.readRawSensorValue());
-        protocolSend(0x0, dataSource, dataSubSource, lineSensorFrontRight.readRawSensorValue());
+        lineSensorFrontRight.readSensor();
+        Serial.println(lineSensorFrontRight.getRawSensorValue());
+        protocolSend(0x0, dataSource, dataSubSource, lineSensorFrontRight.getRawSensorValue());
         break;
     case 0xE: //Phototransistor back left raw value
         // 11 03 03 0E 00 00 00 00 00 12
-        Serial.println(lineSensorBackLeft.readRawSensorValue());
-        protocolSend(0x0, dataSource, dataSubSource, lineSensorBackLeft.readRawSensorValue());
+        lineSensorBackLeft.readSensor();
+        Serial.println(lineSensorBackLeft.getRawSensorValue());
+        protocolSend(0x0, dataSource, dataSubSource, lineSensorBackLeft.getRawSensorValue());
         break;
     case 0xF: //Phototransistor back right raw value
         // 11 03 03 0F 00 00 00 00 00 12
-        Serial.println(lineSensorBackRight.readRawSensorValue());
-        protocolSend(0x0, dataSource, dataSubSource, lineSensorBackRight.readRawSensorValue());
+        lineSensorBackRight.readSensor();
+        Serial.println(lineSensorBackRight.getRawSensorValue());
+        protocolSend(0x0, dataSource, dataSubSource, lineSensorBackRight.getRawSensorValue());
         break;
     case 0x10: // battery percentage
         // 11 03 03 10 00 00 00 00 00 12
@@ -342,15 +346,15 @@ void getValues(uint8_t dataSource, uint8_t dataSubSource){
         break;
     case 0x12: // line color front right
         // 11 03 03 12 00 00 00 00 00 12
-        protocolSend(0x0, dataSource, dataSubSource, lineSensorFrontLeft.getColorCode());
+        protocolSend(0x0, dataSource, dataSubSource, lineSensorFrontRight.getColorCode());
         break;
     case 0x13: // line color back left
         // 11 03 03 13 00 00 00 00 00 12
-        protocolSend(0x0, dataSource, dataSubSource, lineSensorFrontLeft.getColorCode());
+        protocolSend(0x0, dataSource, dataSubSource, lineSensorBackLeft.getColorCode());
         break;
     case 0x14: // line color back right
         // 11 03 03 14 00 00 00 00 00 12
-        protocolSend(0x0, dataSource, dataSubSource, lineSensorFrontLeft.getColorCode());
+        protocolSend(0x0, dataSource, dataSubSource, lineSensorBackRight.getColorCode());
         break;
     default:
         webSocket.broadcastTXT("Error: GetValue Unknown dataSource query");

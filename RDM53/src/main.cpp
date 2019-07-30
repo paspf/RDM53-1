@@ -36,6 +36,7 @@ void loop() {
   serialReceive();
   webSocket.loop();
   interruptWorkers();
+  readSensors();
   // Serial.println(millis());
   switch(dC.mode) {
     case 0x020000:

@@ -10,6 +10,8 @@
 #include <ObstacleInterface.h>
 #include <lidar.h>
 #include <HCSR04P.h>
+#include "connectivity.h"
+
 extern  lidar lidarSensors; //lidar object to work directly with the sensor data (RangeMillimeter)
 extern obstBuff obstBuffer;
 
@@ -21,52 +23,52 @@ void ObstacleInterface::initobstacledata(){
   int angleObstacleToCar;
   int distanceObstacleToCar;
   int i;
-  for(i=0;i<20;i++){ //20 buffer obstacles (virtual)
+  for(i=0; i<20; i++){ //20 buffer obstacles (virtual)
 
     //obstacle in front of the car (directly)
     if(ultraSon.dist() <= 1200 && lidarSensors.measureLidar[0].RangeMilliMeter <= 1200 && lidarSensors.measureLidar[3].RangeMilliMeter <= 1200) {
-    distanceObstacleToCar = lidarSensors.measureLidar[0].RangeMilliMeter;
-    angleObstacleToCar = 0;
-    fillObstacleStructure(i,&angleObstacleToCar,&distanceObstacleToCar);
-    continue;
+      distanceObstacleToCar = lidarSensors.measureLidar[0].RangeMilliMeter;
+      angleObstacleToCar = 0;
+      fillObstacleStructure(i,&angleObstacleToCar,&distanceObstacleToCar);
+      continue;
     }
     //obstacle at the right front of the car 
     if(lidarSensors.measureLidar[2].RangeMilliMeter <= 1200 && lidarSensors.measureLidar[3].RangeMilliMeter <= 1200){
-    distanceObstacleToCar = lidarSensors.measureLidar[3].RangeMilliMeter;
-    angleObstacleToCar = 45;
-    fillObstacleStructure(i,&angleObstacleToCar,&distanceObstacleToCar);
-    continue;
+      distanceObstacleToCar = lidarSensors.measureLidar[3].RangeMilliMeter;
+      angleObstacleToCar = 45;
+      fillObstacleStructure(i,&angleObstacleToCar,&distanceObstacleToCar);
+      continue;
     }
     //obstacle at the rigth side of the car 
     if(lidarSensors.measureLidar[4].RangeMilliMeter <= 1200){
-    distanceObstacleToCar = lidarSensors.measureLidar[4].RangeMilliMeter;
-    angleObstacleToCar = 90;
-    fillObstacleStructure(i,&angleObstacleToCar,&distanceObstacleToCar);
-    continue;
+      distanceObstacleToCar = lidarSensors.measureLidar[4].RangeMilliMeter;
+      angleObstacleToCar = 90;
+      fillObstacleStructure(i,&angleObstacleToCar,&distanceObstacleToCar);
+      continue;
     }
     //obstacle behind the car 
     if(lidarSensors.measureLidar[5].RangeMilliMeter <= 1200){
-    distanceObstacleToCar = lidarSensors.measureLidar[5].RangeMilliMeter;
-    angleObstacleToCar = 180;
-    fillObstacleStructure(i,&angleObstacleToCar,&distanceObstacleToCar);
-    continue;
+      distanceObstacleToCar = lidarSensors.measureLidar[5].RangeMilliMeter;
+      angleObstacleToCar = 180;
+      fillObstacleStructure(i,&angleObstacleToCar,&distanceObstacleToCar);
+      continue;
     }
     //obstacle at the left side of the car 
     if(lidarSensors.measureLidar[6].RangeMilliMeter <= 1200){
-    distanceObstacleToCar = lidarSensors.measureLidar[6].RangeMilliMeter;
-    angleObstacleToCar = 270;
-    fillObstacleStructure(i,&angleObstacleToCar,&distanceObstacleToCar);
-    continue;
+      distanceObstacleToCar = lidarSensors.measureLidar[6].RangeMilliMeter;
+      angleObstacleToCar = 270;
+      fillObstacleStructure(i,&angleObstacleToCar,&distanceObstacleToCar);
+      continue;
     }
     //obstacle at the left front of the car 
     if(lidarSensors.measureLidar[0].RangeMilliMeter <= 1200 && lidarSensors.measureLidar[1].RangeMilliMeter <= 1200){
-    distanceObstacleToCar = lidarSensors.measureLidar[0].RangeMilliMeter;
-    angleObstacleToCar = 315;
-    fillObstacleStructure(i,&angleObstacleToCar,&distanceObstacleToCar);
-    continue;
+      distanceObstacleToCar = lidarSensors.measureLidar[0].RangeMilliMeter;
+      angleObstacleToCar = 315;
+      fillObstacleStructure(i,&angleObstacleToCar,&distanceObstacleToCar);
+      continue;
     }
     else {
-    //Serial.print("No Obstacle in proximity");
+      sendStringln("No Obstacle in proximity");
     }   
   }
 }
@@ -93,10 +95,10 @@ int ObstacleInterface::checkIfObstacleExist(int *a){
 void ObstacleInterface::fillObstacleStructure(int i,int *angle, int *distance){
 
     if (!checkIfObstacleExist(angle)){
-    obstBuffer.obstacles[i].angleObstacleToCar = *angle;
-    obstBuffer.obstacles[i].distanceObstacteToCar = *distance;
-    obstBuffer.obstacles[i].obstacleDetectionTime = millis();
-    obstBuffer.obstacles[i].obstacleID = i;
+      obstBuffer.obstacles[i].angleObstacleToCar = *angle;
+      obstBuffer.obstacles[i].distanceObstacteToCar = *distance;
+      obstBuffer.obstacles[i].obstacleDetectionTime = millis();
+      obstBuffer.obstacles[i].obstacleID = i;
     }
 
 }

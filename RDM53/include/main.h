@@ -27,6 +27,7 @@
 #include "piezo.h"
 #include "HCSR04P.h"
 #include "LineFollower.h"
+#include "readSensors.h"
 
 /**** structures ****/
 #include "PublicStructures.h"

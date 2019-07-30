@@ -6,7 +6,8 @@
  */
 #include <Arduino.h>
 
-
+#define STEERING_SPEED 0
+#define STEERING_TURN 1
 
 class SteeringInterface{
     public:
@@ -22,5 +23,7 @@ class SteeringInterface{
     bool valUpdate = false; // valUpdate is set, when setVal is called
     int setPilot();
     void setVal(bool, int);
+    void setForward(int);
+    void setBackward(int);
     void staticEngines();
 };
