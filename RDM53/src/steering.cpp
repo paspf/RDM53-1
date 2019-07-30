@@ -26,18 +26,23 @@ void SteeringInterface::setVal(bool valType, int value)
 {
     if(valType == 0){ //Speed is set
         if(value > 0xFF){//forwards
-            //Serial.println("if 1");
             dirGen = 0;
             speedValNow = (0xFF & value);
+            // Serial.print("SpeedValNow setVal forwards: ");
+            // Serial.println(speedValNow);
         }
         else{//backwards
             //Serial.println("if 1 else");
             dirGen = 1;
             speedValNow = 0xFF - (0xFF & value);
+            // Serial.print("SpeedValNow setVal backwards: ");
+            // Serial.println(speedValNow);
         }
     }
     else if(valType == 1){
         turnValGiven = (value & 0xFF);
+        // Serial.print("turnValGiven: ");
+        // Serial.println(turnValGiven);
     }
     valUpdate = true;
     //sendString("Inside Steering.setVal");
@@ -46,9 +51,6 @@ void SteeringInterface::setVal(bool valType, int value)
 /*
  * setPilot has to be called periodically so that the engine Values are set correctly.
  * setPilot does not accept values. It uses values in the steering object.
- * 
- * Status 02.07.2019: RDM can turn. However it either turns in a circle or it does so very slowly.
- * 
  */
 int SteeringInterface::setPilot()
 {
@@ -68,8 +70,8 @@ int SteeringInterface::setPilot()
     if(turnValGiven > 0x89) //Right
     {
         double turnPercent = (double(0xFF & turnValGiven)-128.0) /128.0;
-        Serial.print("turnPercentRight: ");
-        Serial.println(turnPercent);
+        // Serial.print("turnPercentRight: ");
+        // Serial.println(turnPercent);
         
         if ((dirGen == 0 && speedValNow < 64) || (dirGen == 1 && speedValNow > 191)){
             if(turnPercent > 0.5) 
@@ -95,8 +97,8 @@ int SteeringInterface::setPilot()
     else if(turnValGiven < 0x76) //Left
     {        
         double turnPercent = 1.0 -(double(0xFF & turnValGiven) / 128.0);
-        Serial.print("turnPercentLeft: ");
-        Serial.println(turnPercent);
+        // Serial.print("turnPercentLeft: ");
+        // Serial.println(turnPercent);
         
         if ((dirGen == 0 && speedValNow < 64) || (dirGen == 1 && speedValNow > 191)){
             if(turnPercent > 0.5) 
@@ -122,7 +124,10 @@ int SteeringInterface::setPilot()
         enginesLeft = speedValNow;
         enginesRight = speedValNow;
     }
-    //sendString("Set Pilot: end of Function");
+    // Serial.print("EL: ");
+    // Serial.println(enginesLeft);
+    // Serial.print("ER: ");
+    // Serial.println(enginesRight);
     staticEngines();
 
     // actual value is now set, no further update required

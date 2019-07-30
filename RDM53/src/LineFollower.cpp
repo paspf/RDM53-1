@@ -20,6 +20,7 @@ void LineFollower::followLine(){
     
     steering.setVal(0,0x01FF);
     //Serial.println("followline");
+    /*
     if (rawValueBL != 0 && rawValueFL != 0 && rawValueBR != 0 && rawValueFR != 0) {
         steering.setVal(0,0x100);
         return;
@@ -84,4 +85,5 @@ void LineFollower::followLine(){
         steering.setVal(0,0);
         return;
     }
+    */
 }

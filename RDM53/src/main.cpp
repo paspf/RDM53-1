@@ -40,9 +40,11 @@ void loop() {
   switch(dC.mode) {
     case 0x020000:
       // Mode : Pause
+      // 11020200000000000012
       break;
     case 0x010000:
       // Remote Control (static)
+      // 11020100000000000012
       steering.setPilot();
       break;
     case 0x010001:
@@ -52,7 +54,10 @@ void loop() {
       break;
     case 0x000000:
       // Autonomous 0
+      // 11020000000000000012
       //webSocket.broadcastTXT("Autonomous 0 is set - Line Follower");
+      Serial.println("--------------------------------------------");
+      // steering.setVal(0, 0x01FF);
       followLine.followLine();
       steering.setPilot();
       // dC.mode = 0x020000;
