@@ -13,6 +13,8 @@
     #include "connectivity.h"
 #endif
 
+//#define DEBUG_STEERING
+
 /*
  * valType: 0 = speed, 1 = turnrate
  * valType = 0: value 0-255 speed forward, 256-511 speed backward
@@ -28,21 +30,27 @@ void SteeringInterface::setVal(bool valType, int value)
         if(value > 0xFF){//forwards
             dirGen = 0;
             speedValNow = (0xFF & value);
-            // Serial.print("SpeedValNow setVal forwards: ");
-            // Serial.println(speedValNow);
+            #ifdef DEBUG_STEERING
+            Serial.print("SpeedValNow setVal forwards: ");
+            Serial.println(speedValNow);
+            #endif
         }
         else{//backwards
             //Serial.println("if 1 else");
             dirGen = 1;
             speedValNow = 0xFF - (0xFF & value);
-            // Serial.print("SpeedValNow setVal backwards: ");
-            // Serial.println(speedValNow);
+            #ifdef DEBUG_STEERING
+            Serial.print("SpeedValNow setVal backwards: ");
+            Serial.println(speedValNow);
+            #endif
         }
     }
     else if(valType == 1){
         turnValGiven = (value & 0xFF);
-        // Serial.print("turnValGiven: ");
-        // Serial.println(turnValGiven);
+        #ifdef DEBUG_STEERING
+        Serial.print("turnValGiven: ");
+        Serial.println(turnValGiven);
+        #endif
     }
     valUpdate = true;
     //sendString("Inside Steering.setVal");
@@ -57,7 +65,9 @@ int SteeringInterface::setPilot()
     // check if a val update has occured
     if(valUpdate == false) {
         return -1;
-        //sendString("Set Pilot: no new value");
+        #ifdef DEBUG_STEERING
+        sendString("Set Pilot: no new value");
+        #endif
     }
     dirLeft = dirGen;
     dirRight = dirGen;
@@ -70,8 +80,10 @@ int SteeringInterface::setPilot()
     if(turnValGiven > 0x89) //Right
     {
         double turnPercent = (double(0xFF & turnValGiven)-128.0) /128.0;
-        // Serial.print("turnPercentRight: ");
-        // Serial.println(turnPercent);
+        #ifdef DEBUG_STEERING
+        Serial.print("turnPercentRight: ");
+        Serial.println(turnPercent);
+        #endif
         
         if ((dirGen == 0 && speedValNow < 64) || (dirGen == 1 && speedValNow > 191)){
             if(turnPercent > 0.5) 
@@ -97,8 +109,10 @@ int SteeringInterface::setPilot()
     else if(turnValGiven < 0x76) //Left
     {        
         double turnPercent = 1.0 -(double(0xFF & turnValGiven) / 128.0);
-        // Serial.print("turnPercentLeft: ");
-        // Serial.println(turnPercent);
+        #ifdef DEBUG_STEERING
+        Serial.print("turnPercentLeft: ");
+        Serial.println(turnPercent);
+        #endif
         
         if ((dirGen == 0 && speedValNow < 64) || (dirGen == 1 && speedValNow > 191)){
             if(turnPercent > 0.5) 
@@ -124,10 +138,12 @@ int SteeringInterface::setPilot()
         enginesLeft = speedValNow;
         enginesRight = speedValNow;
     }
-    // Serial.print("EL: ");
-    // Serial.println(enginesLeft);
-    // Serial.print("ER: ");
-    // Serial.println(enginesRight);
+    #ifdef DEBUG_STEERING
+    Serial.print("EL: ");
+    Serial.println(enginesLeft);
+    Serial.print("ER: ");
+    Serial.println(enginesRight);
+    #endif
     staticEngines();
 
     // actual value is now set, no further update required

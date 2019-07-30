@@ -13,28 +13,40 @@ extern lineTrackInterface lineSensorBackRight;
  
 void LineFollower::followLine(){
 
+    // all line sensors are read in 
     int rawValueFL = lineSensorFrontLeft.getColorCode();
     int rawValueFR = lineSensorFrontRight.getColorCode();
     int rawValueBL = lineSensorBackLeft.getColorCode();
     int rawValueBR = lineSensorBackRight.getColorCode();
-    
-    steering.setVal(0,0x01FF);
-    //Serial.println("followline");
-    /*
-    if (rawValueBL != 0 && rawValueFL != 0 && rawValueBR != 0 && rawValueFR != 0) {
-        steering.setVal(0,0x100);
+   
+
+    // if the front sensors are in the black stripe, the car drive back and turn  
+    if (rawValueFL == 0 && rawValueFR == 0){
+        steering.setVal(1,128);
+        steering.setVal(1,80);
+        steering.setVal(0,0x0000);
         return;
     }
-
-    // stripe is on left side, line found
+    // if no sensor is in the black stripe, the car drive straightforward
+    if (rawValueBL != 0 && rawValueFL != 0 && rawValueBR != 0 && rawValueFR != 0) {
+        steering.setVal(1,128);
+        steering.setVal(0,0x0175);     
+        Serial.println("fahre geradeaus");
+        return;
+    }
+    
+    // if the left front sensor is in the stripe,
+    // turn the car in the position that both left sensors are in stripe
     if(rawValueFL == 0 && rawValueBL != 0){
         steering.setVal(1,255);
+        Serial.println("Auto dreht");
         return;
     }
-
-    // line front and back
+    
+    // if both left sensors are in the stripe, stop the car 
     if(rawValueFL == 0 && rawValueBL == 0) {
-        steering.setVal(0,100);
+        steering.setVal(1,128);
+        Serial.println("Auto Stopp");
         return;
     }
     
@@ -57,13 +69,17 @@ void LineFollower::followLine(){
         return;
     }
 
-    // stripe is on right side
+    // if the right front sensor is in the stripe,
+    //turn the car in the position that both right sensors are in stripe
     if(rawValueFR == 0 && rawValueBR != 0) {
         steering.setVal(1,0);
+        Serial.println("Auto dreht");
         return;
     }
+    // if both right sensors are in the stripe, stop the car
     if(rawValueFR == 0 && rawValueBR == 0) {
-        steering.setVal(0,100);
+        steering.setVal(1,128);
+        Serial.println("Auto Stopp");
         return;
     }
 
@@ -85,5 +101,5 @@ void LineFollower::followLine(){
         steering.setVal(0,0);
         return;
     }
-    */
+    
 }
