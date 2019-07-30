@@ -67,9 +67,27 @@
 			  <tr>
 				<td> </td>
 				<td> </td>
-				<td><button type="button" id="buttonLidar5Values" onclick="WebHexCmdSend(id);" value="11030305000000000012">Lidar 6</button></td>
+				<td><button type="button" id="buttonLidar5Values" onclick="WebHexCmdSend(id);" value="11030305000000000012">Lidar 5</button></td>
 				<td><div id="buttonLidar5ValuesDisplay">none</div></td>
+				<td> </td>
+				<td> </td>
+				<td> </td>
+				<td> </td>
 		</table> 
+		<table>
+			<tr>
+				<th><button type="button" id="buttonLTFLValues" onclick="WebHexCmdSend(id);" value="11030311000000000012">LT FL</button></th>
+				<th><div id="LTFLDisplay" style="border-style: solid; width: 1em; height: 1em"></div></th>
+				<th><button type="button" id="buttonLTFRValues" onclick="WebHexCmdSend(id);" value="11030312000000000012">LT FR</button></th>
+				<th><div id="LTFRDisplay" style="border-style: solid; width: 1em; height: 1em"></div></th>
+			</tr>
+			<tr>
+				<th><button type="button" id="buttonLTBLValues" onclick="WebHexCmdSend(id);" value="11030313000000000012">LT FL</button></th>
+				<th><div id="LTBLDisplay" style="border-style: solid; width: 1em; height: 1em"></div></th>
+				<th><button type="button" id="buttonLTBRValues" onclick="WebHexCmdSend(id);" value="11030314000000000012">LT FR</button></th>
+				<th><div id="LTBRDisplay" style="border-style: solid; width: 1em; height: 1em"></div></th>
+			</tr>
+		</table>
 	</div>
 	<div>
 		<h1>Joystick Steuerung</h1>
@@ -236,6 +254,18 @@ function checkIfValIsKnown(value) {
 			payload = value.substring(10, 18);
 			document.getElementById("buttonLidar6ValuesDisplay").innerHTML = parseInt(payload, 16).toString() + "mm";
 		break;
+		case "0100110000":
+			payload = value.substring(10, 18);
+			document.getElementById("LTFLDisplay").innerHTML = parseInt(payload, 16).toString();
+		case "0100120000":
+			payload = value.substring(10, 18);
+			document.getElementById("LTFRDisplay").innerHTML = parseInt(payload, 16).toString();
+		case "0100130000":
+			payload = value.substring(10, 18);
+			document.getElementById("LTBLDisplay").innerHTML = parseInt(payload, 16).toString();
+		case "0100140000":
+			payload = value.substring(10, 18);
+			document.getElementById("LTBRDisplay").innerHTML = parseInt(payload, 16).toString();
 	  default:
 	  console.log("unknown binary stream");
 	  retVal = 1;

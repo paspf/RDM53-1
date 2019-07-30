@@ -149,8 +149,6 @@ void remoteControl(unsigned char* incoming, int payload)
             webSocket.broadcastTXT("Error: remoteControl");
             break;
         }
-    //sprintf(buffer, "Remote ID %d would now have Value: %x", incoming[3], payload);
-    //Serial.println(buffer);
 }
 
 void calibration(unsigned char * incoming, int payload){
@@ -201,10 +199,9 @@ void getValues(uint8_t dataSource, uint8_t dataSubSource){
     case 0x0: // Lidar 0
         switch(dataSubSource) 
         {
-            case 0x0:
+            case 0x0: // lidar 0
                 // 11 03 03 00 00 00 00 00 00 12
                 lidarSensors.readLOXSensors();
-                // lidarSensors.printLOXValues();
                 protocolSend(0x0, dataSource, dataSubSource, lidarSensors.measureLidar[0].RangeMilliMeter);
                 break;
             case 0xFF:
@@ -344,12 +341,15 @@ void getValues(uint8_t dataSource, uint8_t dataSubSource){
         protocolSend(0x0, dataSource, dataSubSource, lineSensorFrontLeft.getColorCode());
         break;
     case 0x12: // line color front right
+        // 11 03 03 12 00 00 00 00 00 12
         protocolSend(0x0, dataSource, dataSubSource, lineSensorFrontLeft.getColorCode());
         break;
     case 0x13: // line color back left
+        // 11 03 03 13 00 00 00 00 00 12
         protocolSend(0x0, dataSource, dataSubSource, lineSensorFrontLeft.getColorCode());
         break;
     case 0x14: // line color back right
+        // 11 03 03 14 00 00 00 00 00 12
         protocolSend(0x0, dataSource, dataSubSource, lineSensorFrontLeft.getColorCode());
         break;
     default:
