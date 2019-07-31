@@ -178,10 +178,10 @@ void lidar::setID() {
  * Reads out the data of all Lox sensors
  * built in the RDM53
  */
-int lidar::readLOXSensors() {
+void lidar::readLOXSensors() {
   if(isInit == false) {
     Serial.println("Not all Lidar Sensor initialized!");
-    return 1;
+    return;
   }
   lox0.rangingTest(&measureLidar[0], false); // pass in 'true' to get debug data printout!
   lox1.rangingTest(&measureLidar[1], false); // pass in 'true' to get debug data printout!
@@ -190,7 +190,7 @@ int lidar::readLOXSensors() {
   lox4.rangingTest(&measureLidar[4], false); // pass in 'true' to get debug data printout!
   lox5.rangingTest(&measureLidar[5], false); // pass in 'true' to get debug data printout!
   lox6.rangingTest(&measureLidar[6], false); // pass in 'true' to get debug data printout!
-  return 0;
+  return;
 }
 
 /*

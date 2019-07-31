@@ -124,7 +124,7 @@ void interruptWorkers() {
     portEXIT_CRITICAL(&timer0Mux);
     secCounter++;
     // int t1 = millis();
-    readSensors();
+    //readSensors();
     // int t2 = millis() - t1;
     // Serial.print("Read Sensors length: ");
     // Serial.println(t2);

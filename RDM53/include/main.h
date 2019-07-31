@@ -29,7 +29,7 @@
 #include "LineFollower.h"
 #include "readSensors.h"
 #include "ObstacleAvoidance.h"
-
+#include "esp32-hal-cpu.h"
 
 /**** structures ****/
 #include "PublicStructures.h"

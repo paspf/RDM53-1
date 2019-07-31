@@ -66,7 +66,7 @@ class lidar {
     VL53L0X_RangingMeasurementData_t measureLidar[7];
     void expanderWrite(int, uint8_t);
     void initLox();
-    int readLOXSensors();
+    void readLOXSensors();
     int printLOXValues();
 };
 

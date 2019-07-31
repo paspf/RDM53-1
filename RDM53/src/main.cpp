@@ -9,8 +9,15 @@
  */
 
 #include "main.h"
-#include "esp32-hal-cpu.h"
 
+TaskHandle_t TaskLidarLoop;
+
+/*
+ * Arudino Setup
+ * FreeRTOS
+ * Execution Priority : 1
+ * Execution Core : 1
+ */
 void setup() {
   Serial.begin(230400);
   //ESP32Init ESP32InitObj;
@@ -25,11 +32,27 @@ void setup() {
   pinMode(BUILTIN_LED, OUTPUT);
   digitalWrite(BUILTIN_LED, LOW);
   interruptInitialization();
+  Serial.print("Creating Task lidarLoop...");
+  xTaskCreatePinnedToCore(
+                    lidarloop,        /* task function. */
+                    "lidarLoop",      /* name of task. */
+                    10000,            /* stack size in words*/
+                    NULL,             /* task input parameter */
+                    2,                /* priority of the task */
+                    &TaskLidarLoop,   /* task handle to keep track of created task */
+                    0);               /* pin task to core 0 */ 
+  Serial.println("[OK]");                 
   Serial.println("-----------------------");
   Serial.println("RDM53 is ready to go!");
   Serial.println("-----------------------");
 }
 
+/*
+ * Arudino Main loop
+ * FreeRTOS
+ * Execution Priority : 1
+ * Execution Core : 1
+ */
 void loop() {
   //int startTime = millis();
   if(WiFi.status() != WL_CONNECTED && dC.wiFiNotificationSent == false) {
@@ -40,6 +63,7 @@ void loop() {
   serialReceive();
   webSocket.loop();
   interruptWorkers();
+  readSensors();
   // Serial.println(millis());
   switch(dC.mode) {
     case 0x020000:
@@ -85,5 +109,5 @@ void loop() {
   //Serial.print("Runtime: ");
   //Serial.println( millis()- startTime);
   // do not use other delays (this should be the only delay in project) !!!!!
-  delay(10);
+  //delay(10);
 }

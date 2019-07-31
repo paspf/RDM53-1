@@ -16,6 +16,10 @@ extern lineTrackInterface lineSensorBackLeft;
 extern lineTrackInterface lineSensorBackRight;
 extern lidar lidarSensors;
 
+/*
+ * This function reads out all Line Tracking and Ultrasonic Sensors
+ * and stores the values in the sensor objects
+ */
 void readSensors() {
     // Serial.println("FRONT LEFT:");
     lineSensorFrontLeft.readSensor();
@@ -25,7 +29,20 @@ void readSensors() {
     lineSensorBackLeft.readSensor();
     // Serial.println("BACK RIGHT:");
     lineSensorBackRight.readSensor();
-    // Serial.println("ALL Lidar Sensors:")
-    lidarSensors.readLOXSensors();
-    
+}
+
+/*
+ * This function reads out all Lidar Sensors
+ * and stores the values in the sensor objects
+ * 
+ * FreeRTOS
+ * Execution Priority : 2
+ * Execution Core : 0
+ */
+void lidarloop(void * pvParameters) {
+    while(true) {
+        Serial.println("Read all Lidar Sensors:");
+        //lidarSensors.readLOXSensors();
+        delay(10);
+    }
 }

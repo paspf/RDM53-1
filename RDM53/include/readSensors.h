@@ -9,5 +9,6 @@
 #define READ_SENSORS_H
 
 void readSensors();
+void lidarloop(void *);
 
 #endif
