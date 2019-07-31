@@ -65,6 +65,7 @@ void loop() {
     case 0x000001:
       // Autonomous 1
       webSocket.broadcastTXT("Autonomous 1 is set");
+      oi.initobstacledata();
       dC.mode = 0x020000;
       break;
     case 0x000002:

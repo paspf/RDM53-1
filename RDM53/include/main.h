@@ -58,3 +58,5 @@ PiezoInterface piezo;
 HCSR04P ultraSonic(2, 15, 4000);
 
 LineFollower followLine;
+
+ObstacleInterface oi;

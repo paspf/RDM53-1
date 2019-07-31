@@ -7,6 +7,8 @@
  * Author: Taha Tekdemir
  */
 
+#ifndef OBSTACLE_INTERFACE_H
+#define OBSTABLE_INTERFACE_H
 
 class ObstacleBuffer {
   public:
@@ -20,8 +22,6 @@ class ObstacleBuffer {
 
 class ObstacleInterface {
   public: 
-  
-  ObstacleInterface();
 
   void initobstacledata();
   int getstartPosition();
@@ -34,3 +34,5 @@ struct obstBuff {
   ObstacleBuffer obstacles[30];
   int lastUpdated = 0;
 };
+
+#endif
