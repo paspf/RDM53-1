@@ -22,6 +22,30 @@ void ObstacleAvoidance::obstaclecircuit(){
             return;
     }
 
+    if (lidarSensors.measureLidar[0].RangeMilliMeter < 100 && 
+        lidarSensors.measureLidar[1].RangeMilliMeter < 100 &&
+        lidarSensors.measureLidar[2].RangeMilliMeter < 100 &&
+        lidarSensors.measureLidar[3].RangeMilliMeter < 100 &&
+        lidarSensors.measureLidar[4].RangeMilliMeter < 1   &&
+        lidarSensors.measureLidar[5].RangeMilliMeter > 500 &&
+        lidarSensors.measureLidar[6].RangeMilliMeter > 1
+        ) {
+            // nach hinten fahren
+        }
+
+
+    if (lidarSensors.measureLidar[0].RangeMilliMeter < 100 && 
+    lidarSensors.measureLidar[1].RangeMilliMeter < 100 &&
+    lidarSensors.measureLidar[2].RangeMilliMeter < 100 &&
+    lidarSensors.measureLidar[3].RangeMilliMeter < 100 &&
+    lidarSensors.measureLidar[4].RangeMilliMeter < 1   &&
+    lidarSensors.measureLidar[5].RangeMilliMeter > 500 &&
+    lidarSensors.measureLidar[6].RangeMilliMeter > 1
+    ) {
+        // fahre nach links
+    }
+    // wenn lidar 3 belegt und lidar 
+
     // vorne hindernis --> nach rechts drehen
     /* if(lidarSensors.measureLidar[0].RangeMilliMeter < 500 && lidarSensors.measureLidar[3].RangeMilliMeter < 500){
         
