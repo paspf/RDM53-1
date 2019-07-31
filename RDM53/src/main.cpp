@@ -64,8 +64,10 @@ void loop() {
       break;
     case 0x000001:
       // Autonomous 1
-      webSocket.broadcastTXT("Autonomous 1 is set");
-      dC.mode = 0x020000;
+      //webSocket.broadcastTXT("Autonomous 1 is set");
+      obstaclecircuittest.obstaclecircuit();
+      steering.setPilot();
+      //dC.mode = 0x020000;
       break;
     case 0x000002:
       // Autonomous 2

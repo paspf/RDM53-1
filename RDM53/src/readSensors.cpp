@@ -8,11 +8,13 @@
 
 #include "readSensors.h"
 #include "lineTracking.h"
+#include "lidar.h"
 
 extern lineTrackInterface lineSensorFrontLeft;
 extern lineTrackInterface lineSensorFrontRight;
 extern lineTrackInterface lineSensorBackLeft;
 extern lineTrackInterface lineSensorBackRight;
+extern lidar lidarSensors;
 
 void readSensors() {
     // Serial.println("FRONT LEFT:");
@@ -23,5 +25,7 @@ void readSensors() {
     lineSensorBackLeft.readSensor();
     // Serial.println("BACK RIGHT:");
     lineSensorBackRight.readSensor();
+    // Serial.println("ALL Lidar Sensors:")
+    lidarSensors.readLOXSensors();
     
 }
