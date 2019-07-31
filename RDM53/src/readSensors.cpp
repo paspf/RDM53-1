@@ -41,8 +41,10 @@ void readSensors() {
  */
 void lidarloop(void * pvParameters) {
     while(true) {
-        Serial.println("Read all Lidar Sensors:");
+        // int t1 = millis();
         //lidarSensors.readLOXSensors();
-        delay(10);
+        // Serial.print("Read Sensors length: ");
+        // Serial.println(t2);
+        yield();
     }
 }
