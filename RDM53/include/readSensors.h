@@ -1,8 +1,7 @@
 /*
- * This file contains header informations for "ESP32Init.cpp"
- * for the ESP32
+ * This file contains the heading informations for "readSensors.cpp"
  * 
- * Date: 2019 05 24
+ * Date: 2019 07 30
  * Author: Pascal Pfeiffer
  */
 

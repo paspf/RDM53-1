@@ -24,6 +24,9 @@ void setup() {
 
   pinMode(BUILTIN_LED, OUTPUT);
   digitalWrite(BUILTIN_LED, LOW);
+  Serial.println("-----------------------");
+  Serial.println("RDM53 is ready to go!");
+  Serial.println("-----------------------");
 }
 
 void loop() {

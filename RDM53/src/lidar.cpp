@@ -62,88 +62,109 @@ void lidar::setID() {
   delay(10);
 
   // activating LOX5 and reseting other LOX
-  Serial.println("booting P0: fifth VL53L0X...");
+  Serial.print("booting P0: fifth VL53L0X...");
   lidarState |= SHT_LOX5;
   expanderWrite(EXP_ADDRESS, 0x1);
   // initing LOX5
   if(!lox5.begin(LOX5_ADDRESS)) {
     Serial.println(lidarState, BIN);
-    Serial.println(F("Failed to boot P0: fifth VL53L0X"));
+    Serial.println("[Failed]");
     lidarState &= ~SHT_LOX5;
     Serial.println(lidarState, BIN);
     // return;
   }
+  else {
+    Serial.println("[OK]");
+  }
   delay(10);
  
   // activating LOX4
-  Serial.println("booting P1: fourth VL53L0X...");
+  Serial.print("booting P1: fourth VL53L0X...");
   lidarState |= SHT_LOX4;
   expanderWrite(EXP_ADDRESS, lidarState);
   // initing LOX4
   if(!lox4.begin(LOX4_ADDRESS)) {
-    Serial.println(F("Failed to boot P1: fourth VL53L0X"));
+    Serial.println("[Failed]");
     lidarState &= ~SHT_LOX4;
     // return;
+  }
+  else {
+    Serial.println("[OK]");
   }
   delay(10);
 
   // activating LOX1
-  Serial.println("booting P2: first VL53L0X...");
+  Serial.print("booting P2: first VL53L0X...");
   lidarState |= SHT_LOX1;
   expanderWrite(EXP_ADDRESS, lidarState);
   // initing LOX1
   if(!lox1.begin(LOX1_ADDRESS)) {
-    Serial.println(F("Failed to boot P2: first VL53L0X"));
+    Serial.println("[Failed]");
     lidarState &= ~SHT_LOX1;
     // return;
+  }
+  else {
+    Serial.println("[OK]");
   }
   delay(10);
 
   // activating LOX6
-  Serial.println("booting P3: sixth VL53L0X...");
+  Serial.print("booting P3: sixth VL53L0X...");
   lidarState |= SHT_LOX6;
   expanderWrite(EXP_ADDRESS, lidarState);
   // initing LOX6
   if(!lox6.begin(LOX6_ADDRESS)) {
-    Serial.println(F("Failed to boot P3: sixth VL53L0X"));
+    Serial.println("[Failed]");
     lidarState &= ~SHT_LOX6;
     // return;
+  }
+  else {
+    Serial.println("[OK]");
   }
   delay(10);
 
   // activating LOX0
-  Serial.println("booting P4: zero VL53L0X...");
+  Serial.print("booting P4: zero VL53L0X...");
   lidarState |= SHT_LOX0;
   expanderWrite(EXP_ADDRESS, lidarState);
   // initing LOX0
   if(!lox0.begin(LOX0_ADDRESS)) {
-    Serial.println(F("Failed to boot P4: VL53L0X zero"));
+    Serial.println("[Failed]");
     lidarState &= ~SHT_LOX0;
     // return;
+  }
+  else {
+    Serial.println("[OK]");
   }
   delay(10);
 
   // activating LOX2
-  Serial.println("booting P5: second VL53L0X...");
+  Serial.print("booting P5: second VL53L0X...");
   lidarState |= SHT_LOX2;
   expanderWrite(EXP_ADDRESS, lidarState);
   // initing LOX2
   if(!lox2.begin(LOX2_ADDRESS)) {
-    Serial.println(F("Failed to boot P5: second VL53L0X"));
+    Serial.println("[Failed]");
     lidarState &= ~SHT_LOX2;
     // return;
+  }
+  else {
+    Serial.println("[OK]");
   }
   delay(10);
 
   // activating LOX3
-  Serial.println("booting P6: third VL53L0X...");
+  Serial.print("booting P6: third VL53L0X...");
   lidarState |= SHT_LOX3;
   expanderWrite(EXP_ADDRESS, lidarState);
   // initing LOX3
   if(!lox3.begin(LOX3_ADDRESS)) {
-    Serial.println(F("Failed to boot P6: third VL53L0X"));
+    Serial.println("[Failed]");
     lidarState &= ~SHT_LOX3;
     // return;
+  }
+  else {
+    Serial.println("[OK]");
   }
   delay(10);
 
