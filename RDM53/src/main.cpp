@@ -24,6 +24,9 @@ void setup() {
 
   pinMode(BUILTIN_LED, OUTPUT);
   digitalWrite(BUILTIN_LED, LOW);
+  Serial.println("-----------------------");
+  Serial.println("RDM53 is ready to go!");
+  Serial.println("-----------------------");
 }
 
 void loop() {
@@ -68,6 +71,8 @@ void loop() {
       obstaclecircuittest.obstaclecircuit();
       steering.setPilot();
       //dC.mode = 0x020000;
+      //webSocket.broadcastTXT("Autonomous 1 is set");
+      // dC.mode = 0x020000;
       break;
     case 0x000002:
       // Autonomous 2

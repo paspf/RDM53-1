@@ -8,14 +8,15 @@
 
 #include <Arduino.h>
 
-#ifndef RDM_MAIN
+#ifndef INTERRUPT_ROUTINES_H
+#define INTERRUPT_ROUTINES_H
+
     #define KEY1 19
     #define KEY2 18
-    volatile int interruptCounterKey1 = 0;
-    volatile int interruptCounterKey2 = 0;
-#endif
 
-void IRAM_ATTR handleInterruptP18();
-void IRAM_ATTR handleInterruptP19();
-void interruptInitialization();
-void interruptWorkers();
+    void IRAM_ATTR handleInterruptP18();
+    void IRAM_ATTR handleInterruptP19();
+    void interruptInitialization();
+    void interruptWorkers();
+    void IRAM_ATTR onTimer0();
+#endif
