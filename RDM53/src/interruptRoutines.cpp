@@ -5,7 +5,22 @@
  * Author: Pascal Pfeiffer
  */
 #include "interruptRoutines.h"
+#include "PublicStructures.h"
+#include "protocol.h"
+#include "lidar.h"
+#include "lineTracking.h"
+#include "readSensors.h"
+#include <HCSR04P.h>
 #include <Arduino.h>
+
+// external
+extern deviceConfig dC;
+extern lidar lidarSensors;
+extern lineTrackInterface lineSensorFrontLeft;
+extern lineTrackInterface lineSensorFrontRight;
+extern lineTrackInterface lineSensorBackLeft;
+extern lineTrackInterface lineSensorBackRight;
+extern HCSR04P ultraSonic;
 
 // iterrupts markers
 volatile byte interruptCounterKey1 = 0;
@@ -18,6 +33,9 @@ hw_timer_t * timer0 = NULL;
 // Critical section management
 portMUX_TYPE pinMux = portMUX_INITIALIZER_UNLOCKED;
 portMUX_TYPE timer0Mux = portMUX_INITIALIZER_UNLOCKED;
+
+// couter for 1 second
+byte secCounter = 0;
 
 /*
  * Interrupt Service Routine for Pin 19
@@ -96,13 +114,52 @@ void interruptWorkers() {
       // enable interrupts on both CPU cores, disable spinlock
       portEXIT_CRITICAL(&pinMux);
   }
-  
+
+  // this block is triggered every 100ms
   if(timer0State >= 1) {
     // Serial.print("TIM0: ");
     // Serial.println(millis());
     portENTER_CRITICAL(&timer0Mux);
     timer0State = 0;
     portEXIT_CRITICAL(&timer0Mux);
+    secCounter++;
+    // int t1 = millis();
+    readSensors();
+    // int t2 = millis() - t1;
+    // Serial.print("Read Sensors length: ");
+    // Serial.println(t2);
+  }
+
+  // 500 ms intervall
+  /* if(secCounter % 5) {
+
+  } */
+  // 1s intervall
+  if(secCounter >= 10) {
+      if(dC.wiFiNotificationSender == true) {
+        wiFiNotificationSender();
+    }
+    secCounter = 0;
   }
   yield();
+}
+
+void wiFiNotificationSender() {
+  // line tracking Sensors
+  protocolSend(0x0, 0x11, 0x00, lineSensorFrontLeft.getColorCode());
+  protocolSend(0x0, 0x12, 0x00, lineSensorFrontRight.getColorCode());
+  protocolSend(0x0, 0x13, 0x00, lineSensorBackLeft.getColorCode());
+  protocolSend(0x0, 0x14, 0x00, lineSensorBackRight.getColorCode());
+
+  // lidar sensors
+  protocolSend(0x0, 0x00, 0x00, lidarSensors.measureLidar[0].RangeMilliMeter);
+  protocolSend(0x0, 0x01, 0x00, lidarSensors.measureLidar[1].RangeMilliMeter);
+  protocolSend(0x0, 0x02, 0x00, lidarSensors.measureLidar[2].RangeMilliMeter);
+  protocolSend(0x0, 0x03, 0x00, lidarSensors.measureLidar[3].RangeMilliMeter);
+  protocolSend(0x0, 0x04, 0x00, lidarSensors.measureLidar[4].RangeMilliMeter);
+  protocolSend(0x0, 0x05, 0x00, lidarSensors.measureLidar[5].RangeMilliMeter);
+  protocolSend(0x0, 0x06, 0x00, lidarSensors.measureLidar[6].RangeMilliMeter);
+
+  // ultrasonic
+  protocolSend(0x0, 0x08, 0x00, ultraSonic.dist());
 }

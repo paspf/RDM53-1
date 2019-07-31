@@ -9,21 +9,22 @@
  */
 
 #include "main.h"
-
+#include "esp32-hal-cpu.h"
 
 void setup() {
   Serial.begin(230400);
   //ESP32Init ESP32InitObj;
   //ESP32InitObj.RDMWiFiInit();
-  interruptInitialization();
   RDMWiFiInit();
   OTAirInit();
   lidarSensors.initLox();
   webSocket.begin();                                                      // start the websocket server
   webSocket.onEvent(webSocketEvent);                                      // what to do on event...
-
+  Serial.print("CPU Freuqncy [Mhz]: ");
+  Serial.println(getCpuFrequencyMhz()); //Get CPU clock
   pinMode(BUILTIN_LED, OUTPUT);
   digitalWrite(BUILTIN_LED, LOW);
+  interruptInitialization();
   Serial.println("-----------------------");
   Serial.println("RDM53 is ready to go!");
   Serial.println("-----------------------");
@@ -39,7 +40,6 @@ void loop() {
   serialReceive();
   webSocket.loop();
   interruptWorkers();
-  readSensors();
   // Serial.println(millis());
   switch(dC.mode) {
     case 0x020000:

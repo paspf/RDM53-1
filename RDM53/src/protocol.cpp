@@ -194,6 +194,11 @@ void testing(unsigned char* incoming, int payload){
  */
 void getValues(uint8_t dataSource, uint8_t dataSubSource){
     uint32_t dummy = 0; //REMOVE THIS AND SEND REAL DATA!!!!!!!
+    /*
+     * xx xx xx DS SS ---PAYLOAD---
+     * DS: dataSource
+     * SS: dataSubSource
+     */ 
     switch (dataSource)
     {
     case 0x0: // Lidar 0
@@ -355,6 +360,14 @@ void getValues(uint8_t dataSource, uint8_t dataSubSource){
     case 0x14: // line color back right
         // 11 03 03 14 00 00 00 00 00 12
         protocolSend(0x0, dataSource, dataSubSource, lineSensorBackRight.getColorCode());
+        break;
+    case 0x15: // enable / disable wiFiNotificationSender
+        // 11 03 03 15 00 00 00 00 00 12
+        dC.wiFiNotificationSender = !dC.wiFiNotificationSender;
+        if(dC.wiFiNotificationSender == true)
+            sendStringln("wiFiNotificationSender: ENABLED");
+        else
+            sendStringln("wiFiNotificationSender: DISABLED");
         break;
     default:
         webSocket.broadcastTXT("Error: GetValue Unknown dataSource query");

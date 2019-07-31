@@ -19,4 +19,5 @@
     void interruptInitialization();
     void interruptWorkers();
     void IRAM_ATTR onTimer0();
+    void wiFiNotificationSender();
 #endif

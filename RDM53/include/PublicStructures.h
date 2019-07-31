@@ -30,12 +30,20 @@
  * 0    : Websockets and Serial
  * 1    : Websockets
  * 2    : Serial
+ * 
  */
 struct deviceConfig {
     unsigned int mode = 0x020000;
     short debugPort = 0;
     bool remoteControlDynamicUpdate = false;
+
     bool wiFiNotificationSent = false;
+    /*
+     * wiFiNotificationsender
+     * TRUE: send sensor data cyclic to webinterface
+     * FALSE: no effect (default)
+     */
+    bool wiFiNotificationSender = false;
 };
 
 #endif
