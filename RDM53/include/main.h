@@ -53,6 +53,8 @@ lineTrackInterface lineSensorBackRight(LT_BR_PIN);
 EnginesInterface enginesInt;
 SteeringInterface steering;
 
+Location mylocation;
+
 lidar lidarSensors;
 
 PiezoInterface piezo;

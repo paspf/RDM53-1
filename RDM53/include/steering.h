@@ -5,6 +5,7 @@
  * Author: Jan Kühnemund
  */
 #include <Arduino.h>
+#include "location.h"
 
 #define STEERING_SPEED 0
 #define STEERING_TURN 1
@@ -19,6 +20,9 @@ class SteeringInterface{
     int startTime;
     bool dirLeft = false;
     bool dirRight = false;
+    bool turnHardLeft = false;
+    bool turnHardRight = false;
+    float degreeToTurnTo;
     bool dirGen = false;
     bool valUpdate = false; // valUpdate is set, when setVal is called
     int setPilot();
@@ -26,4 +30,7 @@ class SteeringInterface{
     void setForward(int);
     void setBackward(int);
     void staticEngines();
+    void turnHardLeftBy(float);
+    void turnHardRightBy(float);
+    void turnToDegrees(float);
 };

@@ -10,6 +10,7 @@
 #ifndef RDM_MAIN
     #include <EnginesInterface.h>
     extern EnginesInterface enginesInt;
+    extern Location mylocation;
     #include "connectivity.h"
 #endif
 
@@ -172,4 +173,32 @@ void SteeringInterface::setForward(int speed) {
  */
 void SteeringInterface::setBackward(int speed) {
     return;
+}
+
+void SteeringInterface::turnHardLeftBy(float degrees){
+    turnHardLeft = true;
+    setVal(0, 0x100);
+    setVal(1,255);
+
+}
+
+void SteeringInterface::turnHardRightBy(float degrees){
+    turnHardRight = true;
+    setVal(0, 0x100);
+    setVal(1,1);
+}
+/*
+ * Potentiell fehlerbehaftet bei Steuerung Richtung Süden.
+ */
+void SteeringInterface::turnToDegrees(float degrees){
+    if (degrees - mylocation.getHeading() < 5 || degrees - mylocation.getHeading() > -5){
+        //returnToPreviousState
+    }
+    else if (degrees - mylocation.getHeading() > 5){
+        turnHardRightBy(degrees - mylocation.getHeading());
+    }
+    else
+    {
+        turnHardLeftBy(degrees - mylocation.getHeading());
+    }
 }
