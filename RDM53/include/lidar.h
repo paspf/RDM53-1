@@ -8,21 +8,22 @@
 
 #ifndef LIDAR_H
 #define LIDAR_H
+
 #include "Adafruit_VL53L0X.h"
 
 // port expander I2C adress
 #define EXP_ADDRESS 0x20
 
 /*
- * Port expander pinning:
- * P0 -> lidar back             0x35 LOX5 measureLidar[5]
- * P1 -> lidar right            0x34 LOX4 measureLidar[4]
- * P2 -> front left down        0x32 LOX1 measureLidar[1]
- * P3 -> Links left             0x36 LOX6 measureLidar[6]
- * P4 -> lidar front left up    0x30 LOX0 measureLidar[0]
- * P5 -> lidar front right down 0x31 LOX2 measureLidar[2]
- * P6 -> lidar front right up   0x33 LOX3 measureLidar[3]
- */
+* Port expander pinning:
+* P0 -> lidar back             0x35 LOX5 measureLidar[5]
+* P1 -> lidar right            0x34 LOX4 measureLidar[4]
+* P2 -> front left down        0x32 LOX1 measureLidar[1]
+* P3 -> Links left             0x36 LOX6 measureLidar[6]
+* P4 -> lidar front left up    0x30 LOX0 measureLidar[0]
+* P5 -> lidar front right down 0x31 LOX2 measureLidar[2]
+* P6 -> lidar front right up   0x33 LOX3 measureLidar[3]
+*/
 // sensor I2C adresses
 #define LOX0_ADDRESS 0x30
 #define LOX1_ADDRESS 0x31
@@ -40,14 +41,6 @@
 #define SHT_LOX4 0x02
 #define SHT_LOX5 0x01
 #define SHT_LOX6 0x08
-/*
-#define SHT_LOX1 0x1
-#define SHT_LOX2 0x2
-#define SHT_LOX3 0x4
-#define SHT_LOX4 0x8
-#define SHT_LOX5 0x10
-#define SHT_LOX6 0x20
-#define SHT_LOX7 0x40 */
 
 class lidar {
     private:

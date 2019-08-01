@@ -9,19 +9,20 @@
 #include <Arduino.h>
 
 #ifndef PIEZO_INTERFACE
+#define PIEZO_INTERFACE
 
-    #define PIEZO_INTERFACE
-    #define PIEZO_PIN 13
-    #define PIEZO_PWM_CH 8
+#define PIEZO_PIN 13
+#define PIEZO_PWM_CH 8
 
-    #define LED_PWM_PIEZO_FREQUENCY 1000
-    #define LED_PWM_PIEZO_RESULTION 8
+#define LED_PWM_PIEZO_FREQUENCY 1000
+#define LED_PWM_PIEZO_RESULTION 8
 
-    class PiezoInterface {
-        public:
-        PiezoInterface();
-        void setPiezo(int freq, int vol);
-        void setPiezo(int freq);
-        void noSound();
-    };
+class PiezoInterface {
+    public:
+    PiezoInterface();
+    void setPiezo(int freq, int vol);
+    void setPiezo(int freq);
+    void noSound();
+};
+
 #endif

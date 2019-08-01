@@ -6,6 +6,9 @@
  * Author: Pascal Pfeiffer
  */
 
+#ifndef ENGINES_INTERFACE_H
+#define ENGINES_INTERFACE_H
+
 #include <Arduino.h>
 
 // Engine front left
@@ -38,12 +41,11 @@
 
 // general PWM
 #define LED_PWM_FREQUENCY 1000
-#define LED_PWM_RESULTION 8
+#define LED_PWM_RESOLTION 8
 
 /*
- * Engines Interface
- */
-
+* Engines Interface
+*/
 class EnginesInterface {
     public:
     EnginesInterface();
@@ -53,3 +55,5 @@ class EnginesInterface {
     void setEBR(bool, unsigned char);
     void stopE();
 };
+
+#endif

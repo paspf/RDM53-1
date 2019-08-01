@@ -63,7 +63,11 @@ void loop() {
   serialReceive();
   webSocket.loop();
   interruptWorkers();
-  readSensors();
+
+  if(dC.cyclicSensorRefresh == true) {
+    readSensors();
+  }
+  
   // Serial.println(millis());
   switch(dC.mode) {
     case 0x020000:

@@ -1,3 +1,11 @@
+/*
+ * This file contains all function implementations for the piezo speaker
+ * 
+ * Date: 2019 07 02
+ * Author: Pascal Pfeiffer
+ */
+
+// includes
 #include "piezo.h"
 
 

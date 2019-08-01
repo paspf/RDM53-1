@@ -6,6 +6,7 @@
  * Author: Pascal Pfeiffer
  */
 
+// includes
 #include "lineTracking.h"
 
 // #define LINE_TRACKING_DEBUG
@@ -52,7 +53,8 @@ int lineTrackInterface::calibrateSensor(int bl0, int bl1, int wh0, int wh1, int 
     }
 
 /*
- * Read out sensor value and calculate color
+ * calculate color based on recent sensor value
+ * read out with readSensor()
  * 0 - black (playground) 2800 - 2900
  * 1 - white (floor) 1600
  * 2 - yellow (enemy goal) 1200 - 1300
@@ -61,20 +63,28 @@ int lineTrackInterface::calibrateSensor(int bl0, int bl1, int wh0, int wh1, int 
 */
 int lineTrackInterface::getColorCode() {
     if(rawSensorValue >= black[0] && rawSensorValue <= black[1]) {
-        // Serial.println("black!");
+        #ifdef LINE_TRACKING_DEBUG
+        Serial.println("black!");
+        #endif
         return 0;
     }
     else if(rawSensorValue >= white[0] && rawSensorValue <= white[1]) {
-        // Serial.println("white!");
+        #ifdef LINE_TRACKING_DEBUG
+        Serial.println("white!");
+        #endif
         return 1;
     }
     /*
     else if(rawSensorValue >= yellow[0] && rawSensorValue <= yellow[1]) {
-        // Serial.println("yellow!");
+        #ifdef LINE_TRACKING_DEBUG
+        Serial.println("yellow!");
+        #endif
         return 2;
     }
     else if(rawSensorValue >= green[0] && rawSensorValue <= green[1]) {
-        // Serial.println("green!");
+        #ifdef LINE_TRACKING_DEBUG
+        Serial.println("green!");
+        #endif
         return 3;
     }
     // Serial.println("err!");

@@ -13,7 +13,7 @@
 #include "PublicStructures.h"
 #include "HCSR04P.h"
 
-// external
+// extern objects
 extern lineTrackInterface lineSensorFrontLeft;
 extern lineTrackInterface lineSensorFrontRight;
 extern lineTrackInterface lineSensorBackLeft;
@@ -29,13 +29,21 @@ extern HCSR04P ultraSonic;
  * and stores the values in the sensor objects
  */
 void readSensors() {
-    // Serial.println("FRONT LEFT:");
+    #ifdef DEBUG_READ_SENSORS
+    Serial.println("FRONT LEFT:");
+    #endif
     lineSensorFrontLeft.readSensor();
-    // Serial.println("FRONT RIGHT:");
+    #ifdef DEBUG_READ_SENSORS
+    Serial.println("FRONT RIGHT:");
+    #endif
     lineSensorFrontRight.readSensor();
-    // Serial.println("BACK LEFT:");
+    #ifdef DEBUG_READ_SENSORS
+    Serial.println("BACK LEFT:");
+    #endif
     lineSensorBackLeft.readSensor();
-    // Serial.println("BACK RIGHT:");
+    #ifdef DEBUG_READ_SENSORS
+    Serial.println("BACK RIGHT:");
+    #endif
     lineSensorBackRight.readSensor();
     ultraSonic.measureDist();
 }

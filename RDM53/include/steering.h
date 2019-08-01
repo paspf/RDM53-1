@@ -4,6 +4,10 @@
  * Creation Date: 12.06.2019
  * Author: Jan Kühnemund
  */
+
+#ifndef STEERING_H
+#define STEERING_H
+
 #include <Arduino.h>
 #include "location.h"
 
@@ -40,3 +44,5 @@ class SteeringInterface{
     void turnHardRightBy(float);
     void turnToDegrees(float);
 };
+
+#endif
