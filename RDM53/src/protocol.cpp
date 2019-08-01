@@ -259,15 +259,15 @@ void getValues(uint8_t dataSource, uint8_t dataSubSource){
         {
         case 0x0:   //X-Achse
             //webSocket.broadcastBIN(dataSubSource, sizeof(dataSubSource));
-            protocolSend(0x0, dataSource, dataSubSource, dummy);
+            protocolSend(0x0, dataSource, dataSubSource, mylocation.getGyrX());
             break;
         case 0x1:   //Y-Achse
             //webSocket.broadcastBIN(dataSubSource, sizeof(dataSubSource));
-            protocolSend(0x0, dataSource, dataSubSource, dummy);
+            protocolSend(0x0, dataSource, dataSubSource, mylocation.getGyrY());
             break;
         case 0x2:   //Z-Achse
             //webSocket.broadcastBIN(dataSubSource, sizeof(dataSubSource));
-            protocolSend(0x0, dataSource, dataSubSource, dummy);
+            protocolSend(0x0, dataSource, dataSubSource, mylocation.getGyrZ());
             break;
 
         default:
@@ -280,15 +280,15 @@ void getValues(uint8_t dataSource, uint8_t dataSubSource){
         {
         case 0x0:   //X-Achse
             //webSocket.broadcastBIN(dataSubSource, sizeof(dataSubSource));
-            protocolSend(0x0, dataSource, dataSubSource, dummy);
+            protocolSend(0x0, dataSource, dataSubSource, mylocation.getAccX());
             break;
         case 0x1:   //Y-Achse
             //webSocket.broadcastBIN(dataSubSource, sizeof(dataSubSource));
-            protocolSend(0x0, dataSource, dataSubSource, dummy);
+            protocolSend(0x0, dataSource, dataSubSource, mylocation.getAccY());
             break;
         case 0x2:   //Z-Achse
             //webSocket.broadcastBIN(dataSubSource, sizeof(dataSubSource));
-            protocolSend(0x0, dataSource, dataSubSource, dummy);
+            protocolSend(0x0, dataSource, dataSubSource, mylocation.getAccZ());
             break;
 
         default:
@@ -301,15 +301,15 @@ void getValues(uint8_t dataSource, uint8_t dataSubSource){
         {
         case 0x0:   //X-Achse
             //webSocket.broadcastBIN(dataSubSource, sizeof(dataSubSource));
-            protocolSend(0x0, dataSource, dataSubSource, dummy);
+            protocolSend(0x0, dataSource, dataSubSource, mylocation.getMagX());
             break;
         case 0x1:   //Y-Achse
             //webSocket.broadcastBIN(dataSubSource, sizeof(dataSubSource));
-            protocolSend(0x0, dataSource, dataSubSource, dummy);
+            protocolSend(0x0, dataSource, dataSubSource, mylocation.getMagY());
             break;
         case 0x2:   //Z-Achse
             //webSocket.broadcastBIN(dataSubSource, sizeof(dataSubSource));
-            protocolSend(0x0, dataSource, dataSubSource, dummy);
+            protocolSend(0x0, dataSource, dataSubSource, mylocation.getMagZ());
             break;
 
         default:
@@ -368,6 +368,15 @@ void getValues(uint8_t dataSource, uint8_t dataSubSource){
             sendStringln("wiFiNotificationSender: ENABLED");
         else
             sendStringln("wiFiNotificationSender: DISABLED");
+        break;
+    case 0x16 : // Heading
+        protocolSend(0x0, dataSource, dataSubSource, mylocation.getHeading());
+        break;
+    case 0x17 : // Pitch
+        protocolSend(0x0, dataSource, dataSubSource, mylocation.getPitch());
+        break;
+    case 0x18 : // Roll
+        protocolSend(0x0, dataSource, dataSubSource, mylocation.getRoll());
         break;
     default:
         webSocket.broadcastTXT("Error: GetValue Unknown dataSource query");

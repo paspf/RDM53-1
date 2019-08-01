@@ -20,7 +20,7 @@ void setup() {
   lidarSensors.initLox();
   webSocket.begin();                                                      // start the websocket server
   webSocket.onEvent(webSocketEvent);                                      // what to do on event...
-  Serial.print("CPU Freuqncy [Mhz]: ");
+  Serial.print("CPU Frequency [Mhz]: ");
   Serial.println(getCpuFrequencyMhz()); //Get CPU clock
   pinMode(BUILTIN_LED, OUTPUT);
   digitalWrite(BUILTIN_LED, LOW);
