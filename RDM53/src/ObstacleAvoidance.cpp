@@ -2,14 +2,28 @@
 #include "steering.h"
 #include "lidar.h"
 #include "connectivity.h"
+#include "lineTracking.h"
+#include "LineFollower.h"
 
 extern SteeringInterface steering;
 extern lidar lidarSensors;
+
+extern lineTrackInterface lineSensorFrontLeft;
+extern lineTrackInterface lineSensorFrontRight;
+extern lineTrackInterface lineSensorBackLeft;
+extern lineTrackInterface lineSensorBackRight;
 
 
 
 void ObstacleAvoidance::obstaclecircuit(){
     
+
+    int rawValueFL = lineSensorFrontLeft.getColorCode();
+    int rawValueFR = lineSensorFrontRight.getColorCode();
+    int rawValueBL = lineSensorBackLeft.getColorCode();
+    int rawValueBR = lineSensorBackRight.getColorCode();
+
+    //vorwärts fahren
     if (lidarSensors.measureLidar[0].RangeMilliMeter > 300 && 
         lidarSensors.measureLidar[1].RangeMilliMeter > 0   &&
         lidarSensors.measureLidar[2].RangeMilliMeter > 0   &&
@@ -24,6 +38,21 @@ void ObstacleAvoidance::obstaclecircuit(){
             return;
         }
 
+    //rückwärts fahren
+    if (lidarSensors.measureLidar[0].RangeMilliMeter < 250 && 
+        lidarSensors.measureLidar[1].RangeMilliMeter < 250 &&
+        lidarSensors.measureLidar[2].RangeMilliMeter < 250 &&
+        lidarSensors.measureLidar[3].RangeMilliMeter < 250 &&
+        lidarSensors.measureLidar[4].RangeMilliMeter < 250 &&
+        lidarSensors.measureLidar[5].RangeMilliMeter > 0   &&
+        lidarSensors.measureLidar[6].RangeMilliMeter < 250
+        ) {
+            steering.setVal(1,128);
+            steering.setVal(0,0x0000);
+            sendStringln("Auto fährt zurück");
+            return;
+        }
+
     // Sensor 0 --> dann rechts 
     if (lidarSensors.measureLidar[0].RangeMilliMeter < 300 && 
         lidarSensors.measureLidar[1].RangeMilliMeter > 0   &&
@@ -31,7 +60,8 @@ void ObstacleAvoidance::obstaclecircuit(){
         lidarSensors.measureLidar[3].RangeMilliMeter > 0   &&
         lidarSensors.measureLidar[4].RangeMilliMeter > 0   &&
         lidarSensors.measureLidar[5].RangeMilliMeter > 0   &&
-        lidarSensors.measureLidar[6].RangeMilliMeter > 0
+        lidarSensors.measureLidar[6].RangeMilliMeter > 0   ||
+        rawValueFL == 0
         ) {
             steering.setVal(1,240);
             sendStringln("Auto fährt rechts");
@@ -95,7 +125,7 @@ void ObstacleAvoidance::obstaclecircuit(){
         }
 
     // Sensor 0 & 1 & 2 & 3 + 6 --> dann rechts
-    if (lidarSensors.measureLidar[0].RangeMilliMeter < 300 && 
+    if (lidarSensors.measureLidar[0].RangeMilliMeter < 200 && 
         lidarSensors.measureLidar[1].RangeMilliMeter < 300 &&
         lidarSensors.measureLidar[2].RangeMilliMeter < 300 &&
         lidarSensors.measureLidar[3].RangeMilliMeter < 300 &&
@@ -121,7 +151,8 @@ void ObstacleAvoidance::obstaclecircuit(){
         lidarSensors.measureLidar[3].RangeMilliMeter < 300 &&
         lidarSensors.measureLidar[4].RangeMilliMeter > 0   &&
         lidarSensors.measureLidar[5].RangeMilliMeter > 0   &&
-        lidarSensors.measureLidar[6].RangeMilliMeter > 0
+        lidarSensors.measureLidar[6].RangeMilliMeter > 0   ||
+        rawValueFR == 0
         ) {
             steering.setVal(1,25);
             sendStringln("Auto fährt links");
@@ -190,7 +221,7 @@ void ObstacleAvoidance::obstaclecircuit(){
     if (lidarSensors.measureLidar[0].RangeMilliMeter < 300 && 
         lidarSensors.measureLidar[1].RangeMilliMeter < 300 &&
         lidarSensors.measureLidar[2].RangeMilliMeter < 300 &&
-        lidarSensors.measureLidar[3].RangeMilliMeter < 300 &&
+        lidarSensors.measureLidar[3].RangeMilliMeter < 200 &&
         lidarSensors.measureLidar[4].RangeMilliMeter < 1500 &&
         lidarSensors.measureLidar[5].RangeMilliMeter > 0   &&
         lidarSensors.measureLidar[6].RangeMilliMeter > 0
@@ -199,6 +230,8 @@ void ObstacleAvoidance::obstaclecircuit(){
             sendStringln("Auto fährt links");
             return;
         }
+
+
 
 
 
