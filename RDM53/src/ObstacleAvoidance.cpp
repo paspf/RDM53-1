@@ -36,7 +36,7 @@ void ObstacleAvoidance::obstaclecircuit(){
         lidarSensors.measureLidar[5].RangeMilliMeter > 1   &&
         lidarSensors.measureLidar[6].RangeMilliMeter > 1
         ) {
-            steering.setVal(1,255);
+            steering.setVal(1,240);
             return;
         }
 
@@ -49,7 +49,7 @@ void ObstacleAvoidance::obstaclecircuit(){
         lidarSensors.measureLidar[5].RangeMilliMeter > 1   &&
         lidarSensors.measureLidar[6].RangeMilliMeter > 1
         ) {
-            steering.setVal(1,255);
+            steering.setVal(1,240);
             return;
         }
 
@@ -62,7 +62,7 @@ void ObstacleAvoidance::obstaclecircuit(){
         lidarSensors.measureLidar[5].RangeMilliMeter > 1   &&
         lidarSensors.measureLidar[6].RangeMilliMeter > 1
         ) {
-            steering.setVal(1,255);
+            steering.setVal(1,240);
             return;
         }
     
@@ -75,7 +75,7 @@ void ObstacleAvoidance::obstaclecircuit(){
         lidarSensors.measureLidar[5].RangeMilliMeter > 1   &&
         lidarSensors.measureLidar[6].RangeMilliMeter > 1
         ) {
-            steering.setVal(1,255);
+            steering.setVal(1,240);
             return;
         }
     
@@ -88,7 +88,7 @@ void ObstacleAvoidance::obstaclecircuit(){
         lidarSensors.measureLidar[5].RangeMilliMeter > 1   &&
         lidarSensors.measureLidar[6].RangeMilliMeter > 1
         ) {
-            steering.setVal(1,0);
+            steering.setVal(1,25);
             return;
         }
     
@@ -101,7 +101,7 @@ void ObstacleAvoidance::obstaclecircuit(){
         lidarSensors.measureLidar[5].RangeMilliMeter < 300 &&
         lidarSensors.measureLidar[6].RangeMilliMeter > 1
         ) {
-            steering.setVal(1,0);
+            steering.setVal(1,25);
             return;
         }
 
@@ -115,7 +115,7 @@ void ObstacleAvoidance::obstaclecircuit(){
         lidarSensors.measureLidar[5].RangeMilliMeter > 1   &&
         lidarSensors.measureLidar[6].RangeMilliMeter < 300
         ) {
-            steering.setVal(1,255);
+            steering.setVal(1,240);
             return;
         }
 
@@ -129,7 +129,7 @@ void ObstacleAvoidance::obstaclecircuit(){
         lidarSensors.measureLidar[5].RangeMilliMeter > 1   &&
         lidarSensors.measureLidar[6].RangeMilliMeter > 1
         ) {
-            steering.setVal(1,0);
+            steering.setVal(1,25);
             return;
         }
 
@@ -157,7 +157,7 @@ void ObstacleAvoidance::obstaclecircuit(){
         lidarSensors.measureLidar[5].RangeMilliMeter > 1   &&
         lidarSensors.measureLidar[6].RangeMilliMeter > 1
         ) {
-            steering.setVal(1,0);
+            steering.setVal(1,25);
             return;
         }
     
@@ -170,7 +170,7 @@ void ObstacleAvoidance::obstaclecircuit(){
         lidarSensors.measureLidar[5].RangeMilliMeter > 1   &&
         lidarSensors.measureLidar[6].RangeMilliMeter > 1
         ) {
-            steering.setVal(1,0);
+            steering.setVal(1,25);
             return;
         }
     
@@ -183,7 +183,7 @@ void ObstacleAvoidance::obstaclecircuit(){
         lidarSensors.measureLidar[5].RangeMilliMeter > 1   &&
         lidarSensors.measureLidar[6].RangeMilliMeter > 1
         ) {
-            steering.setVal(1,0);
+            steering.setVal(1,25);
             return;
         }
     
@@ -196,7 +196,7 @@ void ObstacleAvoidance::obstaclecircuit(){
         lidarSensors.measureLidar[5].RangeMilliMeter < 300 &&
         lidarSensors.measureLidar[6].RangeMilliMeter > 1
         ) {
-            steering.setVal(1,0);
+            steering.setVal(1,25);
             return;
         }
 
@@ -210,7 +210,7 @@ void ObstacleAvoidance::obstaclecircuit(){
         lidarSensors.measureLidar[5].RangeMilliMeter > 1   &&
         lidarSensors.measureLidar[6].RangeMilliMeter < 300
         ) {
-            steering.setVal(1,255);
+            steering.setVal(1,240);
             return;
         }
 

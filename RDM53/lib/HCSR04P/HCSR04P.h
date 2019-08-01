@@ -20,11 +20,14 @@ class HCSR04P
     // destructor
 	~HCSR04P();
 
-    // return curent distance of element 0
-	int dist() const;
+    // measure return curent distance of element 0
+	int measureDist();
 
-    // return curent distance of element n
-	int dist(int n) const;				
+    // return recent measured distance of element 0
+	int getDist();
+
+    // measure and return curent distance of element n
+	int measureDist(int n) const;		
 
 	private:
     // initialisation of the required µC and sensor HW
@@ -36,5 +39,9 @@ class HCSR04P
     // number of el
 	int n;									
     // default timeout for ~ 1 meter
-	unsigned long timeOut = 6000;			
+	unsigned long timeOut = 6000;	
+
+	// store last measured distance for sensor 0
+	int measuredDist;				
+
 };

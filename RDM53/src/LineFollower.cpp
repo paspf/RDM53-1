@@ -50,7 +50,7 @@ void LineFollower::followLine(){
         return;
     }
     
-    if(rawValueFL != 0 && rawValueBL == 0 && (cntleft == 0 || cntleft == NULL)) {
+    if(rawValueFL != 0 && rawValueBL == 0 && cntleft == 0) {
         directionleft = 1;
         cntleft = millis();
         steering.setVal(1,255);
@@ -83,7 +83,7 @@ void LineFollower::followLine(){
         return;
     }
 
-    if(rawValueFR != 0 && rawValueBR == 0 && (cntright == 0 || cntright == NULL)) {
+    if(rawValueFR != 0 && rawValueBR == 0 && cntright == 0) {
         directionright = 1;
         cntright = millis();
         steering.setVal(1,0);

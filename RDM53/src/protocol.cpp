@@ -60,9 +60,7 @@ void protocolEnter(unsigned char* incoming, size_t length)
         case 0x0: //Autonomous
             //Start thread autonomy and breaking all other threads.
             // payload == autonomous mode
-            sendString("Autonomous mode");
-            autonomous(payload);
-            dC.mode = 0x0000 + incoming[8];
+            autonomous(incoming[8]);
             break;
         case 0x1: //RemoteControl
             //Start thread remotecontrol and break other threads.
@@ -70,6 +68,7 @@ void protocolEnter(unsigned char* incoming, size_t length)
             // 11 02 01 00 00 00 00 00 10-1f 12 (dynamic)
             sendString("Remote Control Mode");
             dC.mode = 0x010000 | incoming[8];
+            dC.cyclicSensorRefresh = false;
             //Serial.println(dC.mode, HEX);
             break;
         case 0x2:
@@ -77,6 +76,7 @@ void protocolEnter(unsigned char* incoming, size_t length)
             // 11 02 02 00 00 00 00 00 00 00 12
             sendString("Pause Mode");
             dC.mode = 0x20000;
+            dC.cyclicSensorRefresh = false;
             enginesInt.stopE();
             break;
         case 0x3:
@@ -117,12 +117,12 @@ void protocolEnter(unsigned char* incoming, size_t length)
 /*autonomous is responsible for calling functions that will be part of the autonomous mode.
  * 
  */
-void autonomous(int autonomyNum)
+void autonomous(unsigned char autonomyNum)
 { 
     //Put functions leading to Autonomy here
-    char buffer[128];
-    sprintf(buffer, "Autonomy mode %x will now commence", autonomyNum);
-    Serial.println(buffer);
+    sendString("Autonomous mode");
+    dC.mode = 0x0000 + autonomyNum;
+    dC.cyclicSensorRefresh = true;
 }
 /*remoteControl() is responsible for giving the steering function its payload.
  * Please implement steering function.
@@ -252,7 +252,7 @@ void getValues(uint8_t dataSource, uint8_t dataSubSource){
         break;
     case 0x8: //Ultraschall 2
         // 11 03 03 08 00 00 00 00 00 12
-        protocolSend(0x0, dataSource, dataSubSource, ultraSonic.dist());
+        protocolSend(0x0, dataSource, dataSubSource, ultraSonic.measureDist());
         break;
     case 0x9: //Gyroscope
         switch (dataSubSource)

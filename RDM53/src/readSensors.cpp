@@ -6,15 +6,23 @@
  * Author: Pascal Pfeiffer
  */
 
+// includes
 #include "readSensors.h"
 #include "lineTracking.h"
 #include "lidar.h"
+#include "PublicStructures.h"
+#include "HCSR04P.h"
 
+// external
 extern lineTrackInterface lineSensorFrontLeft;
 extern lineTrackInterface lineSensorFrontRight;
 extern lineTrackInterface lineSensorBackLeft;
 extern lineTrackInterface lineSensorBackRight;
 extern lidar lidarSensors;
+extern deviceConfig dC;
+extern HCSR04P ultraSonic;
+
+//#define DEBUG_READ_SENSORS
 
 /*
  * This function reads out all Line Tracking and Ultrasonic Sensors
@@ -29,6 +37,7 @@ void readSensors() {
     lineSensorBackLeft.readSensor();
     // Serial.println("BACK RIGHT:");
     lineSensorBackRight.readSensor();
+    ultraSonic.measureDist();
 }
 
 /*
@@ -40,11 +49,20 @@ void readSensors() {
  * Execution Core : 0
  */
 void lidarloop(void * pvParameters) {
+    #ifdef DEBUG_READ_SENSORS
+    int t1;
+    #endif
     while(true) {
-        // int t1 = millis();
-        //lidarSensors.readLOXSensors();
-        // Serial.print("Read Sensors length: ");
-        // Serial.println(t2);
-        yield();
+        if(dC.cyclicSensorRefresh == true) {
+            #ifdef DEBUG_READ_SENSORS
+            int t1 = millis();
+            #endif
+            lidarSensors.readLOXSensors();
+            #ifdef DEBUG_READ_SENSORS
+            Serial.print("Read lidar sensors runtime: ");
+            Serial.println(millis() - t1);
+            #endif
+        }
+        delay(10);
     }
 }
