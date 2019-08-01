@@ -33,15 +33,15 @@ void Location::updateLocationVars()
 {        
     SensorArray.readSensor();
     
-    gx = SensorArray.getGyroX_rads();
-    gy = SensorArray.getGyroY_rads();
-    gz = SensorArray.getGyroZ_rads();
-    ax = SensorArray.getAccelX_mss();
-    ay = SensorArray.getAccelY_mss();
-    az = SensorArray.getAccelZ_mss();
-    mx = SensorArray.getMagX_uT();
-    my = SensorArray.getMagY_uT();
-    mz = SensorArray.getMagZ_uT();
+    gyrx = SensorArray.getGyroX_rads();
+    gyry = SensorArray.getGyroY_rads();
+    gyrz = SensorArray.getGyroZ_rads();
+    accx = SensorArray.getAccelX_mss();
+    accy = SensorArray.getAccelY_mss();
+    accz = SensorArray.getAccelZ_mss();
+    magx = SensorArray.getMagX_uT();
+    magy = SensorArray.getMagY_uT();
+    magz = SensorArray.getMagZ_uT();
 
     Now = micros();
     deltat = ((Now - lastUpdate)/1000000.0f); // set integration time by time elapsed since last filter update
@@ -50,7 +50,7 @@ void Location::updateLocationVars()
     sum += deltat; // sum for averaging filter update rate
     sumCount++;
     
-    MahonyQuaternionUpdate(ax, ay, az, gx*PI/180.0f, gy*PI/180.0f, gz*PI/180.0f,  my,  mx, mz);
+    MahonyQuaternionUpdate(accx, accy, accz, gyrx*PI/180.0f, gyry*PI/180.0f, gyrz*PI/180.0f,  magy,  magx, magz);
 
     yaw   = atan2(2.0f * (q[1] * q[2] + q[0] * q[3]), q[0] * q[0] + q[1] * q[1] - q[2] * q[2] - q[3] * q[3]);   
     pitch = -asin(2.0f * (q[1] * q[3] - q[0] * q[2]));
@@ -61,14 +61,22 @@ void Location::updateLocationVars()
     yaw   += 2.6; // Declination at Friedberg, Hessen, Germany is 2 degrees 36 minutes on 2019-07-31
     roll *= 180.0f / PI;
 
-    speedX = speedX + ax * period;
-    speedY = speedY + ay * period;
-    speedZ = speedZ + az * period;
+    gravx = 2 * (q[1] * q[3] - q[0] * q[2]);
+    gravy = 2 * (q[0] * q[1] + q[2] * q[3]);
+    gravz = q[0] * q[0] - q[1] * q[1] - q[2] * q[2] + q[3] * q[3];
+
+    c_accx = accx -gravx;
+    c_accy = accy -gravy;
+    c_accz = accz -gravz;
+
+    speedX = speedX + c_accx * period;
+    speedY = speedY + c_accy * period;
+    speedZ = speedZ + c_accz * period;
     speedGen = sqrt(pow(speedX,2) + pow(speedY,2) + pow(speedZ,2));
     
-    posX = posX + speedX * period + 1/2 * ax * pow(period,2);
-    posY = posY + speedY * period + 1/2 * ay * pow(period,2);
-    posZ = posZ + speedZ * period + 1/2 * az * pow(period,2);
+    posX = posX + speedX * period + 1/2 * c_accx * pow(period,2);
+    posY = posY + speedY * period + 1/2 * c_accy * pow(period,2);
+    posZ = posZ + speedZ * period + 1/2 * c_accz * pow(period,2);
 }
 
 /* This file gets you the heading with 0 being North. It is measured in Degrees.
@@ -142,57 +150,57 @@ float Location::getPosZ(){
  * Be aware that the gravity component has not been removed
  */
 float Location::getAccX(){
-  return ax;
+  return accx;
 }
 /* This function gets the accelaration on the y-axis (sideways)
  * The accelaration is measured in m/s²
  * Be aware that the gravity component has not been removed
  */
 float Location::getAccY(){
-  return ay;
+  return accy;
 }
 /* This function gets the accelaration on the z-axis (up and down)
  * The accelaration is measured in m/s²
  * Be aware that the gravity component has not been removed
  */
 float Location::getAccZ(){
-  return az;
+  return accz;
 }
 /* This function gets the rotation around the x-axis (forward/backward)
  * The rotation is measured in degrees/s
  */
 float Location::getGyrX(){
-  return gx;
+  return gyrx;
 }
 /* This function gets the rotation around the y-axis (sideways)
  * The rotation is measured in rad/s
  */
 float Location::getGyrY(){
-  return gy;
+  return gyry;
 }
 /* This function gets the rotation around the z-axis (up and down)
  * The rotation is measured in rad/s
  */
 float Location::getGyrZ(){
-  return gz;
+  return gyrz;
 }
 /* This function gets the magnetic induction at the x-axis (forward/backward)
  * The rotation is measured in uT (Micro Tesla), T * 10^-6
  */
 float Location::getMagX(){
-  return mx;
+  return magx;
 }
 /* This function gets the magnetic induction at the y-axis (sideways)
  * The rotation is measured in uT (Micro Tesla), T * 10^-6
  */
 float Location::getMagY(){
-  return my;
+  return magy;
 }
 /* This function gets the magnetic induction at the z-axis (up and down)
  * The rotation is measured in uT (Micro Tesla), T * 10^-6
  */
 float Location::getMagZ(){
-  return mz;
+  return magz;
 }
 
 

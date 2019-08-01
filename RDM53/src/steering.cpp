@@ -63,6 +63,10 @@ void SteeringInterface::setVal(bool valType, int value)
  */
 int SteeringInterface::setPilot()
 {
+    if (degreeToTurnTo != 0){
+        turnToDegrees(degreeToTurnTo);
+    }
+
     // check if a val update has occured
     if(valUpdate == false) {
         return -1;
@@ -191,10 +195,11 @@ void SteeringInterface::turnHardRightBy(float degrees){
  * Potentiell fehlerbehaftet bei Steuerung Richtung Süden.
  */
 void SteeringInterface::turnToDegrees(float degrees){
-    if (degrees - mylocation.getHeading() < 5 || degrees - mylocation.getHeading() > -5){
-        //returnToPreviousState
+    degreeToTurnTo = degrees;
+    if (degrees - mylocation.getHeading() < maxDeviation || degrees - mylocation.getHeading() > -maxDeviation){
+        degreeToTurnTo = 0;
     }
-    else if (degrees - mylocation.getHeading() > 5){
+    else if (degrees - mylocation.getHeading() > maxDeviation){
         turnHardRightBy(degrees - mylocation.getHeading());
     }
     else

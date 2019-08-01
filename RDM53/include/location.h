@@ -54,7 +54,8 @@ private:
     #define Kp 2.0f * 5.0f // these are the free parameters in the Mahony filter and fusion scheme, Kp for proportional feedback, Ki for integral
     #define Ki 0.0f
     
-    float ax, ay, az, gx, gy, gz, mx, my, mz;
+    float accx, accy, accz, gyrx, gyry, gyrz, magx, magy, magz;
+    float gravx, gravy, gravz, c_accx, c_accy, c_accz;
     float q[4] = {1.0f, 0.0f, 0.0f, 0.0f};    // vector to hold quaternion
     float eInt[3] = {0.0f, 0.0f, 0.0f}; 
     
@@ -71,8 +72,8 @@ private:
     bool SerialSpeed = false;
     bool SerialPos = false;
   
-    void MahonyQuaternionUpdate(float ax, float ay, float az, float gx, float gy, float gz, float mx, float my, float mz);
-    void MadgwickQuaternionUpdate(float ax, float ay, float az, float gx, float gy, float gz, float mx, float my, float mz);
+    void MahonyQuaternionUpdate(float accx, float accy, float accz, float gyrx, float gyry, float gyrz, float magx, float magy, float magz);
+    void MadgwickQuaternionUpdate(float accx, float accy, float accz, float gyrx, float gyry, float gyrz, float magx, float magy, float magz);
   
     //location();
 };
