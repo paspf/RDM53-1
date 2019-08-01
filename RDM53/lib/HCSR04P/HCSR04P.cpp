@@ -38,13 +38,13 @@ HCSR04P::HCSR04P(int out, int echo[], int n) {
 
 // destructor
 HCSR04P::~HCSR04P() {
-	~this->out;
+	// ~this->out;
 	delete[] this->echo;
-	~this->n;
+	// ~this->n;
 }
 
 // get distance of sensor n
-int HCSR04P::dist(int n) const {
+int HCSR04P::measureDist(int n) const {
 	digitalWrite(this->out, LOW);
 	delayMicroseconds(2);
 	digitalWrite(this->out, HIGH);
@@ -60,7 +60,12 @@ int HCSR04P::dist(int n) const {
 	return d / 5.8;
 }
 
-// get distance of sensor
-int HCSR04P::dist() const {
-	return this->dist(0);
+// get distance of first sensor
+int HCSR04P::measureDist() {
+	this->measuredDist = this->measureDist(0);
+	return this->measuredDist;
+}
+
+int HCSR04P::getDist() {
+	return this->measuredDist;
 }

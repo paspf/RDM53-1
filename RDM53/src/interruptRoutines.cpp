@@ -4,6 +4,8 @@
  * Date: 2019 06 16
  * Author: Pascal Pfeiffer
  */
+
+// includes
 #include "interruptRoutines.h"
 #include "PublicStructures.h"
 #include "protocol.h"
@@ -124,7 +126,7 @@ void interruptWorkers() {
     portEXIT_CRITICAL(&timer0Mux);
     secCounter++;
     // int t1 = millis();
-    readSensors();
+    //readSensors();
     // int t2 = millis() - t1;
     // Serial.print("Read Sensors length: ");
     // Serial.println(t2);
@@ -161,5 +163,5 @@ void wiFiNotificationSender() {
   protocolSend(0x0, 0x06, 0x00, lidarSensors.measureLidar[6].RangeMilliMeter);
 
   // ultrasonic
-  protocolSend(0x0, 0x08, 0x00, ultraSonic.dist());
+  protocolSend(0x0, 0x08, 0x00, ultraSonic.getDist());
 }

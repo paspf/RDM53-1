@@ -14,6 +14,8 @@
     extern unsigned char inputBinary[128]; 
     extern void protocolEnter(unsigned char*, size_t);
     #include "protocol.h"
+    #include "PublicStructures.h"
+    extern deviceConfig dC;
 #endif
 
 /*
@@ -22,9 +24,9 @@
  */
 void sendBinCharArr(unsigned char *charArr, size_t length) {
   #ifdef SEND_SERIAL
-    Serial.println("Data: ");
+    Serial.print("Data: ");
     for(int i = 0; i < length; i++) {
-      Serial.print(charArr[i], HEX);
+      Serial.println(charArr[i], HEX);
     }
   #endif
   #ifdef SEND_WEBSOCKET
@@ -111,6 +113,16 @@ void analyseString() {
       Serial.println("protocolSend():");
         protocolSend(0x82, 0x93, 0x30, 0xFE203040);
         // webSocket.broadcastTXT("DEBUG protocolSend is working!!!!!");
+    }
+    if(inputString.substring(6, 28) == "dC.cyclicSensorRefresh") {
+      dC.cyclicSensorRefresh = !dC.cyclicSensorRefresh;
+      Serial.print("dC.cyclicSensorRefresh: ");
+      if(dC.cyclicSensorRefresh == true) {
+        Serial.println("[ON]");
+      }
+      else {
+        Serial.println("[OFF]");
+      }
     }
   }
   inputString = "";

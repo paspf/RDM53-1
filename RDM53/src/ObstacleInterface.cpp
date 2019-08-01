@@ -26,7 +26,7 @@ void ObstacleInterface::initobstacledata(){
   for(i=0; i<20; i++){ //20 buffer obstacles (virtual)
 
     //obstacle in front of the car (directly)
-    if(ultraSonic.dist() <= 1200 && lidarSensors.measureLidar[0].RangeMilliMeter <= 1200 && lidarSensors.measureLidar[3].RangeMilliMeter <= 1200) {
+    if(ultraSonic.getDist() <= 1200 && lidarSensors.measureLidar[0].RangeMilliMeter <= 1200 && lidarSensors.measureLidar[3].RangeMilliMeter <= 1200) {
       distanceObstacleToCar = lidarSensors.measureLidar[0].RangeMilliMeter;
       angleObstacleToCar = 0;
       fillObstacleStructure(i,&angleObstacleToCar,&distanceObstacleToCar);

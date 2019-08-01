@@ -101,7 +101,7 @@ void ObstacleAvoidance::obstaclecircuit(){
         lidarSensors.measureLidar[3].RangeMilliMeter < 300 &&
         lidarSensors.measureLidar[4].RangeMilliMeter > 0   &&
         lidarSensors.measureLidar[5].RangeMilliMeter > 0   &&
-        lidarSensors.measureLidar[6].RangeMilliMeter < 700
+        lidarSensors.measureLidar[6].RangeMilliMeter < 1500
         ) {
             steering.setVal(1,240);
             sendStringln("Auto fährt rechts");
@@ -191,7 +191,7 @@ void ObstacleAvoidance::obstaclecircuit(){
         lidarSensors.measureLidar[1].RangeMilliMeter < 300 &&
         lidarSensors.measureLidar[2].RangeMilliMeter < 300 &&
         lidarSensors.measureLidar[3].RangeMilliMeter < 300 &&
-        lidarSensors.measureLidar[4].RangeMilliMeter < 700 &&
+        lidarSensors.measureLidar[4].RangeMilliMeter < 1500 &&
         lidarSensors.measureLidar[5].RangeMilliMeter > 0   &&
         lidarSensors.measureLidar[6].RangeMilliMeter > 0
         ) {

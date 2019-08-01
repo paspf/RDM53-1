@@ -17,7 +17,7 @@
 extern Location mylocation;
 
 void protocolEnter(unsigned char*, size_t);
-void autonomous(int);
+void autonomous(unsigned char);
 void remoteControl(unsigned char*, int);
 void calibration(unsigned char*, int);
 void testing(unsigned char*, int);

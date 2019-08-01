@@ -6,16 +6,20 @@
  * Author: Pascal Pfeiffer
  */
 
-#ifndef CONNECTIVIY
+#ifndef CONNECTIVIY_H
 
-    #define CONNECTIVITY
+    #define CONNECTIVITY_H
     #include "WebSocketsServer.h"
 
-    #define SEND_WEBSOCKET
-    #define SEND_SERIAL
-    #define ERROR_MESSAGES // sould always sent
-    #define DEBUG_LEVEL_0 //highest debug level
-    #define DEBUG_LEVEL_1 //lower debug level
+    // send messages over websocket
+    #define SEND_WEBSOCKET 
+    // send messages over serial
+    //#define SEND_SERIAL
+
+    // unused:
+    //#define ERROR_MESSAGES // sould always sent
+    //#define DEBUG_LEVEL_0 //highest debug level
+    //#define DEBUG_LEVEL_1 //lower debug level
 
     void analyseString();
 

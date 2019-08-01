@@ -44,6 +44,7 @@ struct deviceConfig {
      * FALSE: no effect (default)
      */
     bool wiFiNotificationSender = false;
+    bool cyclicSensorRefresh = false;
 };
 
 #endif
