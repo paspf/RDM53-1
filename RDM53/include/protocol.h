@@ -11,10 +11,6 @@
 #include <Arduino.h>
 #include <WebSocketsServer.h>
 #include "PublicStructures.h"
-#include "location.h"
-
-
-extern Location mylocation;
 
 void protocolEnter(unsigned char*, size_t);
 void autonomous(unsigned char);

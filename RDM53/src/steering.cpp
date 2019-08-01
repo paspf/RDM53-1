@@ -10,8 +10,10 @@
 #ifndef RDM_MAIN
     #include <EnginesInterface.h>
     extern EnginesInterface enginesInt;
-    extern Location mylocation;
     #include "connectivity.h"
+    #include "location.h"
+    
+    extern Location mylocation;
 #endif
 
 //#define DEBUG_STEERING

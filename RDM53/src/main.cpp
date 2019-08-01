@@ -32,15 +32,18 @@ void setup() {
   pinMode(BUILTIN_LED, OUTPUT);
   digitalWrite(BUILTIN_LED, LOW);
   interruptInitialization();
+  mylocation.startMP();
   Serial.print("Creating Task lidarLoop...");
+  /*
   xTaskCreatePinnedToCore(
-                    lidarloop,        /* task function. */
-                    "lidarLoop",      /* name of task. */
-                    10000,            /* stack size in words*/
-                    NULL,             /* task input parameter */
-                    2,                /* priority of the task */
-                    &TaskLidarLoop,   /* task handle to keep track of created task */
-                    0);               /* pin task to core 0 */ 
+                    lidarloop,        // task function.
+                    "lidarLoop",      // name of task.
+                    10000,            // stack size in word
+                    NULL,             // task input parameter
+                    2,                // priority of the task
+                    &TaskLidarLoop,   // task handle to keep track of created task
+                    0);               // pin task to core 0
+  */
   Serial.println("[OK]");                 
   Serial.println("-----------------------");
   Serial.println("RDM53 is ready to go!");
@@ -64,6 +67,8 @@ void loop() {
   webSocket.loop();
   interruptWorkers();
   readSensors();
+  lidarloop();
+  mylocation.updateLocationVars();
   // Serial.println(millis());
   switch(dC.mode) {
     case 0x020000:
@@ -84,29 +89,33 @@ void loop() {
       // Autonomous 0
       // 11020000000000000012
       //webSocket.broadcastTXT("Autonomous 0 is set - Line Follower");
-      followLine.followLine();
-      steering.setPilot();
-      // dC.mode = 0x020000;
+      //followLine.followLine();
+      //steering.setPilot();
+      dC.mode = 0x020000;
+      Serial.println("Main 92");
       break;
     case 0x000001:
       // Autonomous 1
       //webSocket.broadcastTXT("Autonomous 1 is set");
-      obstaclecircuittest.obstaclecircuit();
-      steering.setPilot();
-      //dC.mode = 0x020000;
+      //obstaclecircuittest.obstaclecircuit();
+      //steering.setPilot();
+      dC.mode = 0x020000;
       //webSocket.broadcastTXT("Autonomous 1 is set");
       // dC.mode = 0x020000;
+      Serial.println("Main 102");
       break;
     case 0x000002:
       // Autonomous 2
-      webSocket.broadcastTXT("Autonomous 2 is set");
+      //webSocket.broadcastTXT("Autonomous 2 is set");
+      Serial.println("Main 107");
       dC.mode = 0x020000;
       break;
     default:
-      webSocket.broadcastTXT("Error in dc.Mode");
+      //webSocket.broadcastTXT("Error in dc.Mode");
+      Serial.println("Main Default 112");
   }
   //Serial.print("Runtime: ");
   //Serial.println( millis()- startTime);
   // do not use other delays (this should be the only delay in project) !!!!!
-  //delay(10);
+  delay(10);
 }

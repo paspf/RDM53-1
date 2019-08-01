@@ -5,38 +5,42 @@
  * Author: Jan Kühnemund
  */
 #include <Arduino.h>
-#include "location.h"
+
 
 #define STEERING_SPEED 0
 #define STEERING_TURN 1
 
-class SteeringInterface{
-    public:
+#ifndef STEERING_H
+    #define STEERINH_H
 
-    int maxDeviation = 5;
+    class SteeringInterface{
+        public:
 
-    int speedValNow = 0; // do not drive
-    int turnValGiven = 128; // do not turn
-    int enginesLeft;
-    int enginesRight;
-    int startTime;
+        int maxDeviation = 5;
 
-    bool turnHardLeft = false;
-    bool turnHardRight = false;
-    float degreeToTurnTo;
+        int speedValNow = 0; // do not drive
+        int turnValGiven = 128; // do not turn
+        int enginesLeft;
+        int enginesRight;
+        int startTime;
 
-    bool dirLeft = false;
-    bool dirRight = false;
-    bool dirGen = false;
-    bool valUpdate = false; // valUpdate is set, when setVal is called
-    
-    int setPilot();
-    void navigation();
-    void setVal(bool, int);
-    void setForward(int);
-    void setBackward(int);
-    void staticEngines();
-    void turnHardLeftBy(float);
-    void turnHardRightBy(float);
-    void turnToDegrees(float);
-};
+        bool turnHardLeft = false;
+        bool turnHardRight = false;
+        float degreeToTurnTo;
+
+        bool dirLeft = false;
+        bool dirRight = false;
+        bool dirGen = false;
+        bool valUpdate = false; // valUpdate is set, when setVal is called
+        
+        int setPilot();
+        void navigation();
+        void setVal(bool, int);
+        void setForward(int);
+        void setBackward(int);
+        void staticEngines();
+        void turnHardLeftBy(float);
+        void turnHardRightBy(float);
+        void turnToDegrees(float);
+    };
+#endif

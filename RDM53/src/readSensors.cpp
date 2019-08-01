@@ -22,7 +22,7 @@ extern lidar lidarSensors;
 extern deviceConfig dC;
 extern HCSR04P ultraSonic;
 
-//#define DEBUG_READ_SENSORS
+#define DEBUG_READ_SENSORS
 
 /*
  * This function reads out all Line Tracking and Ultrasonic Sensors
@@ -47,8 +47,9 @@ void readSensors() {
  * FreeRTOS
  * Execution Priority : 2
  * Execution Core : 0
+ * void lidarloop(void * pvParameters) {
  */
-void lidarloop(void * pvParameters) {
+void lidarloop() {
     #ifdef DEBUG_READ_SENSORS
     int t1;
     #endif

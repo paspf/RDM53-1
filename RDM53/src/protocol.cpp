@@ -28,6 +28,8 @@
     extern lineTrackInterface lineSensorFrontRight;
     extern lineTrackInterface lineSensorBackLeft;
     extern lineTrackInterface lineSensorBackRight;
+    #include "location.h"
+    extern Location mylocation;
 #endif
 
 
@@ -60,7 +62,11 @@ void protocolEnter(unsigned char* incoming, size_t length)
         case 0x0: //Autonomous
             //Start thread autonomy and breaking all other threads.
             // payload == autonomous mode
-            autonomous(incoming[8]);
+            Serial.println("Protocol 65");
+            dC.mode = 0x0000 + incoming[8];
+            dC.cyclicSensorRefresh = true;
+            Serial.println("Protocol 68");
+            // autonomous(incoming[8]);
             break;
         case 0x1: //RemoteControl
             //Start thread remotecontrol and break other threads.
@@ -120,7 +126,8 @@ void protocolEnter(unsigned char* incoming, size_t length)
 void autonomous(unsigned char autonomyNum)
 { 
     //Put functions leading to Autonomy here
-    sendString("Autonomous mode");
+    //sendString("Autonomous mode");
+    Serial.println("127");
     dC.mode = 0x0000 + autonomyNum;
     dC.cyclicSensorRefresh = true;
 }
@@ -258,14 +265,17 @@ void getValues(uint8_t dataSource, uint8_t dataSubSource){
         switch (dataSubSource)
         {
         case 0x0:   //X-Achse
+            //11 03 03 09 00 00 00 00 00 12
             //webSocket.broadcastBIN(dataSubSource, sizeof(dataSubSource));
             protocolSend(0x0, dataSource, dataSubSource, mylocation.getGyrX());
             break;
         case 0x1:   //Y-Achse
+            //11 03 03 09 01 00 00 00 00 12
             //webSocket.broadcastBIN(dataSubSource, sizeof(dataSubSource));
             protocolSend(0x0, dataSource, dataSubSource, mylocation.getGyrY());
             break;
         case 0x2:   //Z-Achse
+            //11 03 03 09 02 00 00 00 00 12
             //webSocket.broadcastBIN(dataSubSource, sizeof(dataSubSource));
             protocolSend(0x0, dataSource, dataSubSource, mylocation.getGyrZ());
             break;
@@ -279,14 +289,17 @@ void getValues(uint8_t dataSource, uint8_t dataSubSource){
         switch (dataSubSource)
         {
         case 0x0:   //X-Achse
+            //11 03 03 10 00 00 00 00 00 12        
             //webSocket.broadcastBIN(dataSubSource, sizeof(dataSubSource));
             protocolSend(0x0, dataSource, dataSubSource, mylocation.getAccX());
             break;
         case 0x1:   //Y-Achse
+            //11 03 03 10 01 00 00 00 00 12        
             //webSocket.broadcastBIN(dataSubSource, sizeof(dataSubSource));
             protocolSend(0x0, dataSource, dataSubSource, mylocation.getAccY());
             break;
         case 0x2:   //Z-Achse
+            //11 03 03 10 02 00 00 00 00 12
             //webSocket.broadcastBIN(dataSubSource, sizeof(dataSubSource));
             protocolSend(0x0, dataSource, dataSubSource, mylocation.getAccZ());
             break;

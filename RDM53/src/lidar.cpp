@@ -184,12 +184,12 @@ void lidar::readLOXSensors() {
     return;
   }
   lox0.rangingTest(&measureLidar[0], false); // pass in 'true' to get debug data printout!
-  lox1.rangingTest(&measureLidar[1], false); // pass in 'true' to get debug data printout!
+  /*lox1.rangingTest(&measureLidar[1], false); // pass in 'true' to get debug data printout!
   lox2.rangingTest(&measureLidar[2], false); // pass in 'true' to get debug data printout!
   lox3.rangingTest(&measureLidar[3], false); // pass in 'true' to get debug data printout!
   lox4.rangingTest(&measureLidar[4], false); // pass in 'true' to get debug data printout!
   lox5.rangingTest(&measureLidar[5], false); // pass in 'true' to get debug data printout!
-  lox6.rangingTest(&measureLidar[6], false); // pass in 'true' to get debug data printout!
+  lox6.rangingTest(&measureLidar[6], false); // pass in 'true' to get debug data printout!*/
   return;
 }
 

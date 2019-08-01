@@ -1,5 +1,10 @@
-#include "location.h"
 
+// includes
+#include "location.h"
+#include "MPU9250.h"
+
+// objects
+MPU9250 SensorArray(Wire, 0x86);
 
 /* This function starts the sensor and sets all required components. If it has not been used
  * the sensor will not start. 

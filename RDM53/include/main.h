@@ -30,6 +30,7 @@
 #include "readSensors.h"
 #include "ObstacleAvoidance.h"
 #include "esp32-hal-cpu.h"
+#include "location.h"
 
 /**** structures ****/
 #include "PublicStructures.h"
