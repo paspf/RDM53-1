@@ -1,6 +1,7 @@
 #include "ObstacleAvoidance.h"
 #include "steering.h"
 #include "lidar.h"
+#include "connectivity.h"
 
 extern SteeringInterface steering;
 extern lidar lidarSensors;
@@ -8,23 +9,217 @@ extern lidar lidarSensors;
 
 
 void ObstacleAvoidance::obstaclecircuit(){
+    
+    if (lidarSensors.measureLidar[0].RangeMilliMeter > 300 && 
+        lidarSensors.measureLidar[1].RangeMilliMeter > 0   &&
+        lidarSensors.measureLidar[2].RangeMilliMeter > 0   &&
+        lidarSensors.measureLidar[3].RangeMilliMeter > 300 &&
+        lidarSensors.measureLidar[4].RangeMilliMeter > 0   &&
+        lidarSensors.measureLidar[5].RangeMilliMeter > 0   &&
+        lidarSensors.measureLidar[6].RangeMilliMeter > 0
+        ) {
+            steering.setVal(1,128);
+            steering.setVal(0,0x01FF);
+            sendStringln("Auto fährt geradeaus");
+            return;
+        }
 
+    // Sensor 0 --> dann rechts 
+    if (lidarSensors.measureLidar[0].RangeMilliMeter < 300 && 
+        lidarSensors.measureLidar[1].RangeMilliMeter > 0   &&
+        lidarSensors.measureLidar[2].RangeMilliMeter > 0   &&
+        lidarSensors.measureLidar[3].RangeMilliMeter > 0   &&
+        lidarSensors.measureLidar[4].RangeMilliMeter > 0   &&
+        lidarSensors.measureLidar[5].RangeMilliMeter > 0   &&
+        lidarSensors.measureLidar[6].RangeMilliMeter > 0
+        ) {
+            steering.setVal(1,240);
+            sendStringln("Auto fährt rechts");
+            return;
+        }
+
+    // Sensor 0 & 1 --> dann rechts 
+    if (lidarSensors.measureLidar[0].RangeMilliMeter < 300 && 
+        lidarSensors.measureLidar[1].RangeMilliMeter < 300 &&
+        lidarSensors.measureLidar[2].RangeMilliMeter > 0   &&
+        lidarSensors.measureLidar[3].RangeMilliMeter > 0   &&
+        lidarSensors.measureLidar[4].RangeMilliMeter > 0   &&
+        lidarSensors.measureLidar[5].RangeMilliMeter > 0   &&
+        lidarSensors.measureLidar[6].RangeMilliMeter > 0
+        ) {
+            steering.setVal(1,240);
+            sendStringln("Auto fährt rechts");
+            return;
+        }
+    // Sensor 1 & 6 --> dann rechts
+    if (lidarSensors.measureLidar[0].RangeMilliMeter > 0   && 
+        lidarSensors.measureLidar[1].RangeMilliMeter < 300 &&
+        lidarSensors.measureLidar[2].RangeMilliMeter > 0   &&
+        lidarSensors.measureLidar[3].RangeMilliMeter > 0   &&
+        lidarSensors.measureLidar[4].RangeMilliMeter > 0   &&
+        lidarSensors.measureLidar[5].RangeMilliMeter > 0   &&
+        lidarSensors.measureLidar[6].RangeMilliMeter < 300
+        ) {
+            steering.setVal(1,240);
+            sendStringln("Auto fährt rechts");
+            return;
+        }
+
+    // Sensor 0 & 1 & 6 --> dann rechts     
+    if (lidarSensors.measureLidar[0].RangeMilliMeter < 300 && 
+        lidarSensors.measureLidar[1].RangeMilliMeter < 300 &&
+        lidarSensors.measureLidar[2].RangeMilliMeter > 0   &&
+        lidarSensors.measureLidar[3].RangeMilliMeter > 0   &&
+        lidarSensors.measureLidar[4].RangeMilliMeter > 0   &&
+        lidarSensors.measureLidar[5].RangeMilliMeter > 0   &&
+        lidarSensors.measureLidar[6].RangeMilliMeter < 300
+        ) {
+            steering.setVal(1,240);
+            sendStringln("Auto fährt rechts");
+            return;
+        }
+    
+    
+    // Sensor 0 & 1 & 3 --> dann rechts
+    if (lidarSensors.measureLidar[0].RangeMilliMeter < 300 && 
+        lidarSensors.measureLidar[1].RangeMilliMeter < 300 &&
+        lidarSensors.measureLidar[2].RangeMilliMeter > 0   &&
+        lidarSensors.measureLidar[3].RangeMilliMeter < 300 &&
+        lidarSensors.measureLidar[4].RangeMilliMeter > 0   &&
+        lidarSensors.measureLidar[5].RangeMilliMeter > 0   &&
+        lidarSensors.measureLidar[6].RangeMilliMeter > 0
+        ) {
+            steering.setVal(1,240);
+            sendStringln("Auto fährt rechts");
+            return;
+        }
+
+    // Sensor 0 & 1 & 2 & 3 + 6 --> dann rechts
+    if (lidarSensors.measureLidar[0].RangeMilliMeter < 300 && 
+        lidarSensors.measureLidar[1].RangeMilliMeter < 300 &&
+        lidarSensors.measureLidar[2].RangeMilliMeter < 300 &&
+        lidarSensors.measureLidar[3].RangeMilliMeter < 300 &&
+        lidarSensors.measureLidar[4].RangeMilliMeter > 0   &&
+        lidarSensors.measureLidar[5].RangeMilliMeter > 0   &&
+        lidarSensors.measureLidar[6].RangeMilliMeter < 1500
+        ) {
+            steering.setVal(1,240);
+            sendStringln("Auto fährt rechts");
+            return;
+        }
+
+
+
+
+
+
+
+    // Sensor 3 --> dann links 
+    if (lidarSensors.measureLidar[0].RangeMilliMeter > 0   && 
+        lidarSensors.measureLidar[1].RangeMilliMeter > 0   &&
+        lidarSensors.measureLidar[2].RangeMilliMeter > 0   &&
+        lidarSensors.measureLidar[3].RangeMilliMeter < 300 &&
+        lidarSensors.measureLidar[4].RangeMilliMeter > 0   &&
+        lidarSensors.measureLidar[5].RangeMilliMeter > 0   &&
+        lidarSensors.measureLidar[6].RangeMilliMeter > 0
+        ) {
+            steering.setVal(1,25);
+            sendStringln("Auto fährt links");
+            return;
+        }
+
+    // Sensor 3 & 2 --> dann links 
+    if (lidarSensors.measureLidar[0].RangeMilliMeter > 0   && 
+        lidarSensors.measureLidar[1].RangeMilliMeter > 0   &&
+        lidarSensors.measureLidar[2].RangeMilliMeter < 300 &&
+        lidarSensors.measureLidar[3].RangeMilliMeter < 300 &&
+        lidarSensors.measureLidar[4].RangeMilliMeter > 0   &&
+        lidarSensors.measureLidar[5].RangeMilliMeter > 0   &&
+        lidarSensors.measureLidar[6].RangeMilliMeter > 0
+        ) {
+            steering.setVal(1,25);
+            sendStringln("Auto fährt links");
+            return;
+        }
+
+    // Sensor 2 & 4 --> dann links
+    if (lidarSensors.measureLidar[0].RangeMilliMeter > 0   && 
+        lidarSensors.measureLidar[1].RangeMilliMeter > 0   &&
+        lidarSensors.measureLidar[2].RangeMilliMeter < 300 &&
+        lidarSensors.measureLidar[3].RangeMilliMeter > 0   &&
+        lidarSensors.measureLidar[4].RangeMilliMeter < 300 &&
+        lidarSensors.measureLidar[5].RangeMilliMeter > 0   &&
+        lidarSensors.measureLidar[6].RangeMilliMeter > 0
+        ) {
+            steering.setVal(1,25);
+            sendStringln("Auto fährt links");
+            return;
+        }
+
+    // Sensor 2 & 3 & 4 --> dann links     
+    if (lidarSensors.measureLidar[0].RangeMilliMeter > 0   && 
+        lidarSensors.measureLidar[1].RangeMilliMeter > 0   &&
+        lidarSensors.measureLidar[2].RangeMilliMeter < 300 &&
+        lidarSensors.measureLidar[3].RangeMilliMeter < 300 &&
+        lidarSensors.measureLidar[4].RangeMilliMeter < 300 &&
+        lidarSensors.measureLidar[5].RangeMilliMeter > 0   &&
+        lidarSensors.measureLidar[6].RangeMilliMeter > 0
+        ) {
+            steering.setVal(1,25);
+            sendStringln("Auto fährt links");
+            return;
+        }
+
+
+
+    // Sensor 0 & 2 & 3 --> dann links
+    if (lidarSensors.measureLidar[0].RangeMilliMeter < 300 && 
+        lidarSensors.measureLidar[1].RangeMilliMeter > 0   &&
+        lidarSensors.measureLidar[2].RangeMilliMeter < 300 &&
+        lidarSensors.measureLidar[3].RangeMilliMeter < 300 &&
+        lidarSensors.measureLidar[4].RangeMilliMeter > 0   &&
+        lidarSensors.measureLidar[5].RangeMilliMeter > 0   &&
+        lidarSensors.measureLidar[6].RangeMilliMeter > 0
+        ) {
+            steering.setVal(1,25);
+            sendStringln("Auto fährt links");
+            return;
+        }
+
+    // Sensor 0 & 1 & 2 & 3 + 4 --> dann links
+    if (lidarSensors.measureLidar[0].RangeMilliMeter < 300 && 
+        lidarSensors.measureLidar[1].RangeMilliMeter < 300 &&
+        lidarSensors.measureLidar[2].RangeMilliMeter < 300 &&
+        lidarSensors.measureLidar[3].RangeMilliMeter < 300 &&
+        lidarSensors.measureLidar[4].RangeMilliMeter < 1500 &&
+        lidarSensors.measureLidar[5].RangeMilliMeter > 0   &&
+        lidarSensors.measureLidar[6].RangeMilliMeter > 0
+        ) {
+            steering.setVal(1,25);
+            sendStringln("Auto fährt links");
+            return;
+        }
+
+
+
+
+/*
 
     //int cnt1;
     //int directionleft;
 
     // vorne frei --> gerade aus fahren
-    if (lidarSensors.measureLidar[0].RangeMilliMeter > 350 && 
+    if (lidarSensors.measureLidar[0].RangeMilliMeter > 300 && 
         lidarSensors.measureLidar[1].RangeMilliMeter > 1   &&
         lidarSensors.measureLidar[2].RangeMilliMeter > 1   &&
-        lidarSensors.measureLidar[3].RangeMilliMeter > 350 &&
+        lidarSensors.measureLidar[3].RangeMilliMeter > 300 &&
         lidarSensors.measureLidar[4].RangeMilliMeter > 1   &&
         lidarSensors.measureLidar[5].RangeMilliMeter > 1   &&
         lidarSensors.measureLidar[6].RangeMilliMeter > 1
         ) {
             steering.setVal(1,128);
             steering.setVal(0,0x01FF);
-            Serial.println("Auto fährt");
+            sendStringln("Auto fährt geradeaus");
             return;
         }
     // Sensor 0  --> nach rechts drehen
@@ -36,7 +231,8 @@ void ObstacleAvoidance::obstaclecircuit(){
         lidarSensors.measureLidar[5].RangeMilliMeter > 1   &&
         lidarSensors.measureLidar[6].RangeMilliMeter > 1
         ) {
-            steering.setVal(1,240);
+            steering.setVal(1,255);
+            sendStringln("Sensor 0 --> rechts drehen");
             return;
         }
 
@@ -49,7 +245,8 @@ void ObstacleAvoidance::obstaclecircuit(){
         lidarSensors.measureLidar[5].RangeMilliMeter > 1   &&
         lidarSensors.measureLidar[6].RangeMilliMeter > 1
         ) {
-            steering.setVal(1,240);
+            steering.setVal(1,255);
+            sendStringln("Sensor 0 & 1 --> rechts drehen");
             return;
         }
 
@@ -62,7 +259,8 @@ void ObstacleAvoidance::obstaclecircuit(){
         lidarSensors.measureLidar[5].RangeMilliMeter > 1   &&
         lidarSensors.measureLidar[6].RangeMilliMeter > 1
         ) {
-            steering.setVal(1,240);
+            steering.setVal(1,255);
+            sendStringln("Sensor 0 & 2 --> rechts drehen");
             return;
         }
     
@@ -75,7 +273,8 @@ void ObstacleAvoidance::obstaclecircuit(){
         lidarSensors.measureLidar[5].RangeMilliMeter > 1   &&
         lidarSensors.measureLidar[6].RangeMilliMeter > 1
         ) {
-            steering.setVal(1,240);
+            steering.setVal(1,255);
+            sendStringln("Sensor 0 & 3 --> rechts drehen");
             return;
         }
     
@@ -88,7 +287,8 @@ void ObstacleAvoidance::obstaclecircuit(){
         lidarSensors.measureLidar[5].RangeMilliMeter > 1   &&
         lidarSensors.measureLidar[6].RangeMilliMeter > 1
         ) {
-            steering.setVal(1,25);
+            steering.setVal(1,0);
+            sendStringln("Sensor 0 & 4 --> links drehen");
             return;
         }
     
@@ -101,7 +301,8 @@ void ObstacleAvoidance::obstaclecircuit(){
         lidarSensors.measureLidar[5].RangeMilliMeter < 300 &&
         lidarSensors.measureLidar[6].RangeMilliMeter > 1
         ) {
-            steering.setVal(1,25);
+            steering.setVal(1,0);
+            sendStringln("Sensor 0 & 5 --> links drehen");
             return;
         }
 
@@ -115,10 +316,10 @@ void ObstacleAvoidance::obstaclecircuit(){
         lidarSensors.measureLidar[5].RangeMilliMeter > 1   &&
         lidarSensors.measureLidar[6].RangeMilliMeter < 300
         ) {
-            steering.setVal(1,240);
+            steering.setVal(1,255);
+            sendStringln("Sensor 0 & 6 --> rechts drehen");
             return;
         }
-
 
         // Sensor 3  --> nach links drehen
     if (lidarSensors.measureLidar[0].RangeMilliMeter > 1   && 
@@ -129,10 +330,13 @@ void ObstacleAvoidance::obstaclecircuit(){
         lidarSensors.measureLidar[5].RangeMilliMeter > 1   &&
         lidarSensors.measureLidar[6].RangeMilliMeter > 1
         ) {
-            steering.setVal(1,25);
+            steering.setVal(1,0);
+            sendStringln("Sensor 3 --> links drehen");
             return;
         }
 
+
+    // redundant
     // Sensor 3 & 0 --> nach links drehen
     /* if (lidarSensors.measureLidar[0].RangeMilliMeter < 300 && 
         lidarSensors.measureLidar[1].RangeMilliMeter > 1   &&
@@ -145,7 +349,6 @@ void ObstacleAvoidance::obstaclecircuit(){
             steering.setVal(1,0);
             return;
         }
-    */ // redundant
     
     
     // Sensor 3 & 1 --> nach links drehen
@@ -157,7 +360,8 @@ void ObstacleAvoidance::obstaclecircuit(){
         lidarSensors.measureLidar[5].RangeMilliMeter > 1   &&
         lidarSensors.measureLidar[6].RangeMilliMeter > 1
         ) {
-            steering.setVal(1,25);
+            steering.setVal(1,0);
+            sendStringln("Sensor 3 & 1 --> links drehen");
             return;
         }
     
@@ -170,7 +374,8 @@ void ObstacleAvoidance::obstaclecircuit(){
         lidarSensors.measureLidar[5].RangeMilliMeter > 1   &&
         lidarSensors.measureLidar[6].RangeMilliMeter > 1
         ) {
-            steering.setVal(1,25);
+            steering.setVal(1,0);
+            sendStringln("Sensor 3 & 2 --> links drehen");
             return;
         }
     
@@ -183,7 +388,8 @@ void ObstacleAvoidance::obstaclecircuit(){
         lidarSensors.measureLidar[5].RangeMilliMeter > 1   &&
         lidarSensors.measureLidar[6].RangeMilliMeter > 1
         ) {
-            steering.setVal(1,25);
+            steering.setVal(1,0);
+            sendStringln("Sensor 3 & 4--> links drehen");
             return;
         }
     
@@ -196,7 +402,8 @@ void ObstacleAvoidance::obstaclecircuit(){
         lidarSensors.measureLidar[5].RangeMilliMeter < 300 &&
         lidarSensors.measureLidar[6].RangeMilliMeter > 1
         ) {
-            steering.setVal(1,25);
+            steering.setVal(1,0);
+            sendStringln("Sensor 3 & 5 --> links drehen");
             return;
         }
 
@@ -210,9 +417,113 @@ void ObstacleAvoidance::obstaclecircuit(){
         lidarSensors.measureLidar[5].RangeMilliMeter > 1   &&
         lidarSensors.measureLidar[6].RangeMilliMeter < 300
         ) {
-            steering.setVal(1,240);
+            steering.setVal(1,255);
+            sendStringln("Sensor 3 & 6 --> rechts drehen");
             return;
         }
+
+
+
+
+
+
+    // Sensor 1  --> nach rechts drehen
+    if (lidarSensors.measureLidar[0].RangeMilliMeter > 1   && 
+        lidarSensors.measureLidar[1].RangeMilliMeter < 300 &&
+        lidarSensors.measureLidar[2].RangeMilliMeter > 1   &&
+        lidarSensors.measureLidar[3].RangeMilliMeter > 1   &&
+        lidarSensors.measureLidar[4].RangeMilliMeter > 1   &&
+        lidarSensors.measureLidar[5].RangeMilliMeter > 1   &&
+        lidarSensors.measureLidar[6].RangeMilliMeter > 1
+        ) {
+            steering.setVal(1,255);
+            return;
+        }
+
+    // redundant
+    // Sensor 0 & 1 --> nach rechts drehen
+    if (lidarSensors.measureLidar[0].RangeMilliMeter < 300 && 
+        lidarSensors.measureLidar[1].RangeMilliMeter < 300 &&
+        lidarSensors.measureLidar[2].RangeMilliMeter > 1   &&
+        lidarSensors.measureLidar[3].RangeMilliMeter > 1   &&
+        lidarSensors.measureLidar[4].RangeMilliMeter > 1   &&
+        lidarSensors.measureLidar[5].RangeMilliMeter > 1   &&
+        lidarSensors.measureLidar[6].RangeMilliMeter > 1
+        ) {
+            steering.setVal(1,255);
+            return;
+        }
+
+
+    // Sensor 1 & 2 --> nach hinten fahren
+    if (lidarSensors.measureLidar[0].RangeMilliMeter > 1   && 
+        lidarSensors.measureLidar[1].RangeMilliMeter < 300 &&
+        lidarSensors.measureLidar[2].RangeMilliMeter < 300 &&
+        lidarSensors.measureLidar[3].RangeMilliMeter > 1   &&
+        lidarSensors.measureLidar[4].RangeMilliMeter > 1   &&
+        lidarSensors.measureLidar[5].RangeMilliMeter > 1   &&
+        lidarSensors.measureLidar[6].RangeMilliMeter > 1
+        ) {
+            steering.setVal(0,0x0000);
+            return;
+        }
+    
+    // redundant
+    // Sensor 1 & 3 --> nach rechst drehen
+    if (lidarSensors.measureLidar[0].RangeMilliMeter < 300 && 
+        lidarSensors.measureLidar[1].RangeMilliMeter > 1   &&
+        lidarSensors.measureLidar[2].RangeMilliMeter > 1   &&
+        lidarSensors.measureLidar[3].RangeMilliMeter < 300 &&
+        lidarSensors.measureLidar[4].RangeMilliMeter > 1   &&
+        lidarSensors.measureLidar[5].RangeMilliMeter > 1   &&
+        lidarSensors.measureLidar[6].RangeMilliMeter > 1
+        ) {
+            steering.setVal(1,255);
+            return;
+        }
+    
+
+    // Sensor 1 & 4 --> nach rechts drehen 
+    if (lidarSensors.measureLidar[0].RangeMilliMeter > 1   && 
+        lidarSensors.measureLidar[1].RangeMilliMeter < 300   &&
+        lidarSensors.measureLidar[2].RangeMilliMeter > 1   &&
+        lidarSensors.measureLidar[3].RangeMilliMeter > 1   &&
+        lidarSensors.measureLidar[4].RangeMilliMeter < 300 &&
+        lidarSensors.measureLidar[5].RangeMilliMeter > 1   &&
+        lidarSensors.measureLidar[6].RangeMilliMeter > 1
+        ) {
+            steering.setVal(1,255);
+            return;
+        }
+    
+    // Sensor 1 & 5 --> nach rechts drehen
+    if (lidarSensors.measureLidar[0].RangeMilliMeter > 1   && 
+        lidarSensors.measureLidar[1].RangeMilliMeter < 300 &&
+        lidarSensors.measureLidar[2].RangeMilliMeter > 1   &&
+        lidarSensors.measureLidar[3].RangeMilliMeter > 1   &&
+        lidarSensors.measureLidar[4].RangeMilliMeter > 1   &&
+        lidarSensors.measureLidar[5].RangeMilliMeter < 300 &&
+        lidarSensors.measureLidar[6].RangeMilliMeter > 1
+        ) {
+            steering.setVal(1,255);
+            return;
+        }
+
+
+    // Sensor 1 & 6 --> nach rechts drehen 
+    if (lidarSensors.measureLidar[0].RangeMilliMeter > 1   && 
+        lidarSensors.measureLidar[1].RangeMilliMeter < 300 &&
+        lidarSensors.measureLidar[2].RangeMilliMeter > 1   &&
+        lidarSensors.measureLidar[3].RangeMilliMeter > 1   &&
+        lidarSensors.measureLidar[4].RangeMilliMeter > 1   &&
+        lidarSensors.measureLidar[5].RangeMilliMeter > 1   &&
+        lidarSensors.measureLidar[6].RangeMilliMeter < 300
+        ) {
+            steering.setVal(1,255);
+            return;
+        }
+
+
 
     // vorne alles blockiert --> nach hinten fahren 
     /*if (lidarSensors.measureLidar[0].RangeMilliMeter < 300 && 

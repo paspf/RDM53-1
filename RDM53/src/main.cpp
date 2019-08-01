@@ -84,7 +84,6 @@ void loop() {
       // Autonomous 0
       // 11020000000000000012
       //webSocket.broadcastTXT("Autonomous 0 is set - Line Follower");
-      // steering.setVal(0, 0x01FF);
       followLine.followLine();
       steering.setPilot();
       // dC.mode = 0x020000;
