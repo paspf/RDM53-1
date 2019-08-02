@@ -133,15 +133,10 @@ void remoteControl(unsigned char* incoming, int payload)
         {
         case 0x0: // forward / backward
             // 11 03 00 00 00 00 00 0x xx 12
-            //speed(strtol(payload);
-            //Serial.println("Vor/ Rueck!");
-            //webSocket.broadcastTXT("Vor/ Rueck!");
             steering.setVal(0, payload);
             break;
         case 0x1: // turn value
-            //turnrate(strtol(payload);
-            //Serial.println("Turn Value: !");
-            //webSocket.broadcastTXT("TurnValue!");
+            // 11 03 00 01 00 00 00 00 xx 12
             steering.setVal(1, payload);
             break;
         default:
@@ -347,18 +342,22 @@ void getValues(uint8_t dataSource, uint8_t dataSubSource){
         break;
     case 0x11: // line color front left
         // 11 03 03 11 00 00 00 00 00 12
+        lineSensorFrontLeft.readSensor();
         protocolSend(0x0, dataSource, dataSubSource, lineSensorFrontLeft.getColorCode());
         break;
     case 0x12: // line color front right
         // 11 03 03 12 00 00 00 00 00 12
+        lineSensorFrontRight.readSensor();
         protocolSend(0x0, dataSource, dataSubSource, lineSensorFrontRight.getColorCode());
         break;
     case 0x13: // line color back left
         // 11 03 03 13 00 00 00 00 00 12
+        lineSensorBackLeft.readSensor();
         protocolSend(0x0, dataSource, dataSubSource, lineSensorBackLeft.getColorCode());
         break;
     case 0x14: // line color back right
         // 11 03 03 14 00 00 00 00 00 12
+        lineSensorBackRight.readSensor();
         protocolSend(0x0, dataSource, dataSubSource, lineSensorBackRight.getColorCode());
         break;
     case 0x15: // enable / disable wiFiNotificationSender
