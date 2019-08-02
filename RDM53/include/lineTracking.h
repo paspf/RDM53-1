@@ -18,11 +18,7 @@
 class lineTrackInterface {
     private:
     int pin;
-    // color lowValv highVal
-    /*
-    * Best sensors: FL, BR
-    * white yellow and green are not consistant
-    */
+    // color [0]:lowVal [1]:highVal
     short black[2] = {3800,4095};
     short white[2] = {500,3799};
     short yellow[2] = {1200,1300};

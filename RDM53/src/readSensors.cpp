@@ -27,6 +27,7 @@ extern HCSR04P ultraSonic;
 /*
  * This function reads out all Line Tracking and Ultrasonic Sensors
  * and stores the values in the sensor objects
+ * This function is called in the main loop and running in core 1
  */
 void readSensors() {
     #ifdef DEBUG_READ_SENSORS
