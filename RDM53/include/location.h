@@ -9,11 +9,9 @@
 
 
 #include <Arduino.h>
-#include <MPU9250.h>
 
 #ifndef LOCATION_H
 #define LOCATION_H
-extern MPU9250 SensorArray;
 
 class Location{
 public:
