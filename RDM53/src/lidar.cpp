@@ -68,10 +68,8 @@ void lidar::setID() {
   expanderWrite(EXP_ADDRESS, 0x1);
   // initing LOX5
   if(!lox5.begin(LOX5_ADDRESS)) {
-    Serial.println(lidarState, BIN);
     Serial.println("[Failed]");
     lidarState &= ~SHT_LOX5;
-    Serial.println(lidarState, BIN);
     // return;
   }
   else {
