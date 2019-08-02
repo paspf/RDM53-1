@@ -107,18 +107,12 @@ void loop() {
       break;
     case 0x000002:
       // Autonomous 2
-<<<<<<< HEAD
       // 11020000000000000212
       // webSocket.broadcastTXT("Autonomous 2 is set");
       driverRDM.driveThroughParcour();
       steering.setPilot();
-      //dC.mode = 0x020000;
-
-=======
-      //webSocket.broadcastTXT("Autonomous 2 is set");
-      Serial.println("Main 107");
       dC.mode = 0x020000;
->>>>>>> 17e910943f0e41cc511e41d38286c40fc7d91fc6
+
       break;
     default:
       //webSocket.broadcastTXT("Error in dc.Mode");
