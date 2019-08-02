@@ -121,5 +121,5 @@ void loop() {
   //Serial.print("Runtime: ");
   //Serial.println( millis()- startTime);
   // do not use other delays (this should be the only delay in project) !!!!!
-  delay(10);
+  //delay(10);
 }
