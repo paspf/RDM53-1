@@ -104,8 +104,11 @@ void loop() {
     case 0x000002:
       // Autonomous 2
       // 11020000000000000212
-      webSocket.broadcastTXT("Autonomous 2 is set");
-      dC.mode = 0x020000;
+      // webSocket.broadcastTXT("Autonomous 2 is set");
+      driverRDM.driveThroughParcour();
+      steering.setPilot();
+      //dC.mode = 0x020000;
+
       break;
     default:
       webSocket.broadcastTXT("Error in dc.Mode");

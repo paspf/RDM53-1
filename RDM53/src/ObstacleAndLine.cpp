@@ -5,14 +5,119 @@
 #include "lineTracking.h"
 #include "LineFollower.h"
 #include "HCSR04P.h"
+#include "ObstacleAndLine.h"
 
 extern SteeringInterface steering;
 extern lidar lidarSensors;
+
+extern lineTrackInterface lineSensorFrontLeft;
+extern lineTrackInterface lineSensorFrontRight;
+extern lineTrackInterface lineSensorBackLeft;
+extern lineTrackInterface lineSensorBackRight;
+
 extern HCSR04P ultraSonic;
 
 
-void ObstacleAvoidance::obstaclecircuit(){
+void ObstacleAndLine::driveThroughParcour(){
     
+    int rawValueFL = lineSensorFrontLeft.getColorCode();
+    int rawValueFR = lineSensorFrontRight.getColorCode();
+    int rawValueBL = lineSensorBackLeft.getColorCode();
+    int rawValueBR = lineSensorBackRight.getColorCode();
+
+
+
+    if ((rawValueFL == 0) && (
+        (lidarSensors.measureLidar[0].RangeMilliMeter > 0) && 
+        (lidarSensors.measureLidar[1].RangeMilliMeter > 0)   &&
+        (lidarSensors.measureLidar[2].RangeMilliMeter < 300)   &&
+        (lidarSensors.measureLidar[3].RangeMilliMeter < 300)   &&
+        (lidarSensors.measureLidar[4].RangeMilliMeter > 0)   &&
+        (lidarSensors.measureLidar[5].RangeMilliMeter > 0)   &&
+        (lidarSensors.measureLidar[6].RangeMilliMeter > 0) )
+        ) {
+            steering.setVal(0,0);
+            return;
+        }
+
+
+    // if both front sensors are in the stripe, drive back
+    if(rawValueFL == 0 && rawValueFR == 0) {
+        steering.setVal(0,0);
+        return;
+    }
+
+    // if the left front sensor is in the stripe,
+    // turn the car in the position that both left sensors are in stripe
+    if(rawValueFL == 0 && rawValueBL != 0){
+        steering.setVal(1,255);
+        return;
+    }
+    
+    // if both left sensors are in the stripe, drive to right 
+    if(rawValueFL == 0 && rawValueBL == 0) {
+        steering.setVal(1,255);
+        return;
+    }
+
+
+    // if the right front sensor is in the stripe,
+    //turn the car in the position that both right sensors are in stripe
+    if(rawValueFR == 0 && rawValueBR != 0) {
+        steering.setVal(1,0);
+        return;
+    }
+    // if both right sensors are in the stripe, stop the car
+    if(rawValueFR == 0 && rawValueBR == 0) {
+        steering.setVal(1,25);
+        return;
+    }
+
+
+    // Sensor 0 --> dann rechts 
+    if ((rawValueFL == 0) || (
+        (lidarSensors.measureLidar[0].RangeMilliMeter < 300) && 
+        (lidarSensors.measureLidar[1].RangeMilliMeter > 0)   &&
+        (lidarSensors.measureLidar[2].RangeMilliMeter > 0)   &&
+        (lidarSensors.measureLidar[3].RangeMilliMeter > 0)   &&
+        (lidarSensors.measureLidar[4].RangeMilliMeter > 0)   &&
+        (lidarSensors.measureLidar[5].RangeMilliMeter > 0)   &&
+        (lidarSensors.measureLidar[6].RangeMilliMeter > 0) )
+        ) {
+            steering.setVal(1,240);
+            return;
+        }
+
+    // Sensor 3 --> dann links 
+    if ((rawValueFR == 0) || (
+        (lidarSensors.measureLidar[0].RangeMilliMeter > 0 )  && 
+        (lidarSensors.measureLidar[1].RangeMilliMeter > 0 ) &&
+        (lidarSensors.measureLidar[2].RangeMilliMeter > 0 )  &&
+        (lidarSensors.measureLidar[3].RangeMilliMeter < 300 ) &&
+        (lidarSensors.measureLidar[4].RangeMilliMeter > 0  ) &&
+        (lidarSensors.measureLidar[5].RangeMilliMeter > 0  ) &&
+        (lidarSensors.measureLidar[6].RangeMilliMeter > 0 ))
+        ) {
+            steering.setVal(1,25);
+            return;
+        }
+
+    // Sensor 2 --> dann rechts 
+    if (rawValueFR == 0 && 
+        lidarSensors.measureLidar[0].RangeMilliMeter > 0   && 
+        lidarSensors.measureLidar[1].RangeMilliMeter > 0  &&
+        lidarSensors.measureLidar[2].RangeMilliMeter < 300   &&
+        lidarSensors.measureLidar[3].RangeMilliMeter > 0  &&
+        lidarSensors.measureLidar[4].RangeMilliMeter > 0  &&
+        lidarSensors.measureLidar[5].RangeMilliMeter > 0   &&
+        lidarSensors.measureLidar[6].RangeMilliMeter > 0
+        ) {
+            steering.setVal(1,255);
+            return;
+        }
+
+
+
     //vorwärts fahren
     if (lidarSensors.measureLidar[0].RangeMilliMeter > 300 && 
         lidarSensors.measureLidar[1].RangeMilliMeter > 0   &&
@@ -28,7 +133,7 @@ void ObstacleAvoidance::obstaclecircuit(){
         }
 
 
-    //rückwärts fahren, wenn vorne und seiten alles blockiert ist 
+    //rückwärts fahren
     if (lidarSensors.measureLidar[0].RangeMilliMeter < 250 && 
         lidarSensors.measureLidar[1].RangeMilliMeter < 250 &&
         lidarSensors.measureLidar[2].RangeMilliMeter < 250 &&
@@ -41,20 +146,7 @@ void ObstacleAvoidance::obstaclecircuit(){
             steering.setVal(0,0x0000);
             return;
         }
-    
-    
-    // Sensor 0 --> dann rechts 
-    if (lidarSensors.measureLidar[0].RangeMilliMeter < 300 && 
-        lidarSensors.measureLidar[1].RangeMilliMeter > 0   &&
-        lidarSensors.measureLidar[2].RangeMilliMeter > 0   &&
-        lidarSensors.measureLidar[3].RangeMilliMeter > 0   &&
-        lidarSensors.measureLidar[4].RangeMilliMeter > 0   &&
-        lidarSensors.measureLidar[5].RangeMilliMeter > 0   &&
-        lidarSensors.measureLidar[6].RangeMilliMeter > 0 
-        ) {
-            steering.setVal(1,240);
-            return;
-        }
+
 
 
 
@@ -123,19 +215,6 @@ void ObstacleAvoidance::obstaclecircuit(){
             return;
         }
 
-
-    // Sensor 3 --> dann links 
-    if (lidarSensors.measureLidar[0].RangeMilliMeter > 0   && 
-        lidarSensors.measureLidar[1].RangeMilliMeter > 0   &&
-        lidarSensors.measureLidar[2].RangeMilliMeter > 0   &&
-        lidarSensors.measureLidar[3].RangeMilliMeter < 300 &&
-        lidarSensors.measureLidar[4].RangeMilliMeter > 0   &&
-        lidarSensors.measureLidar[5].RangeMilliMeter > 0   &&
-        lidarSensors.measureLidar[6].RangeMilliMeter > 0 
-        ) {
-            steering.setVal(1,25);
-            return;
-        }
 
 
 
