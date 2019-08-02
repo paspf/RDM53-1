@@ -1,50 +1,46 @@
-#include "location.h"
-#include <MPU9250.h>
 
-MPU9250 SensorArray(Wire, 0x68);
+// includes
+#include "location.h"
+#include "MPU9250_asukiaaa.h"
+
+// objects
+MPU9250_asukiaaa SensorArray;
 
 /* This function starts the sensor and sets all required components. If it has not been used
  * the sensor will not start. 
  */
-int Location::startMP()
+void Location::startMP()
 {
-  if ((status = SensorArray.begin()) < 0) {
-    //Serial.println("IMU initialization unsuccessful");
-    //Serial.println("Check IMU wiring or try cycling power");
-    //Serial.print("Status: ");
-    //Serial.println(status);
-    return status;
-  }
-  //Serial.println("IMU has started.");
-  // setting DLPF bandwidth to 20 Hz
-  SensorArray.setDlpfBandwidth(MPU9250::DLPF_BANDWIDTH_20HZ);
-  // setting SRD to 19 for a 50 Hz update rate
-  SensorArray.setSrd(srdVal);
-  // enabling the data ready interrupt
-  //IMU.enableDataReadyInterrupt();
-  // attaching the interrupt to microcontroller pin 1
-  //pinMode(23,INPUT);
-  //attachInterrupt(23,getIMU,RISING);
-  return status;
+  //Wire.begin(SDA_PIN, SCL_PIN);
+  SensorArray.setWire(&Wire);
+  SensorArray.beginAccel();
+  SensorArray.beginGyro();
+  SensorArray.beginMag();
 
+  SensorArray.magXOffset = mXOffset;
+  SensorArray.magYOffset = mYOffset;
+  SensorArray.magZOffset = mZOffset;
 }
 /* 
  * This function updates all variables.
  */
 void Location::updateLocationVars()
 {        
-    SensorArray.readSensor();
     
-    gyrx = SensorArray.getGyroX_rads();
-    gyry = SensorArray.getGyroY_rads();
-    gyrz = SensorArray.getGyroZ_rads();
-    accx = SensorArray.getAccelX_mss();
-    accy = SensorArray.getAccelY_mss();
-    accz = SensorArray.getAccelZ_mss();
-    magx = SensorArray.getMagX_uT();
-    magy = SensorArray.getMagY_uT();
-    magz = SensorArray.getMagZ_uT();
-
+    SensorArray.accelUpdate();/*
+    SensorArray.gyroUpdate();
+    SensorArray.magUpdate();
+    
+    gyrx = SensorArray.gyroX();
+    gyry = SensorArray.gyroY();
+    gyrz = SensorArray.gyroZ();
+    accx = SensorArray.accelX();
+    accy = SensorArray.accelY();
+    accz = SensorArray.accelZ();
+    magx = SensorArray.magX();
+    magy = SensorArray.magY();
+    magz = SensorArray.magZ();
+    
     Now = micros();
     deltat = ((Now - lastUpdate)/1000000.0f); // set integration time by time elapsed since last filter update
     lastUpdate = Now;
@@ -78,7 +74,7 @@ void Location::updateLocationVars()
     
     posX = posX + speedX * period + 1/2 * c_accx * pow(period,2);
     posY = posY + speedY * period + 1/2 * c_accy * pow(period,2);
-    posZ = posZ + speedZ * period + 1/2 * c_accz * pow(period,2);
+    posZ = posZ + speedZ * period + 1/2 * c_accz * pow(period,2);*/
 }
 
 /* This file gets you the heading with 0 being North. It is measured in Degrees.

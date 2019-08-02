@@ -12,6 +12,7 @@
 #include "lidar.h"
 #include "PublicStructures.h"
 #include "HCSR04P.h"
+#include "location.h"
 
 // external
 extern lineTrackInterface lineSensorFrontLeft;
@@ -21,6 +22,7 @@ extern lineTrackInterface lineSensorBackRight;
 extern lidar lidarSensors;
 extern deviceConfig dC;
 extern HCSR04P ultraSonic;
+extern Location mylocation;
 
 #define DEBUG_READ_SENSORS
 
@@ -49,7 +51,7 @@ void readSensors() {
  * Execution Core : 0
  * void lidarloop(void * pvParameters) {
  */
-void lidarloop() {
+void lidarloop(void * pvParameters) {
     #ifdef DEBUG_READ_SENSORS
     int t1;
     #endif
@@ -62,6 +64,7 @@ void lidarloop() {
             #ifdef DEBUG_READ_SENSORS
             Serial.print("Read lidar sensors runtime: ");
             Serial.println(millis() - t1);
+            mylocation.updateLocationVars();
             #endif
         }
         delay(10);

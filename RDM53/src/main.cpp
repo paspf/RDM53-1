@@ -24,6 +24,7 @@ void setup() {
   //ESP32InitObj.RDMWiFiInit();
   RDMWiFiInit();
   OTAirInit();
+  Wire.begin();
   lidarSensors.initLox();
   webSocket.begin();                                                      // start the websocket server
   webSocket.onEvent(webSocketEvent);                                      // what to do on event...
@@ -34,7 +35,6 @@ void setup() {
   interruptInitialization();
   mylocation.startMP();
   Serial.print("Creating Task lidarLoop...");
-  /*
   xTaskCreatePinnedToCore(
                     lidarloop,        // task function.
                     "lidarLoop",      // name of task.
@@ -43,7 +43,7 @@ void setup() {
                     2,                // priority of the task
                     &TaskLidarLoop,   // task handle to keep track of created task
                     0);               // pin task to core 0
-  */
+  
   Serial.println("[OK]");                 
   Serial.println("-----------------------");
   Serial.println("RDM53 is ready to go!");
@@ -67,8 +67,8 @@ void loop() {
   webSocket.loop();
   interruptWorkers();
   readSensors();
-  lidarloop();
-  mylocation.updateLocationVars();
+  //mylocation.updateLocationVars();
+  //lidarloop();
   // Serial.println(millis());
   switch(dC.mode) {
     case 0x020000:
