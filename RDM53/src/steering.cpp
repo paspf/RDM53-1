@@ -207,3 +207,23 @@ void SteeringInterface::turnToDegrees(float degrees){
         turnHardLeftBy(degrees - mylocation.getHeading());
     }
 }
+
+void SteeringInterface::turnLeftBy(float degrees){
+    degreeToTurnTo = mylocation.getHeading() - degrees;
+    turnToDegrees(degreeToTurnTo);
+}
+
+void SteeringInterface::turnLeftBy(float degrees, int curveRadius){
+    degreeToTurnTo = mylocation.getHeading() - degrees;
+    turnToDegrees(degreeToTurnTo);
+}
+
+void SteeringInterface::turnRightBy(float degrees){
+    degreeToTurnTo = mylocation.getHeading() + degrees;
+    turnToDegrees(degreeToTurnTo);
+}
+
+void SteeringInterface::turnRightBy(float degrees, int curveRadius){
+    degreeToTurnTo = mylocation.getHeading() + degrees;
+    turnToDegrees(degreeToTurnTo);
+}

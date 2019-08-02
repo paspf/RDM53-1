@@ -43,6 +43,10 @@ class SteeringInterface{
     void turnHardLeftBy(float);
     void turnHardRightBy(float);
     void turnToDegrees(float);
+    void turnLeftBy(float);
+    void turnLeftBy(float, int);
+    void turnRightBy(float);
+    void turnRightBy(float, int);
 };
 
 #endif
