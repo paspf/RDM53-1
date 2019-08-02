@@ -13,6 +13,12 @@
 #define LT_BL_PIN 34
 #define LT_BR_PIN 39
 
+#define SDA1 21
+#define SCL1 22
+
+#define SDA2 17
+#define SCL2 16
+
 #include "WebSocketsServer.h"
 //#include "mainUSR.h"
 #include "ESP32Init.h"

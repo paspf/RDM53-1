@@ -16,10 +16,10 @@
 #define EFL2_PWM_CH 1
 
 // Engine front right
-#define EFR1_PIN 16
+#define EFR1_PIN 25
 #define EFR1_PWM_CH 2
 
-#define EFR2_PIN 17
+#define EFR2_PIN 5
 #define EFR2_PWM_CH 3
 
 // Engine back left

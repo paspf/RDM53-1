@@ -24,10 +24,11 @@ void setup() {
   //ESP32InitObj.RDMWiFiInit();
   RDMWiFiInit();
   OTAirInit();
-  Wire.begin();
   lidarSensors.initLox();
   webSocket.begin();                                                      // start the websocket server
   webSocket.onEvent(webSocketEvent);                                      // what to do on event...
+  Wire.begin();
+  Wire1.begin(17,16);
   Serial.print("CPU Frequency [Mhz]: ");
   Serial.println(getCpuFrequencyMhz()); //Get CPU clock
   pinMode(BUILTIN_LED, OUTPUT);

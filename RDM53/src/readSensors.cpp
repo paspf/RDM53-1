@@ -64,7 +64,6 @@ void lidarloop(void * pvParameters) {
             #ifdef DEBUG_READ_SENSORS
             Serial.print("Read lidar sensors runtime: ");
             Serial.println(millis() - t1);
-            mylocation.updateLocationVars();
             #endif
         }
         delay(10);
