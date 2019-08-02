@@ -8,6 +8,11 @@
 
 #include "EnginesInterface.h"
 
+/*
+ * The constructor performs basic setup functions
+ * - set PWM frequency and resolution
+ * - attach pins to ledpwm
+ */
 EnginesInterface::EnginesInterface() {
     pinMode(EFL1_PIN,OUTPUT);
     pinMode(EFL2_PIN,OUTPUT);
@@ -18,28 +23,28 @@ EnginesInterface::EnginesInterface() {
     pinMode(EBR1_PIN,OUTPUT);
     pinMode(EBR2_PIN,OUTPUT);
 
-    ledcSetup(EFL1_PWM_CH, LED_PWM_FREQUENCY, LED_PWM_RESULTION);
+    ledcSetup(EFL1_PWM_CH, LED_PWM_FREQUENCY, LED_PWM_RESOLTION);
     ledcAttachPin(EFL1_PIN, EFL1_PWM_CH);
 
-    ledcSetup(EFL2_PWM_CH, LED_PWM_FREQUENCY, LED_PWM_RESULTION);
+    ledcSetup(EFL2_PWM_CH, LED_PWM_FREQUENCY, LED_PWM_RESOLTION);
     ledcAttachPin(EFL2_PIN, EFL2_PWM_CH);
 
-    ledcSetup(EFR1_PWM_CH, LED_PWM_FREQUENCY, LED_PWM_RESULTION);
+    ledcSetup(EFR1_PWM_CH, LED_PWM_FREQUENCY, LED_PWM_RESOLTION);
     ledcAttachPin(EFR1_PIN, EFR1_PWM_CH);
 
-    ledcSetup(EFR2_PWM_CH, LED_PWM_FREQUENCY, LED_PWM_RESULTION);
+    ledcSetup(EFR2_PWM_CH, LED_PWM_FREQUENCY, LED_PWM_RESOLTION);
     ledcAttachPin(EFR2_PIN, EFR2_PWM_CH);
 
-    ledcSetup(EBL1_PWM_CH, LED_PWM_FREQUENCY, LED_PWM_RESULTION);
+    ledcSetup(EBL1_PWM_CH, LED_PWM_FREQUENCY, LED_PWM_RESOLTION);
     ledcAttachPin(EBL1_PIN, EBL1_PWM_CH);
 
-    ledcSetup(EBL2_PWM_CH, LED_PWM_FREQUENCY, LED_PWM_RESULTION);
+    ledcSetup(EBL2_PWM_CH, LED_PWM_FREQUENCY, LED_PWM_RESOLTION);
     ledcAttachPin(EBL2_PIN, EBL2_PWM_CH);
 
-    ledcSetup(EBR1_PWM_CH, LED_PWM_FREQUENCY, LED_PWM_RESULTION);
+    ledcSetup(EBR1_PWM_CH, LED_PWM_FREQUENCY, LED_PWM_RESOLTION);
     ledcAttachPin(EBR1_PIN, EBR1_PWM_CH);
 
-    ledcSetup(EBR2_PWM_CH, LED_PWM_FREQUENCY, LED_PWM_RESULTION);
+    ledcSetup(EBR2_PWM_CH, LED_PWM_FREQUENCY, LED_PWM_RESOLTION);
     ledcAttachPin(EBR2_PIN, EBR2_PWM_CH);
 }
 

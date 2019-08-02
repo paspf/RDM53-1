@@ -5,18 +5,21 @@
  * Date: 2019 05 26
  * Author: Pascal Pfeiffer
  */
+
+// includes
 #include <Arduino.h>
 #include "connectivity.h"
+#include "protocol.h"
+#include "PublicStructures.h"
 
-#ifndef RDM_MAIN
-    extern String inputString;
-    extern WebSocketsServer webSocket;
-    extern unsigned char inputBinary[128]; 
-    extern void protocolEnter(unsigned char*, size_t);
-    #include "protocol.h"
-    #include "PublicStructures.h"
-    extern deviceConfig dC;
-#endif
+// extern objects
+extern String inputString;
+extern WebSocketsServer webSocket;
+extern unsigned char inputBinary[128]; 
+extern deviceConfig dC;
+
+// extern functions
+extern void protocolEnter(unsigned char*, size_t);
 
 /*
  * Send binary Data to Websocket Client

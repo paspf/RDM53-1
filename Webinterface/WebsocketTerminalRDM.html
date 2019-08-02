@@ -80,12 +80,20 @@
 				<th><div id="LTFLDisplay" style="border-style: solid; width: 1em; height: 1em"></div></th>
 				<th><button type="button" id="buttonLTFRValues" onclick="WebHexCmdSend(id);" value="11030312000000000012">LT FR</button></th>
 				<th><div id="LTFRDisplay" style="border-style: solid; width: 1em; height: 1em"></div></th>
+				<th><button type="button" id="buttonLTFLRawValues" onclick="WebHexCmdSend(id);" value="1103030C000000000012">LT FL Raw</button></th>
+				<th><div id="LTFLRawDisplay"></div></th>
+				<th><button type="button" id="buttonLTFRRawValues" onclick="WebHexCmdSend(id);" value="1103030D000000000012">LT FR Raw</button></th>
+				<th><div id="LTFRRawDisplay"></div></th>
 			</tr>
 			<tr>
 				<th><button type="button" id="buttonLTBLValues" onclick="WebHexCmdSend(id);" value="11030313000000000012">LT BL</button></th>
 				<th><div id="LTBLDisplay" style="border-style: solid; width: 1em; height: 1em"></div></th>
 				<th><button type="button" id="buttonLTBRValues" onclick="WebHexCmdSend(id);" value="11030314000000000012">LT BR</button></th>
 				<th><div id="LTBRDisplay" style="border-style: solid; width: 1em; height: 1em"></div></th>
+				<th><button type="button" id="buttonLTBLRawValues" onclick="WebHexCmdSend(id);" value="1103030E000000000012">LT BL Raw</button></th>
+				<th><div id="LTBLRawDisplay"></div></th>
+				<th><button type="button" id="buttonLTBRRawValues" onclick="WebHexCmdSend(id);" value="1103030F000000000012">LT BR Raw</button></th>
+				<th><div id="LTBRRawDisplay"></div></th>
 			</tr>
 		</table>
 	</div>
@@ -259,19 +267,70 @@ function checkIfValIsKnown(value) {
 		break;
 		case "01001100":
 			payload = value.substring(10, 18);
-			document.getElementById("LTFLDisplay").innerHTML = parseInt(payload, 16).toString();
+			if(parseInt(payload, 16).toString() == "1") {
+				document.getElementById("LTFLDisplay").style.backgroundColor= "white";
+			}
+			else if(parseInt(payload, 16).toString() == "0") {
+				document.getElementById("LTFLDisplay").style.backgroundColor= "black";
+			}
+			else {
+				document.getElementById("LTFLDisplay").style.backgroundColor= "red";
+			}
 		break;
 		case "01001200":
 			payload = value.substring(10, 18);
-			document.getElementById("LTFRDisplay").innerHTML = parseInt(payload, 16).toString();
+			if(parseInt(payload, 16).toString() == "1") {
+				document.getElementById("LTFRDisplay").style.backgroundColor= "white";
+			}
+			else if(parseInt(payload, 16).toString() == "0") {
+				document.getElementById("LTFRDisplay").style.backgroundColor= "black";
+			}
+			else {
+				document.getElementById("LTFRDisplay").style.backgroundColor= "red";
+			}
+			// document.getElementById("LTFRDisplay").innerHTML = parseInt(payload, 16).toString();
 		break;
 		case "01001300":
 			payload = value.substring(10, 18);
-			document.getElementById("LTBLDisplay").innerHTML = parseInt(payload, 16).toString();
+			if(parseInt(payload, 16).toString() == "1") {
+				document.getElementById("LTBLDisplay").style.backgroundColor= "white";
+			}
+			else if(parseInt(payload, 16).toString() == "0") {
+				document.getElementById("LTBLDisplay").style.backgroundColor= "black";
+			}
+			else {
+				document.getElementById("LTBLDisplay").style.backgroundColor= "red";
+			}
+			//document.getElementById("LTBLDisplay").innerHTML = parseInt(payload, 16).toString();
 		break;
 		case "01001400":
+			if(parseInt(payload, 16).toString() == "1") {
+				document.getElementById("LTBRDisplay").style.backgroundColor= "white";
+			}
+			else if(parseInt(payload, 16).toString() == "0") {
+				document.getElementById("LTBRDisplay").style.backgroundColor= "black";
+			}
+			else {
+				document.getElementById("LTBRDisplay").style.backgroundColor= "red";
+			}
 			payload = value.substring(10, 18);
-			document.getElementById("LTBRDisplay").innerHTML = parseInt(payload, 16).toString();
+			//document.getElementById("LTBRDisplay").innerHTML = parseInt(payload, 16).toString();
+		break;
+		case "01000c00":
+			payload = value.substring(10, 18);
+			document.getElementById("LTFLRawDisplay").innerHTML = parseInt(payload, 16).toString();
+		break;
+		case "01000d00":
+			payload = value.substring(10, 18);
+			document.getElementById("LTFRRawDisplay").innerHTML = parseInt(payload, 16).toString();
+		break;
+		case "01000e00":
+			payload = value.substring(10, 18);
+			document.getElementById("LTBLRawDisplay").innerHTML = parseInt(payload, 16).toString();
+		break;
+		case "01000f00":
+			payload = value.substring(10, 18);
+			document.getElementById("LTBRRawDisplay").innerHTML = parseInt(payload, 16).toString();
 		break;
 	  default:
 	  console.log("unknown binary stream");

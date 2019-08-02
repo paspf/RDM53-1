@@ -6,15 +6,29 @@
  * Author: Pascal Pfeiffer
  */
 
+// includes
 #include "ESP32Init.h"
-//#include "piezo.h"
+#include "mainUSR.h"
+#include <WiFi.h>
+#include "time.h"
+#include <rom/rtc.h>
+#include <WiFiClientSecure.h>
+#include "esp_wpa2.h"
+#include <ESPmDNS.h>
+#include <WiFiUdp.h>
+#include "piezo.h"
 #include <esp_wifi.h>
 
-//extern PiezoInterface piezo;
+// extern objects
+extern PiezoInterface piezo;
 
+// local objects
 WiFiClientSecure client;
-// wifi root certificate
-// T-TeleSec GlobalRoot Class 2
+
+/* 
+ * wifi root certificate
+ * T-TeleSec GlobalRoot Class 2
+ */
 const char* root_ca= \
 "-----BEGIN CERTIFICATE-----\n" \
 "MIIDwzCCAqugAwIBAgIBATANBgkqhkiG9w0BAQsFADCBgjELMAkGA1UEBhMCREUx\n" \

@@ -15,7 +15,7 @@
 #include <HCSR04P.h>
 #include <Arduino.h>
 
-// external
+// extern objects
 extern deviceConfig dC;
 extern lidar lidarSensors;
 extern lineTrackInterface lineSensorFrontLeft;
@@ -146,6 +146,12 @@ void interruptWorkers() {
   yield();
 }
 
+/*
+ * This function is continuously called if the
+ * dC.wiFiNotificationSender value is true
+ * The function sends all recent sensor values
+ * to the websocket client
+ */
 void wiFiNotificationSender() {
   // line tracking Sensors
   protocolSend(0x0, 0x11, 0x00, lineSensorFrontLeft.getColorCode());

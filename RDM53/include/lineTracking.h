@@ -8,18 +8,21 @@
 
 #include <Arduino.h>
 
+#ifndef LINE_TRACKING_H
+#define LINE_TRACKING_H
+
 /*
- * Line Tracker Interface
- * 
- */
+* Line Tracker Interface
+* 
+*/
 class lineTrackInterface {
     private:
     int pin;
     // color lowValv highVal
     /*
-     * Best sensors: FL, BR
-     * white yellow and green are not consistant
-     */
+    * Best sensors: FL, BR
+    * white yellow and green are not consistant
+    */
     short black[2] = {3800,4095};
     short white[2] = {500,3799};
     short yellow[2] = {1200,1300};
@@ -34,3 +37,5 @@ class lineTrackInterface {
     int getRawSensorValue();
     int getColorCode();
 };
+
+#endif
