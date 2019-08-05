@@ -16,8 +16,10 @@
 class Location{
 public:
     float yaw, pitch, roll;
-    float speedX, speedY, speedZ, speedGen;
+    float speedX, speedY, speedZ, speedGen, speedTrue;
     float posX, posY, posZ;
+
+    float wheelSize = 0.036;
     
     int startMP();
     float getHeading();
@@ -27,6 +29,7 @@ public:
     float getSpeedY();
     float getSpeedZ();
     float getSpeedGen();
+    float getSpeedTrue();
     float getPosX();
     float getPosY();
     float getPosZ();
@@ -72,7 +75,14 @@ private:
   
     void MahonyQuaternionUpdate(float accx, float accy, float accz, float gyrx, float gyry, float gyrz, float magx, float magy, float magz);
     void MadgwickQuaternionUpdate(float accx, float accy, float accz, float gyrx, float gyry, float gyrz, float magx, float magy, float magz);
+    
+    #define SpeedSensor 0x70
+    float i2cGetSpeed();
   
+    union floatToBytes {
+        char buffer[4];
+        float number;
+    } converter;
     //location();
 };
 

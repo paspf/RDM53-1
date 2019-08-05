@@ -1,5 +1,6 @@
 #include "location.h"
 #include "MPU9250.h"
+#include <math.h>
 
 MPU9250 SensorArray(Wire1, 0x68);
 
@@ -71,6 +72,8 @@ void Location::updateLocationVars()
     c_accy = accy -gravy;
     c_accz = accz -gravz;
 
+    speedTrue = i2cGetSpeed() * 2* PI * wheelSize;
+
     speedX = speedX + c_accx * period;
     speedY = speedY + c_accy * period;
     speedZ = speedZ + c_accz * period;
@@ -79,6 +82,29 @@ void Location::updateLocationVars()
     posX = posX + speedX * period + 1/2 * c_accx * pow(period,2);
     posY = posY + speedY * period + 1/2 * c_accy * pow(period,2);
     posZ = posZ + speedZ * period + 1/2 * c_accz * pow(period,2);
+}
+/* This function gets the current average rotational Speed of both sides of the Car. 
+ * It is measured in rad/s. This number is always positive, even if you drive backwards.
+ * 
+ */
+float Location::i2cGetSpeed()
+{
+    Wire1.beginTransmission(SpeedSensor);
+    Wire1.write('S');
+    Wire1.endTransmission();
+
+    int index = 0;
+
+    Wire1.requestFrom(SpeedSensor, 4);
+    // Wait for response
+    while (Wire1.available()) {
+        byte b = Wire1.read();
+
+        converter.buffer[index] = b;
+        index++;
+    }
+    return converter.number;
+    converter.number = 0;
 }
 
 /* This file gets you the heading with 0 being North. It is measured in Degrees.
@@ -128,6 +154,13 @@ float Location::getSpeedZ(){
  */
 float Location::getSpeedGen(){
   return speedGen;
+}
+/* This function gets the Speed of the wheels in general 
+ * The speed is measured in m/s (meters per second)
+ * this value is always positive and doesn't tell you anything about the direction
+ */
+float Location::getSpeedTrue(){
+  return speedTrue;
 }
 /* This function gets the distance travelled in the x-axis (forward/backward)
  * The distance is measured in m
