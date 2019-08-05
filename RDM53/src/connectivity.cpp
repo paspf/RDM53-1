@@ -6,6 +6,8 @@
  * Author: Pascal Pfeiffer
  */
 
+//#define DEBUG_CONNECTIVITY
+
 // includes
 #include <Arduino.h>
 #include "connectivity.h"
@@ -182,35 +184,41 @@ void serialReceive() {
   size_t lastEl = 0;
   while (Serial.available()) {
     char inChar = (char)Serial.read();                          // get the new byte
+    // check if a string is received
     if(lastEl == 0 && inChar != 0x11) {
       binary = false;
     }
+    // check if binary data is received
     if(lastEl == 0 && inChar == 0x11) {
-      // webSocket.broadcastTXT("0x11 found!");
+      #ifdef DEBUG_CONNECTIVITY
+      webSocket.broadcastTXT("0x11 found!");
+      #endif
       lastEl++;
       continue;
     }
-    if (inChar != '\r' && binary == false) {                                       // if the incoming character is NOT a carriage return...
-      inputString += inChar;                                    // add it to the inputString
+    // if the incoming character is NOT a carriage return...
+    // add it to the inputString
+    if (inChar != '\r' && binary == false) {
+      inputString += inChar;
     }
+    // check if the binaryEnd byte has been received
     else if(binary == true && lastEl == 9 && inChar == 0x12) {
       protocolEnter(inputBinary, 128);
-      // webSocket.broadcastTXT("line 105");
     }
+    // add received byte to the inputBinary array
     else if(binary == true && lastEl < 10) {
       inputBinary[lastEl] = inChar;
-      // webSocket.broadcastTXT("line 109");
     }
+    // no binary received, analyse received string
     else if(binary == false) {
       analyseString();
-      // webSocket.broadcastTXT("Analyse String");
+      #ifdef DEBUG_CONNECTIVITY
+      webSocket.broadcastTXT("Analyse String");
+      #endif
     }
-    else {                                                      // if the incoming character is a carriage return, set a flag
+    // just read the input and throw it away
+    else { 
       Serial.read();
-      // webSocket.broadcastTXT("line 117 length:");
-      // char lastElStr[100];
-      // sprintf(lastElStr, "%d", lastEl);
-      // webSocket.broadcastTXT(lastElStr);
     }
     lastEl++;
   }

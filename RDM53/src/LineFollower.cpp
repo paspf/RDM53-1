@@ -31,7 +31,6 @@ void LineFollower::followLine(){
     if (rawValueBL != 0 && rawValueFL != 0 && rawValueBR != 0 && rawValueFR != 0) {
         steering.setVal(1,128);
         steering.setVal(0,0x0175);     
-        Serial.println("fahre geradeaus");
         return;
     }
     
@@ -39,14 +38,12 @@ void LineFollower::followLine(){
     // turn the car in the position that both left sensors are in stripe
     if(rawValueFL == 0 && rawValueBL != 0){
         steering.setVal(1,255);
-        Serial.println("Auto dreht");
         return;
     }
     
     // if both left sensors are in the stripe, stop the car 
     if(rawValueFL == 0 && rawValueBL == 0) {
         steering.setVal(1,128);
-        Serial.println("Auto Stopp");
         return;
     }
     
@@ -73,13 +70,11 @@ void LineFollower::followLine(){
     //turn the car in the position that both right sensors are in stripe
     if(rawValueFR == 0 && rawValueBR != 0) {
         steering.setVal(1,0);
-        Serial.println("Auto dreht");
         return;
     }
     // if both right sensors are in the stripe, stop the car
     if(rawValueFR == 0 && rawValueBR == 0) {
         steering.setVal(1,128);
-        Serial.println("Auto Stopp");
         return;
     }
 

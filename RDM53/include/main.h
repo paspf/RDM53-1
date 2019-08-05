@@ -29,6 +29,7 @@
 #include "LineFollower.h"
 #include "readSensors.h"
 #include "ObstacleAvoidance.h"
+#include "ObstacleAndLine.h"
 #include "esp32-hal-cpu.h"
 
 /**** structures ****/
@@ -63,5 +64,6 @@ HCSR04P ultraSonic(2, 15, 4000);
 
 LineFollower followLine;
 ObstacleAvoidance obstaclecircuittest;
+ObstacleAndLine driverRDM;
 
 ObstacleInterface oi;

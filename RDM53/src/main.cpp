@@ -5,7 +5,7 @@
  * 
  * Date: 2019 05 21
  * Author: Pascal Pfeiffer
- * Project Members: Pascal Pfeiffer, Jan Kühnemund, Taha Tekdemir (derbabo), Hakim Nasser, Justin Neumann
+ * Project Members: Pascal Pfeiffer, Jan Kühnemund, Taha Tekdemir (derbabo), Justin Neumann
  */
 
 #include "main.h"
@@ -20,8 +20,6 @@ TaskHandle_t TaskLidarLoop;
  */
 void setup() {
   Serial.begin(230400);
-  //ESP32Init ESP32InitObj;
-  //ESP32InitObj.RDMWiFiInit();
   RDMWiFiInit();
   OTAirInit();
   lidarSensors.initLox();
@@ -69,7 +67,6 @@ void loop() {
   interruptWorkers();
   readSensors();
   mylocation.updateLocationVars();
-  //lidarloop();
   // Serial.println(millis());
   switch(dC.mode) {
     case 0x020000:
@@ -87,36 +84,44 @@ void loop() {
       dC.mode = 0x020000;
       break;
     case 0x000000:
-      // Autonomous 0
+      // Autonomous 0 - only lidar
       // 11020000000000000012
       //webSocket.broadcastTXT("Autonomous 0 is set - Line Follower");
-      //followLine.followLine();
-      //steering.setPilot();
-      dC.mode = 0x020000;
-      Serial.println("Main 92");
+      followLine.followLine();
+      steering.setPilot();
       break;
     case 0x000001:
-      // Autonomous 1
+      // Autonomous 1 - only lidar
+      // 11020000000000000112
       //webSocket.broadcastTXT("Autonomous 1 is set");
-      //obstaclecircuittest.obstaclecircuit();
-      //steering.setPilot();
-      dC.mode = 0x020000;
-      //webSocket.broadcastTXT("Autonomous 1 is set");
-      // dC.mode = 0x020000;
-      Serial.println("Main 102");
+      obstaclecircuittest.obstaclecircuit();
+      steering.setPilot();
       break;
     case 0x000002:
-      // Autonomous 2
-      //webSocket.broadcastTXT("Autonomous 2 is set");
-      Serial.println("Main 107");
+      // Autonomous 2 - Lidar and LineTracking
+      // 11020000000000000212
+      // webSocket.broadcastTXT("Autonomous 2 is set");
+      driverRDM.driveThroughParcour();
+      steering.setPilot();
+      break;
+    case 0x000003:
+      // Autonomous 3 - 
+      // 11020000000000000312
+      webSocket.broadcastTXT("Autonomous 3 is set");
+      dC.mode = 0x020000;
+      break;
+    case 0x000004:
+      // Autonomous 4 - 
+      // 11020000000000000412
+      webSocket.broadcastTXT("Autonomous 4 is set");
       dC.mode = 0x020000;
       break;
     default:
-      //webSocket.broadcastTXT("Error in dc.Mode");
-      Serial.println("Main Default 112");
+      webSocket.broadcastTXT("Error in dc.Mode");
+      dC.mode = 0x020000;
   }
   //Serial.print("Runtime: ");
   //Serial.println( millis()- startTime);
   // do not use other delays (this should be the only delay in project) !!!!!
-  delay(10);
+  //delay(10);
 }
