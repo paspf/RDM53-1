@@ -33,6 +33,7 @@ void setup() {
   digitalWrite(BUILTIN_LED, LOW);
   interruptInitialization();
   mylocation.startMP();
+  mylocation.aLittleJoke();
   Serial.print("Creating Task lidarLoop...");
   xTaskCreatePinnedToCore(
                     lidarloop,        // task function.
@@ -42,6 +43,7 @@ void setup() {
                     2,                // priority of the task
                     &TaskLidarLoop,   // task handle to keep track of created task
                     0);               // pin task to core 0
+  
   
   Serial.println("[OK]");                 
   Serial.println("-----------------------");

@@ -16,8 +16,8 @@
 class Location{
 public:
     float yaw, pitch, roll;
-    float speedX, speedY, speedZ, speedGen, speedTrue;
-    float posX, posY, posZ;
+    float speedX, speedY, speedGen, speedTrue;
+    float posX, posY;
 
     float wheelSize = 0.036;
     
@@ -27,12 +27,9 @@ public:
     float getRoll();
     float getSpeedX();
     float getSpeedY();
-    float getSpeedZ();
-    float getSpeedGen();
     float getSpeedTrue();
     float getPosX();
     float getPosY();
-    float getPosZ();
 
     float getAccX();
     float getAccY();
@@ -45,6 +42,8 @@ public:
     float getMagZ();
     
     void updateLocationVars();
+
+    void aLittleJoke();
 
 private:
     // global constants for 9 DoF fusion and AHRS (Attitude and Heading Reference System)
@@ -64,7 +63,7 @@ private:
     uint32_t lastUpdate = 0, firstUpdate = 0; // used to calculate integration interval
     uint32_t Now = 0; // used to calculate integration interval
     
-    int status, sumCount;
+    int status, sumCount, lastLocUpdate;
     float srdVal = 19;
     float period = (1/(1+srdVal));
     

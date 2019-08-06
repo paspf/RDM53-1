@@ -13,11 +13,15 @@
 class ObstacleBuffer {
   public:
   int obstacleDetectionTime; // time, when the obstacle has been detected or updated
+  int obstacleUpdateTime;
   int obstacleID; // temporary id of obstace
   int distanceObstacteToCar; // distance obstace to car
   int distanceToStartPosition;  // distance absolute to start position
   int angleToStartPosition; // angle absolute to start pos
   int angleObstacleToCar; // angle absolut to car
+  float xCoordinate;
+  float yCoordinate;
+  float size;
 };
 
 class ObstacleInterface {
