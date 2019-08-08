@@ -31,6 +31,7 @@
 #include "ObstacleAvoidance.h"
 #include "ObstacleAndLine.h"
 #include "esp32-hal-cpu.h"
+#include "ObstacleTracker.h"
 
 /**** structures ****/
 #include "PublicStructures.h"
@@ -54,9 +55,9 @@ lineTrackInterface lineSensorBackRight(LT_BR_PIN);
 EnginesInterface enginesInt;
 SteeringInterface steering;
 
-Location mylocation;
-
 lidar lidarSensors;
+
+Location mylocation;
 
 PiezoInterface piezo;
 
@@ -66,4 +67,4 @@ LineFollower followLine;
 ObstacleAvoidance obstaclecircuittest;
 ObstacleAndLine driverRDM;
 
-ObstacleInterface oi;
+ObstacleTracker ObstTrack;

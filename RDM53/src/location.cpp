@@ -7,6 +7,10 @@ MPU9250 SensorArray(Wire1, 0x68);
 /* This function starts the sensor and sets all required components. If it has not been used
  * the sensor will not start. 
  */
+
+
+
+
 int Location::startMP()
 {
   if ((status = SensorArray.begin()) < 0) {
@@ -26,6 +30,7 @@ int Location::startMP()
   // attaching the interrupt to microcontroller pin 1
   //pinMode(23,INPUT);
   //attachInterrupt(23,getIMU,RISING);
+
   return status;
 
 }
@@ -72,7 +77,7 @@ void Location::updateLocationVars()
     c_accy = accy -gravy;
     c_accz = accz -gravz;
 
-    speedTrue = i2cGetSpeed() * 2* PI * wheelSize;
+    speedTrue = i2cGetSpeed() * 2.0* PI * wheelSize;
 
     speedX = speedTrue * cos(yaw);
     speedY = speedTrue * sin(yaw);
@@ -80,13 +85,16 @@ void Location::updateLocationVars()
     posX = posX + speedX * millis() - lastLocUpdate;
     posY = posY + speedY * millis() - lastLocUpdate;
     lastLocUpdate=millis();
-}
+
+  }
+
 /* This function gets the current average rotational Speed of both sides of the Car. 
  * It is measured in rad/s. This number is always positive, even if you drive backwards.
  * 
  */
 float Location::i2cGetSpeed()
 {
+    converter.number = 0;
     Wire1.beginTransmission(SpeedSensor);
     Wire1.write('S');
     Wire1.endTransmission();
@@ -101,8 +109,9 @@ float Location::i2cGetSpeed()
         converter.buffer[index] = b;
         index++;
     }
+    //Serial.println(converter.number);
     return converter.number;
-    converter.number = 0;
+    
 }
 
 /* This file gets you the heading with 0 being North. It is measured in Degrees.
@@ -145,6 +154,7 @@ float Location::getSpeedY(){
  * this value is always positive and doesn't tell you anything about the direction
  */
 float Location::getSpeedTrue(){
+  Serial.println(speedTrue);
   return speedTrue;
 }
 /* This function gets the distance travelled in the x-axis (forward/backward)

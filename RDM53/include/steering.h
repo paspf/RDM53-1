@@ -28,6 +28,7 @@ class SteeringInterface{
     bool turnHardLeft = false;
     bool turnHardRight = false;
     float degreeToTurnTo;
+    float goalSpeed;
 
     bool dirLeft = false;
     bool dirRight = false;

@@ -49,6 +49,7 @@ void setup() {
   Serial.println("-----------------------");
   Serial.println("RDM53 is ready to go!");
   Serial.println("-----------------------");
+  //ObstTrack.checkForObstacles();
 }
 
 /*
@@ -69,6 +70,9 @@ void loop() {
   interruptWorkers();
   readSensors();
   mylocation.updateLocationVars();
+
+  //ObstTrack.checkForObstacles();
+
   // Serial.println(millis());
   switch(dC.mode) {
     case 0x020000:

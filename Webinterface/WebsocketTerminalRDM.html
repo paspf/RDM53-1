@@ -73,6 +73,16 @@
 				<td> </td>
 				<td> </td>
 				<td> </td>
+			<tr>				
+				<td><button type="button" id="buttonSpeedValues" onclick="WebHexCmdSend(id);" value="11030319000000000012">Speed</button></td>
+				<td><div id="buttonSpeedValuesDisplay">none</div></td>
+				<td> </td>
+				<td> </td>
+
+				<td> </td>
+				<td> </td>
+				<td> </td>
+				<td> </td>
 		</table> 
 		<table>
 			<tr>
@@ -127,7 +137,7 @@
 	//var WebSocketIPAdress = 'ws://192.168.43.156:81';
 	//var WebSocketIPAdress = 'ws://172.20.10.9:81';
 	//var WebSocketIPAdress = 'ws://192.168.43.185:81';
-	var WebSocketIPAdress = 'ws://10.3.141.131:81';
+	var WebSocketIPAdress = 'ws://10.3.141.206:81';
 
 var my_gamepad = null;
 var refreshIntervalIdJoystick = null;
@@ -267,6 +277,22 @@ function checkIfValIsKnown(value) {
 			payload = value.substring(10, 18);
 			document.getElementById("buttonLidar6ValuesDisplay").innerHTML = parseInt(payload, 16).toString() + "mm";
 		break;
+		case "01000c00":
+			payload = value.substring(10, 18);
+			document.getElementById("LTFLRawDisplay").innerHTML = parseInt(payload, 16).toString();
+		break;
+		case "01000d00":
+			payload = value.substring(10, 18);
+			document.getElementById("LTFRRawDisplay").innerHTML = parseInt(payload, 16).toString();
+		break;
+		case "01000e00":
+			payload = value.substring(10, 18);
+			document.getElementById("LTBLRawDisplay").innerHTML = parseInt(payload, 16).toString();
+		break;
+		case "01000f00":
+			payload = value.substring(10, 18);
+			document.getElementById("LTBRRawDisplay").innerHTML = parseInt(payload, 16).toString();
+		break;
 		case "01001100":
 			payload = value.substring(10, 18);
 			if(parseInt(payload, 16).toString() == "1") {
@@ -318,22 +344,47 @@ function checkIfValIsKnown(value) {
 			payload = value.substring(10, 18);
 			//document.getElementById("LTBRDisplay").innerHTML = parseInt(payload, 16).toString();
 		break;
-		case "01000c00":
+		case "01001600":
 			payload = value.substring(10, 18);
-			document.getElementById("LTFLRawDisplay").innerHTML = parseInt(payload, 16).toString();
+			var buf = new ArrayBuffer(4);
+			var view = new DataView(buf);
+			data.forEach(function(b,i) {
+				view.setUint8(i, b);
+			});
+			var num = view.getFloat32(0);
+			document.getElementById("Heading").innerHTML = parseFloat(payload, 16).toString();
 		break;
-		case "01000d00":
+		case "01001700":
 			payload = value.substring(10, 18);
-			document.getElementById("LTFRRawDisplay").innerHTML = parseInt(payload, 16).toString();
+			var buf = new ArrayBuffer(4);
+			var view = new DataView(buf);
+			data.forEach(function(b,i) {
+				view.setUint8(i, b);
+			});
+			var num = view.getFloat32(0);
+			document.getElementById("Pitch").innerHTML = parseFloat(payload, 16).toString();
 		break;
-		case "01000e00":
+		case "01001800":
 			payload = value.substring(10, 18);
-			document.getElementById("LTBLRawDisplay").innerHTML = parseInt(payload, 16).toString();
+			var buf = new ArrayBuffer(4);
+			var view = new DataView(buf);
+			data.forEach(function(b,i) {
+				view.setUint8(i, b);
+			});
+			var num = view.getFloat32(0);
+			document.getElementById("Roll").innerHTML = parseFloat(payload, 16).toString();
 		break;
-		case "01000f00":
+		case "01001900":
 			payload = value.substring(10, 18);
-			document.getElementById("LTBRRawDisplay").innerHTML = parseInt(payload, 16).toString();
+			var buf = new ArrayBuffer(4);
+			var view = new DataView(buf);
+			data.forEach(function(b,i) {
+				view.setUint8(i, b);
+			});
+			var num = view.getFloat32(0);
+			document.getElementById("Speed").innerHTML = parseFloat(payload, 16).toString();
 		break;
+		
 	  default:
 	  console.log("unknown binary stream");
 	  retVal = 1;

@@ -1,94 +1,27 @@
-/*
- * This file contains the informations for 
- * the obstacle interface 
- * 
- * 
- * Date: 2019 06 20
- * Author: Taha Tekdemir
- * Co-author: Jan Kühnemund
- */
 
-#include <ObstacleInterface.h>
+#include "ObstacleTracker.h"
+#include "location.h"
 #include <lidar.h>
 #include <HCSR04P.h>
-#include "connectivity.h"
-#include "location.h"
+
+
+extern Location myLocation;
 
 extern lidar lidarSensors; //lidar object to work directly with the sensor data (RangeMillimeter)
 //extern obstBuff obstBuffer;
 
 extern HCSR04P ultraSonic;
 
-Location myLocation;
-
-ObstacleInterface::obstacle myObstacle = NULL;
-
 //detect the obstacledata to the car 
-void ObstacleInterface::initobstacledata(){
-
-  int angleObstacleToCar;
-  int distanceObstacleToCar;
-  int i;
-  for(i=0; i<20; i++){ //20 buffer obstacles (virtual)
-
-    //obstacle in front of the car (directly)
-    if(ultraSonic.getDist() <= 1200 && lidarSensors.measureLidar[0].RangeMilliMeter <= 1200 && lidarSensors.measureLidar[3].RangeMilliMeter <= 1200) {
-      distanceObstacleToCar = lidarSensors.measureLidar[0].RangeMilliMeter;
-      angleObstacleToCar = 0;
-      fillObstacleStructure(i,&angleObstacleToCar,&distanceObstacleToCar);
-      continue;
-    }
-    //obstacle at the right front of the car 
-    if(lidarSensors.measureLidar[2].RangeMilliMeter <= 1200 && lidarSensors.measureLidar[3].RangeMilliMeter <= 1200){
-      distanceObstacleToCar = lidarSensors.measureLidar[3].RangeMilliMeter;
-      angleObstacleToCar = 45;
-      fillObstacleStructure(i,&angleObstacleToCar,&distanceObstacleToCar);
-      continue;
-    }
-    //obstacle at the rigth side of the car 
-    if(lidarSensors.measureLidar[4].RangeMilliMeter <= 1200){
-      distanceObstacleToCar = lidarSensors.measureLidar[4].RangeMilliMeter;
-      angleObstacleToCar = 90;
-      fillObstacleStructure(i,&angleObstacleToCar,&distanceObstacleToCar);
-      continue;
-    }
-    //obstacle behind the car 
-    if(lidarSensors.measureLidar[5].RangeMilliMeter <= 1200){
-      distanceObstacleToCar = lidarSensors.measureLidar[5].RangeMilliMeter;
-      angleObstacleToCar = 180;
-      fillObstacleStructure(i,&angleObstacleToCar,&distanceObstacleToCar);
-      continue;
-    }
-    //obstacle at the left side of the car 
-    if(lidarSensors.measureLidar[6].RangeMilliMeter <= 1200){
-      distanceObstacleToCar = lidarSensors.measureLidar[6].RangeMilliMeter;
-      angleObstacleToCar = 270;
-      fillObstacleStructure(i,&angleObstacleToCar,&distanceObstacleToCar);
-      continue;
-    }
-    //obstacle at the left front of the car 
-    if(lidarSensors.measureLidar[0].RangeMilliMeter <= 1200 && lidarSensors.measureLidar[1].RangeMilliMeter <= 1200){
-      distanceObstacleToCar = lidarSensors.measureLidar[0].RangeMilliMeter;
-      angleObstacleToCar = 315;
-      fillObstacleStructure(i,&angleObstacleToCar,&distanceObstacleToCar);
-      continue;
-    }
-    else {
-      sendStringln("No Obstacle in proximity");
-    }   
-  }
-}
 
 /*void ObstacleInterface::setobstacleID(int oID){
 
     obstacleID = oID;
 }
  */
-int ObstacleInterface::getstartPosition(){
-  return 0;
-}
 
-ObstacleInterface::obstacle ObstacleInterface::checkIfObstacleExist(obstacle currentObstacle, float xTmp, float yTmp){
+
+ObstacleTracker::obstacle ObstacleTracker::checkIfObstacleExist(obstacle currentObstacle, float xTmp, float yTmp){
   while (currentObstacle != NULL){
     float xDiff = currentObstacle->xCoordinate - xTmp;
     if (xDiff < 10 && xDiff > -10){
@@ -102,7 +35,7 @@ ObstacleInterface::obstacle ObstacleInterface::checkIfObstacleExist(obstacle cur
   return NULL;
 }
 
-void ObstacleInterface::updateObstacle(obstacle thisObstacle, float xTmp, float yTmp){
+void ObstacleTracker::updateObstacle(obstacle thisObstacle, float xTmp, float yTmp){
   float anKatQ = pow(xTmp - thisObstacle->xCoordinate, 2);
   float gegKatQ = pow(yTmp - thisObstacle->yCoordinate, 2);
   float hypQ = pow(thisObstacle->radius, 2);
@@ -115,7 +48,7 @@ void ObstacleInterface::updateObstacle(obstacle thisObstacle, float xTmp, float 
   }
 }
 
-void ObstacleInterface::addObstacle(obstacle thisObstacle, float xTmp, float yTmp){
+void ObstacleTracker::addObstacle(obstacle thisObstacle, float xTmp, float yTmp){
   obstacle newObstacle = (obstacle) malloc(sizeof(struct obstacle_struct));
   while (thisObstacle->next != NULL){
     thisObstacle = thisObstacle->next;
@@ -125,9 +58,89 @@ void ObstacleInterface::addObstacle(obstacle thisObstacle, float xTmp, float yTm
   newObstacle->yCoordinate = yTmp;
   newObstacle->next = thisObstacle->next; //NULL
   thisObstacle->next = newObstacle;
+
+  obstacleAmount++;
 }
 
-void ObstacleInterface::checkForObstacles(){
+void ObstacleTracker::mergeSort(obstacle* thisObstacle){
+  obstacle head = *thisObstacle;
+  obstacle a;
+  obstacle b;
+
+  if ((head == NULL)| (head->next == NULL)){
+    return;
+  }
+  frontBackSplit(head, &a,&b);
+
+  mergeSort(&a);
+  mergeSort(&b);
+
+  *thisObstacle = sortedMerge(a,b);
+}
+
+ObstacleTracker::obstacle ObstacleTracker::sortedMerge(obstacle a, obstacle b)
+{
+  obstacle result = NULL;
+
+  if ( a == NULL){
+    return (b);
+  }
+  else if (b == NULL){
+    return (a);
+  }
+  float distance_a = sqrtf(pow(a->xCoordinate-myLocation.getPosX(),2)+pow(a->yCoordinate-myLocation.getPosY(),2));
+  float distance_b = sqrtf(pow(b->xCoordinate-myLocation.getPosX(),2)+pow(b->yCoordinate-myLocation.getPosY(),2));
+  if(distance_a <= distance_b){
+    result = a;
+    result->next=sortedMerge(a->next, b);
+  }
+  else{
+    result = b;
+    result->next = sortedMerge(a, b->next);
+  }
+  return (result);
+}
+/* Thanks to GeeksforGeeks for their amazing example.
+ * This function splits the nodes of a given list into front and back halves. If size is odd,
+ * the extra node foes to front list.
+ * Source: https://www.geeksforgeeks.org/merge-sort-for-linked-list/
+ */
+void ObstacleTracker::frontBackSplit(obstacle thisObstacle, obstacle* frontRef, obstacle* backRef){
+  obstacle fast;
+  obstacle slow;
+  slow = thisObstacle;
+  fast = thisObstacle->next;
+
+  while (fast != NULL) { 
+        fast = fast->next; 
+        if (fast != NULL) { 
+            slow = slow->next; 
+            fast = fast->next; 
+        } 
+    } 
+  
+    /* 'slow' is before the midpoint in the list, so split it in two  
+    at that point. */
+    *frontRef = thisObstacle; 
+    *backRef = slow->next; 
+    slow->next = NULL; 
+}
+
+void ObstacleTracker::delDistObst(obstacle thisObstacle)
+{
+  while(thisObstacle->next->next != NULL){
+    thisObstacle = thisObstacle->next;
+  }
+  obstacle tmp = thisObstacle->next;
+  free(tmp);
+}
+
+void ObstacleTracker::checkForObstacles(){
+  if(obstacleAmount > maxObstacleAmount){
+    mergeSort(&myObstacle);
+    delDistObst(myObstacle);
+  }
+
   //obstacle in front of the car (directly)
     if(ultraSonic.getDist() <= maxRange)
     {

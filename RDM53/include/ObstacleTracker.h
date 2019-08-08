@@ -1,34 +1,12 @@
-/*
- * This file contains the informations for 
- * the obstacle interface 
- * 
- * 
- * Date: 2019 06 20
- * Author: Taha Tekdemir
- * Co-author: Jan Kühnemund
- */
 
-#ifndef OBSTACLE_INTERFACE_H
-#define OBSTABLE_INTERFACE_H
 
-class ObstacleBuffer {
+#ifndef OBSTACLETRACKER_H
+#define OBSTACLETRACKER_H
+
+class ObstacleTracker{
   public:
-  int obstacleDetectionTime; // time, when the obstacle has been detected or updated
-  int obstacleUpdateTime;
-  int obstacleID; // temporary id of obstace
-  int distanceObstacteToCar; // distance obstace to car
-  int distanceToStartPosition;  // distance absolute to start position
-  int angleToStartPosition; // angle absolute to start pos
-  int angleObstacleToCar; // angle absolut to car
-  float xCoordinate;
-  float yCoordinate;
-  float size;
-};
-
-class ObstacleInterface {
-  public: 
-
-  int maxRange = 1200;
+  short maxRange = 1200;
+  short maxObstacleAmount = 50;
 
   float ultraSonicDeviation = 0; //Degrees to Heading when drawing Line from RDMcenter
   float ultraSonicHeading = 0; //Degrees Deviation from Heading of RDM
@@ -72,27 +50,21 @@ class ObstacleInterface {
   };
   typedef struct obstacle_struct* obstacle;
 
-  void initobstacledata();
   void checkForObstacles();
+  void delDistObst(obstacle);
+  void mergeSort(obstacle*);
+  obstacle sortedMerge(obstacle, obstacle);
+  void frontBackSplit(obstacle, obstacle*, obstacle*);
   void updateObstacle(obstacle, float, float);
   void addObstacle(obstacle, float, float);
-  int getstartPosition();
   //int checkIfObstacleExist(int*);
   obstacle checkIfObstacleExist(obstacle, float, float);
-  void fillObstacleStructure(int,int*,int*);
+
 
   private:
 
   int obstacleAmount;
-
+  obstacle myObstacle;
 };
-
-
-struct obstBuff {
-  ObstacleBuffer obstacles[30];
-  int lastUpdated = 0;
-};
-
-
 
 #endif

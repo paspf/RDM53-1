@@ -377,6 +377,11 @@ void getValues(uint8_t dataSource, uint8_t dataSubSource){
     case 0x18 : // Roll
         protocolSend(0x0, dataSource, dataSubSource, mylocation.getRoll());
         break;
+    case 0x19 : // Speed
+        Serial.println("Protocol Case 0x19");
+        protocolSend(0x0, dataSource, dataSubSource, mylocation.getSpeedTrue());
+        Serial.println("Protocol Case 0x19 Done?");
+        break;
     default:
         webSocket.broadcastTXT("Error: GetValue Unknown dataSource query");
         break;
@@ -402,5 +407,33 @@ void protocolSend(unsigned char dataType, unsigned char dataSource, unsigned cha
     toSend[8] = payload;
 
     toSend[9] = 0x12;
+    sendBinCharArr(toSend, 10);
+}
+void protocolSend(unsigned char dataType, unsigned char dataSource, unsigned char dataSubSource, float payload){
+    Serial.println("ProtocolSend Float");
+    unsigned char toSend [10];
+    union floatToBytes {
+        char buffer[4];
+        float number;
+    } converter;
+    
+    toSend[0] = 0x11; // start byte
+    toSend[1] = 0x01; // indicator "data from RDM53"
+    toSend[2] = dataType;
+    toSend[3] = dataSource;
+    toSend[4] = dataSubSource;
+
+    converter.number = payload;
+
+    toSend[5] = converter.buffer[0];
+    toSend[6] = converter.buffer[1];
+    toSend[7] = converter.buffer[2];
+    toSend[8] = converter.buffer[3];
+
+    toSend[9] = 0x12;
+
+    
+    Serial.println(converter.buffer);
+    Serial.println(converter.number);
     sendBinCharArr(toSend, 10);
 }
