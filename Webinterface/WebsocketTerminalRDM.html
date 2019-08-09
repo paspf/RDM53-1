@@ -295,50 +295,74 @@ function checkIfValIsKnown(value) {
 		break;
 		case "01001100":
 			payload = value.substring(10, 18);
-			if(parseInt(payload, 16).toString() == "1") {
+			if(parseInt(payload, 16).toString() == "1") { // floor
 				document.getElementById("LTFLDisplay").style.backgroundColor= "white";
 			}
-			else if(parseInt(payload, 16).toString() == "0") {
+			else if(parseInt(payload, 16).toString() == "0") { // line
 				document.getElementById("LTFLDisplay").style.backgroundColor= "black";
 			}
-			else {
+			else if(parseInt(payload, 16).toString() == "2") { // enemy goal
+				document.getElementById("LTFLDisplay").style.backgroundColor= "yellow";
+			}
+			else if(parseInt(payload, 16).toString() == "3") { // our goal
+				document.getElementById("LTFLDisplay").style.backgroundColor= "green";
+			}
+			else { // error
 				document.getElementById("LTFLDisplay").style.backgroundColor= "red";
 			}
 		break;
 		case "01001200":
 			payload = value.substring(10, 18);
-			if(parseInt(payload, 16).toString() == "1") {
+			if(parseInt(payload, 16).toString() == "1") { // floor
 				document.getElementById("LTFRDisplay").style.backgroundColor= "white";
 			}
-			else if(parseInt(payload, 16).toString() == "0") {
+			else if(parseInt(payload, 16).toString() == "0") { // line
 				document.getElementById("LTFRDisplay").style.backgroundColor= "black";
 			}
-			else {
+			else if(parseInt(payload, 16).toString() == "2") { // enemy goal
+				document.getElementById("LTFRDisplay").style.backgroundColor= "yellow";
+			}
+			else if(parseInt(payload, 16).toString() == "3") { // our goal
+				document.getElementById("LTFRDisplay").style.backgroundColor= "green";
+			}
+			else { // error
 				document.getElementById("LTFRDisplay").style.backgroundColor= "red";
 			}
 			// document.getElementById("LTFRDisplay").innerHTML = parseInt(payload, 16).toString();
 		break;
 		case "01001300":
 			payload = value.substring(10, 18);
-			if(parseInt(payload, 16).toString() == "1") {
+			if(parseInt(payload, 16).toString() == "1") { // floor
 				document.getElementById("LTBLDisplay").style.backgroundColor= "white";
 			}
-			else if(parseInt(payload, 16).toString() == "0") {
+			else if(parseInt(payload, 16).toString() == "0") { // line
 				document.getElementById("LTBLDisplay").style.backgroundColor= "black";
 			}
-			else {
+			else if(parseInt(payload, 16).toString() == "2") { // enemy goal
+				document.getElementById("LTBLDisplay").style.backgroundColor= "yellow";
+			}
+			else if(parseInt(payload, 16).toString() == "3") { // our goal
+				document.getElementById("LTBLDisplay").style.backgroundColor= "green";
+			}
+			else { // error
 				document.getElementById("LTBLDisplay").style.backgroundColor= "red";
 			}
 			//document.getElementById("LTBLDisplay").innerHTML = parseInt(payload, 16).toString();
 		break;
 		case "01001400":
-			if(parseInt(payload, 16).toString() == "1") {
+			if(parseInt(payload, 16).toString() == "1") { // floor
 				document.getElementById("LTBRDisplay").style.backgroundColor= "white";
 			}
-			else if(parseInt(payload, 16).toString() == "0") {
+			else if(parseInt(payload, 16).toString() == "0") { // line
 				document.getElementById("LTBRDisplay").style.backgroundColor= "black";
 			}
-			else {
+			else if(parseInt(payload, 16).toString() == "2") { // enemy goal
+				document.getElementById("LTBRDisplay").style.backgroundColor= "yellow";
+			}
+			else if(parseInt(payload, 16).toString() == "3") { // our goal
+				document.getElementById("LTBRDisplay").style.backgroundColor= "green";
+			}
+			else { // error
 				document.getElementById("LTBRDisplay").style.backgroundColor= "red";
 			}
 			payload = value.substring(10, 18);
