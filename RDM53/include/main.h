@@ -8,11 +8,6 @@
 /**** includes ****/
 #define RDM_MAIN
 
-#define LT_FL_PIN 36
-#define LT_FR_PIN 32
-#define LT_BL_PIN 34
-#define LT_BR_PIN 39
-
 #include "WebSocketsServer.h"
 //#include "mainUSR.h"
 #include "ESP32Init.h"

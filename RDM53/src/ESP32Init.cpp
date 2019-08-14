@@ -123,12 +123,12 @@ const char* root_ca= \
             Serial.println("Getting time from ntp server...");
             int tCnt = 0;
             do {
+                Serial.print(".");
                 configTime(GMT_OFFSET_SEC, DAYLIGHT_OFFSET_SEC, NTP_SERVER_IS);
                 delay(10);
                 tCnt++;
             } while (tCnt < 5 && printLocalTime() == 1);
             Serial.println("-----------------------");
-            piezo.noSound();
         }
     }
 

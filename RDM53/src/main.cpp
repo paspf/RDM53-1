@@ -33,7 +33,6 @@ void setup() {
   digitalWrite(BUILTIN_LED, LOW);
   interruptInitialization();
   mylocation.startMP();
-  mylocation.aLittleJoke();
   Serial.print("Creating Task lidarLoop...");
   xTaskCreatePinnedToCore(
                     lidarloop,        // task function.
@@ -46,10 +45,12 @@ void setup() {
   
   
   Serial.println("[OK]");                 
+  mylocation.aLittleJoke();
+  delay(10);
+  piezo.noSound();
   Serial.println("-----------------------");
   Serial.println("RDM53 is ready to go!");
   Serial.println("-----------------------");
-  //ObstTrack.checkForObstacles();
 }
 
 /*
