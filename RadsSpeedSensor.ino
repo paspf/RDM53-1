@@ -18,7 +18,8 @@ float speed_right = 0;
 float distance = 0;
 float interruptPeriod = 100000;
 float frequency = 1.0/(interruptPeriod / 1000000);
-
+//Convert float to bytes and bytes to float. 
+//Has to be implemented on the other site too
 union floatToBytes {
     char buffer[4];
     float number;
@@ -39,7 +40,7 @@ void setup() {
 void loop() {
     
 }
-  
+//What to do if recive over I2C
 void receiveEvent(int howMany) {
     // remember the question: H=humidity, T=temperature
     Serial.println("receiveEvent");
@@ -56,7 +57,7 @@ void receiveEvent(int howMany) {
       setHoleAmount(converter.number);
     }
 }
-  
+//What to do if has to send over I2C
 void requestEvent() {
   Serial.println("requestEvent");
   // respond to the question
@@ -71,14 +72,20 @@ void requestEvent() {
   }
 }
 
+//Count holes passed in left wheel
 void doCountLeft(){
   counterLeft++;
   Serial.println("left");
 }
+
+//Count hole spassed in right wheel
 void doCountRight(){
   counterRight++;
   Serial.println("right");
 }
+
+//Interrupt which gets called by timer.
+//Calculates the rotations per period which is the rotations per second
 void timerInt()
 {
   Timer1.detachInterrupt();
@@ -88,6 +95,8 @@ void timerInt()
   counterRight = 0;
   Timer1.attachInterrupt( timerInt );
 }
+
+//Set the hole amount if counterwheel is changed
 void setHoleAmount(float num){
   holesLeftWheel = num;
   holesRightWheel = num;
