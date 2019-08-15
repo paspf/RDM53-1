@@ -1,3 +1,9 @@
+/*
+ * RDM53 extension board
+ * with arduino nano
+ *
+ */
+
 #include <Wire.h>
 #include <TimerOne.h>
   
