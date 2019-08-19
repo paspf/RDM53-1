@@ -180,11 +180,13 @@ float SteeringInterface::speedControl(float targetSpeed, float currentSpeed){
 }
 
 /**
- * ... text ...
+ * This function sets the target speeds of each side.
+ * It also calls speedControl to set the engineValues and checks the direction.
+ * When done it calls static Engines to send Vals to Engines.
  */
 void SteeringInterface::navigation(float currentHeading, float currentLeftSpeed, float currentRightSpeed){
     float targetLeftSpeed, targetRightSpeed;
-    if (curveRadius != 0)
+    if (curveRadius != 0  && (degreeToTurnTo > currentHeading + maxDeviation || degreeToTurnTo < currentHeading - maxDeviation))
     {    
         targetLeftSpeed = (curveRadius + carWidth / 2) * (targetGenSpeed / curveRadius);
         targetRightSpeed = (curveRadius - carWidth / 2) * (targetGenSpeed / curveRadius);

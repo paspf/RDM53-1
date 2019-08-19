@@ -194,7 +194,7 @@ void testing(unsigned char* incoming, int payload){
  *  
  */
 void getValues(uint8_t dataSource, uint8_t dataSubSource){
-    uint32_t dummy = 0;
+    int32_t dummy = 0;
     /*
      * xx xx xx DS SS ---PAYLOAD---
      * DS: dataSource
