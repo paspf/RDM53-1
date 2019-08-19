@@ -127,7 +127,7 @@ const char* root_ca= \
                 configTime(GMT_OFFSET_SEC, DAYLIGHT_OFFSET_SEC, NTP_SERVER_IS);
                 delay(10);
                 tCnt++;
-            } while (tCnt < 5 && printLocalTime() == 1);
+            } while (tCnt < 4 && printLocalTime() == 1);
             Serial.println("-----------------------");
         }
     }

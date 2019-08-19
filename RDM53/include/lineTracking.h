@@ -31,6 +31,7 @@ class lineTrackInterface {
     short floor[2] = {3630,3950};
     short yellow[2] = {3500,3629};
     short green[2] = {1600,2600};
+    short goalIndicator[2] = {2200, 2600};
     #endif
     int rawSensorValue;
     int colorCode;

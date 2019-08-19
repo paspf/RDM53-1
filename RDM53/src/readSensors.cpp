@@ -30,23 +30,25 @@ extern HCSR04P ultraSonic;
  * This function is called in the main loop and running in core 1
  */
 void readSensors() {
-    #ifdef DEBUG_READ_SENSORS
-    Serial.println("FRONT LEFT:");
-    #endif
-    lineSensorFrontLeft.readSensor();
-    #ifdef DEBUG_READ_SENSORS
-    Serial.println("FRONT RIGHT:");
-    #endif
-    lineSensorFrontRight.readSensor();
-    #ifdef DEBUG_READ_SENSORS
-    Serial.println("BACK LEFT:");
-    #endif
-    lineSensorBackLeft.readSensor();
-    #ifdef DEBUG_READ_SENSORS
-    Serial.println("BACK RIGHT:");
-    #endif
-    lineSensorBackRight.readSensor();
-    ultraSonic.measureDist();
+    if(dC.cyclicSensorRefresh == true) {
+        #ifdef DEBUG_READ_SENSORS
+        Serial.println("FRONT LEFT:");
+        #endif
+        lineSensorFrontLeft.readSensor();
+        #ifdef DEBUG_READ_SENSORS
+        Serial.println("FRONT RIGHT:");
+        #endif
+        lineSensorFrontRight.readSensor();
+        #ifdef DEBUG_READ_SENSORS
+        Serial.println("BACK LEFT:");
+        #endif
+        lineSensorBackLeft.readSensor();
+        #ifdef DEBUG_READ_SENSORS
+        Serial.println("BACK RIGHT:");
+        #endif
+        lineSensorBackRight.readSensor();
+        ultraSonic.measureDist();
+    }
 }
 
 /*

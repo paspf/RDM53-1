@@ -81,8 +81,8 @@
 
 				<td> </td>
 				<td> </td>
-				<td> </td>
-				<td> </td>
+				<td><button type="button" id="buttonCSValues" onclick="WebHexCmdSend(id);" value="11030320000000000012">Color Sensor</button> </td>
+				<td><div id="CSDisplay" style="border-style: solid; width: 1em; height: 1em"></div> </td>
 		</table> 
 		<table>
 			<tr>
@@ -134,10 +134,10 @@
     //var WebSocketIPAdress = 'wss://echo.websocket.org';
 	//var WebSocketIPAdress = 'ws://192.168.178.29:81';
 	//var WebSocketIPAdress = 'ws://172.20.10.7:81';
-	var WebSocketIPAdress = 'ws://192.168.43.156:81';
+	//var WebSocketIPAdress = 'ws://192.168.43.156:81';
 	//var WebSocketIPAdress = 'ws://172.20.10.9:81';
 	//var WebSocketIPAdress = 'ws://192.168.43.185:81';
-	//var WebSocketIPAdress = 'ws://10.3.141.206:81';
+	var WebSocketIPAdress = 'ws://10.3.141.206:81';
 
 var my_gamepad = null;
 var refreshIntervalIdJoystick = null;
@@ -350,6 +350,7 @@ function checkIfValIsKnown(value) {
 			//document.getElementById("LTBLDisplay").innerHTML = parseInt(payload, 16).toString();
 		break;
 		case "01001400":
+			payload = value.substring(10, 18);
 			if(parseInt(payload, 16).toString() == "1") { // floor
 				document.getElementById("LTBRDisplay").style.backgroundColor= "white";
 			}
@@ -365,8 +366,27 @@ function checkIfValIsKnown(value) {
 			else { // error
 				document.getElementById("LTBRDisplay").style.backgroundColor= "red";
 			}
-			payload = value.substring(10, 18);
+			// payload = value.substring(10, 18);
 			//document.getElementById("LTBRDisplay").innerHTML = parseInt(payload, 16).toString();
+		break;
+		case "01002000":
+			// Color Sensor
+			payload = value.substring(10, 18);
+			if(parseInt(payload, 16).toString() == "1") { // floor
+				document.getElementById("CSDisplay").style.backgroundColor= "white";
+			}
+			else if(parseInt(payload, 16).toString() == "0") { // line
+				document.getElementById("CSDisplay").style.backgroundColor= "black";
+			}
+			else if(parseInt(payload, 16).toString() == "2") { // enemy goal
+				document.getElementById("CSDisplay").style.backgroundColor= "yellow";
+			}
+			else if(parseInt(payload, 16).toString() == "3") { // our goal
+				document.getElementById("CSDisplay").style.backgroundColor= "green";
+			}
+			else { // error
+				document.getElementById("CSDisplay").style.backgroundColor= "red";
+			}
 		break;
 		case "01001600":
 			payload = value.substring(10, 18);

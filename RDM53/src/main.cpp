@@ -20,14 +20,15 @@ TaskHandle_t TaskLidarLoop;
  */
 void setup() {
   Serial.begin(230400);
-  RDMWiFiInit();
-  OTAirInit();
-  lidarSensors.initLox();
-  colTrack.initColTrack();
-  webSocket.begin();                                                      // start the websocket server
-  webSocket.onEvent(webSocketEvent);                                      // what to do on event...
+  lidarSensors.expanderWrite(EXP_ADDRESS, 0x00);
   Wire.begin();
   Wire1.begin(17,16);
+  RDMWiFiInit();
+  OTAirInit();
+  colTrack.initColTrack();
+  lidarSensors.initLox();
+  webSocket.begin();                                                      // start the websocket server
+  webSocket.onEvent(webSocketEvent);                                      // what to do on event...
   Serial.print("CPU Frequency [Mhz]: ");
   Serial.println(getCpuFrequencyMhz()); //Get CPU clock
   pinMode(BUILTIN_LED, OUTPUT);
@@ -46,9 +47,10 @@ void setup() {
   
   
   Serial.println("[OK]");                 
-  mylocation.aLittleJoke();
+  // mylocation.aLittleJoke();
   delay(10);
   piezo.noSound();
+  dC.cyclicSensorRefresh = false;
   Serial.println("-----------------------");
   Serial.println("RDM53 is ready to go!");
   Serial.println("-----------------------");
@@ -127,6 +129,7 @@ void loop() {
     default:
       webSocket.broadcastTXT("Error in dc.Mode");
       dC.mode = 0x020000;
+      dC.cyclicSensorRefresh = false;
   }
   //Serial.print("Runtime: ");
   //Serial.println( millis()- startTime);

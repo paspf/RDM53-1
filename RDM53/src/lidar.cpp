@@ -18,6 +18,7 @@
  * Expander write is a simple function, that
  * puts out the byte date to the device with 
  * the i2c address
+ * for PCF85741
  */
 void lidar::expanderWrite(int i2caddr, byte data)
 {

@@ -15,7 +15,7 @@
 class ColTrack {
     private:
     Adafruit_TCS34725 tcs = Adafruit_TCS34725(TCS34725_INTEGRATIONTIME_2_4MS, TCS34725_GAIN_4X);
-    float red, green, blue;
+    int red, green, blue;
     public:
     void initColTrack();
     short getLTcolor();

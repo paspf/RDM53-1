@@ -22,7 +22,7 @@ void PiezoInterface::setPiezo(int freq, int vol) {
 
 void PiezoInterface::setPiezo(int freq) {
     ledcSetup(PIEZO_PWM_CH, constrain(freq, 200, 2000), LED_PWM_PIEZO_RESULTION);
-    ledcWrite(PIEZO_PWM_CH, 12);
+    ledcWrite(PIEZO_PWM_CH, 10);
 }
 
 void PiezoInterface::noSound() {

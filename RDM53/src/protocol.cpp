@@ -388,6 +388,7 @@ void getValues(uint8_t dataSource, uint8_t dataSubSource){
         // 11 03 03 20 00 00 00 00 00 12
         // Serial.println("color sensor protocol BEGIN");
         colTrack.readSensor();
+        protocolSend(0x0, dataSource, dataSubSource, colTrack.getLTcolor());
         // Serial.println("color sensor protocol END");
         break;
     default:

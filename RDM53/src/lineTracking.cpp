@@ -90,13 +90,13 @@ int lineTrackInterface::calibrateSensor(short bl0, short bl1, short wh0, short w
         return 0;
     }
 
+
 /*
  * calculate color based on recent sensor value
  * read out with readSensor()
  * 0 - black (playground) 2800 - 2900
  * 1 - floor (floor) 1600
- * 2 - yellow (enemy goal) 1200 - 1300
- * 3 - dark green (our goal) 1100 - 1199
+ * 2 - goal indicator 2200 - 2600
  * -1 - Error
 */
 int lineTrackInterface::getColorCode() {
@@ -114,19 +114,12 @@ int lineTrackInterface::getColorCode() {
         #endif
         return 1;
     }
-    // yellow (enemy goal)
-    else if(rawSensorValue >= yellow[0] && rawSensorValue <= yellow[1]) {
+    // yellow (enemy goal), dark green (our goal) ->goal indicator
+    else if(rawSensorValue >= goalIndicator[0] && rawSensorValue <= goalIndicator[1]) {
         #ifdef LINE_TRACKING_DEBUG
-        Serial.println("yellow!");
+        Serial.println("goalIndicator!");
         #endif
         return 2;
-    }
-    // dark green (our goal)
-    else if(rawSensorValue >= green[0] && rawSensorValue <= green[1]) {
-        #ifdef LINE_TRACKING_DEBUG
-        Serial.println("green!");
-        #endif
-        return 3;
     }
     // Serial.println("err!");
     return -1;
