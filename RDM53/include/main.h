@@ -27,6 +27,7 @@
 #include "ObstacleAndLine.h"
 #include "esp32-hal-cpu.h"
 #include "ObstacleTracker.h"
+#include "colorTracking.h"
 
 /**** structures ****/
 #include "PublicStructures.h"
@@ -63,3 +64,5 @@ ObstacleAvoidance obstaclecircuittest;
 ObstacleAndLine driverRDM;
 
 ObstacleTracker ObstTrack;
+
+ColTrack colTrack;

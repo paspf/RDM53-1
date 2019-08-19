@@ -12,12 +12,12 @@
     //#define RDM_SSID_PW "SuppenIOT!Net"
     //#define RDM_SSID "GalaxyS5"
     //#define RDM_SSID_PW "13371337"
-    #define RDM_SSID "Nokia 8"
-    #define RDM_SSID_PW "Pascal12"
+    //#define RDM_SSID "Nokia 8"
+    //#define RDM_SSID_PW "Pascal12"
     //#define RDM_SSID "Taha Tekdemir"
     //#define RDM_SSID_PW "12345678"
-    //#define RDM_SSID "RDM53"
-    //#define RDM_SSID_PW "ChangeMe"
+    #define RDM_SSID "RDM53"
+    #define RDM_SSID_PW "ChangeMe"
     #define NTP_SERVER_IS "pool.ntp.org"
 #endif
 

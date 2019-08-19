@@ -10,11 +10,14 @@
 #ifndef colorTracking_H
 #define colorTracking_H
 
-class colTrack {
+#include "Adafruit_TCS34725.h"
+
+class ColTrack {
     private:
-    Adafruit_TCS34725 tcs = Adafruit_TCS34725(TCS34725_INTEGRATIONTIME_50MS, TCS34725_GAIN_4X);
+    Adafruit_TCS34725 tcs = Adafruit_TCS34725(TCS34725_INTEGRATIONTIME_2_4MS, TCS34725_GAIN_4X);
+    float red, green, blue;
     public:
-    colTrack();
+    void initColTrack();
     short getLTcolor();
     void readSensor();
 };
