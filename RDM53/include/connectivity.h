@@ -5,15 +5,16 @@
  * Date: 2019 05 26
  * Author: Pascal Pfeiffer
  */
-
 #ifndef CONNECTIVIY_H
 #define CONNECTIVITY_H
 
+// includes
 #include "WebSocketsServer.h"
 
+// defines
 // send messages over websocket
 #define SEND_WEBSOCKET 
-// send messages over serial
+// send messages over serial connection
 //#define SEND_SERIAL
 
 void analyseString();

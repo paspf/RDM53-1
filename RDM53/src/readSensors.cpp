@@ -12,6 +12,7 @@
 #include "lidar.h"
 #include "PublicStructures.h"
 #include "HCSR04P.h"
+#include "colorTracking.h"
 
 // extern objects
 extern lineTrackInterface lineSensorFrontLeft;
@@ -21,10 +22,12 @@ extern lineTrackInterface lineSensorBackRight;
 extern lidar lidarSensors;
 extern deviceConfig dC;
 extern HCSR04P ultraSonic;
+extern ColTrack colTrack;
 
+// defines
 //#define DEBUG_READ_SENSORS
 
-/*
+/**
  * This function reads out all Line Tracking and Ultrasonic Sensors
  * and stores the values in the sensor objects
  * This function is called in the main loop and running in core 1
@@ -48,10 +51,11 @@ void readSensors() {
         #endif
         lineSensorBackRight.readSensor();
         ultraSonic.measureDist();
+        colTrack.readSensor();
     }
 }
 
-/*
+/**
  * This function reads out all Lidar Sensors
  * and stores the values in the sensor objects
  * 

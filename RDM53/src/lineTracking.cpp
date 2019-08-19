@@ -11,8 +11,8 @@
 
 // #define LINE_TRACKING_DEBUG
 
-/*
- * parametrized constructor
+/**
+ * initialize infra red line tracking
  * sets sensor sepcific color codes
  */
 lineTrackInterface::lineTrackInterface(int pinConst) {
@@ -37,11 +37,11 @@ lineTrackInterface::lineTrackInterface(int pinConst) {
         this->calibrateSensor(-1, -1, -1, -1, -1, -1, -1, -1);
         #endif
     }
-    } 
+} 
 
-/*
+/**
  * Read out the raw sensor value
-*/
+ */
 void lineTrackInterface::readSensor() {
     rawSensorValue = analogRead(pin);
     #ifdef LINE_TRACKING_DEBUG
@@ -50,16 +50,24 @@ void lineTrackInterface::readSensor() {
     #endif
 }
 
-/*
+/**
  * get the latest raw sensor value
  */
 int lineTrackInterface::getRawSensorValue() {
     return rawSensorValue;
 }
 
-/*
+/**
  * Calibrate the sensor colors
  * if -1 is set for a color, the value is not changed
+ * @param bl0 lower end black
+ * @param bl1 upper end black
+ * @param wh0 lower end white
+ * @param wh1 upper end white
+ * @param ye0 lower end yellow
+ * @param ye1 upper end yellow
+ * @param gr0 lower end greem
+ * @param gr1 upper end green
  */
 int lineTrackInterface::calibrateSensor(short bl0, short bl1, short wh0, short wh1, short ye0, 
     short ye1, short gr0, short gr1) {
@@ -91,9 +99,9 @@ int lineTrackInterface::calibrateSensor(short bl0, short bl1, short wh0, short w
     }
 
 
-/*
+/**
  * calculate color based on recent sensor value
- * read out with readSensor()
+ * read out new values with readSensor()
  * 0 - black (playground) 2800 - 2900
  * 1 - floor (floor) 1600
  * 2 - goal indicator 2200 - 2600
@@ -121,6 +129,8 @@ int lineTrackInterface::getColorCode() {
         #endif
         return 2;
     }
-    // Serial.println("err!");
+    #ifdef LINE_TRACKING_DEBUG
+    Serial.println("err!");
+    #endif
     return -1;
 }

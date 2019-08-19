@@ -6,7 +6,8 @@
  * Author: Pascal Pfeiffer
  */
 
-//#define DEBUG_CONNECTIVITY
+// defines
+// #define DEBUG_CONNECTIVITY
 
 // includes
 #include <Arduino.h>
@@ -23,9 +24,11 @@ extern deviceConfig dC;
 // extern functions
 extern void protocolEnter(unsigned char*, size_t);
 
-/*
- * Send binary Data to Websocket Client
+/**
+ * Send binary stream to Websocket Client
  * Send String with Hex Numbers over Serial connection
+ * @param *charArr Char Array to send
+ * @param length length of *charArr
  */
 void sendBinCharArr(unsigned char *charArr, size_t length) {
   #ifdef SEND_SERIAL
@@ -39,8 +42,11 @@ void sendBinCharArr(unsigned char *charArr, size_t length) {
   #endif
 }
 
-/*
- * Send binary Data to Websocket Client or (and) over the serial connection as String
+/**
+ * Send binary Data to Websocket Client
+ * Send binary Data over the serial connection as String
+ * @param *charArr Char Array to send
+ * @param length length of *charArr
  */
 void sendBinArr(unsigned char *charArr, size_t length) {
   #ifdef SEND_SERIAL
@@ -53,8 +59,11 @@ void sendBinArr(unsigned char *charArr, size_t length) {
   #endif
 }
 
-/*
- * Send a String to Websocket Client or (and) over the serial connection
+/**
+ * Send a String to Websocket Client 
+ * Send a String over the serial connection
+ * @param *charArr Char Array to send
+ * @param length length of *charArr
  */
 void sendString(unsigned char *charArr, size_t length) {
   #ifdef SEND_SERIAL
@@ -68,8 +77,10 @@ void sendString(unsigned char *charArr, size_t length) {
   #endif
 }
 
-/*
- * Send a String to Websocket Client or (and) over the serial connection
+/**
+ * Send a String to Websocket Client 
+ * Send a String over the serial connection
+ * @param str String to send
  */
 void sendString(String str) {
   #ifdef SEND_SERIAL
@@ -80,8 +91,10 @@ void sendString(String str) {
   #endif
 }
 
-/*
- * Send a String to Websocket Client or (and) over the serial connection
+/**
+ * Send a String to Websocket Client 
+ * Send a String over the serial connection (with newline)
+ * @param str String to send
  */
 void sendStringln(String str) {
   #ifdef SEND_SERIAL
@@ -92,8 +105,10 @@ void sendStringln(String str) {
   #endif
 }
 
-/*
- * Send a String to Websocket Client or (and) over the serial connection
+/**
+ * Send a String to Websocket Client 
+ * Send a String over the serial connection (with newline)
+ * @param value int value to send
  */
 void sendStringln(int value) {
   #ifdef SEND_SERIAL
@@ -107,7 +122,7 @@ void sendStringln(int value) {
 }
 
 
-/*
+/**
  * Analyse Strings and interpret commands
  */
 void analyseString() {
@@ -133,11 +148,17 @@ void analyseString() {
   inputString = "";
 }
 
-/*
-  webSocketEvent, based on:
-  WebSockets 2.0.5
-  by Markus Sattler
-  https://github.com/Links2004/arduinoWebSockets
+/**
+ * webSocketEvent, based on:
+ * WebSockets 2.0.5
+ * by Markus Sattler
+ * https://github.com/Links2004/arduinoWebSockets 
+ * This function is called when data by a
+ * websocket client is received
+ * @param num number of the websocket client
+ * @param type type of the websocket event
+ * @param *payload transferred data
+ * @param length  length of the payload
  */
 void webSocketEvent(uint8_t num, WStype_t type, uint8_t * payload, size_t length) {
   switch(type) {
@@ -175,9 +196,14 @@ void webSocketEvent(uint8_t num, WStype_t type, uint8_t * payload, size_t length
       yield();
   }
 }
-/*
- serialReceive, based on:
- https://www.arduino.cc/en/Tutorial/SerialEvent
+
+/**
+ * serialReceive, based on:
+ * https://www.arduino.cc/en/Tutorial/SerialEvent
+ * 
+ * This function is called when serial data has been
+ * received
+ * The bytes are spitted into the format for the RDM53 protocol 
  */
 void serialReceive() {
   bool binary = true;

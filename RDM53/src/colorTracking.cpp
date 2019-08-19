@@ -7,10 +7,12 @@
  * Author: Pascal Pfeiffer
  */
 
+// includes
 #include "Adafruit_TCS34725.h"
 #include "colorTracking.h"
 
-#define colTrack_DEBUG
+// defines
+// #define colTrack_DEBUG
 
 /**
  * initialize TCS34725
@@ -25,8 +27,9 @@ void ColTrack::initColTrack() {
     }
 }
 
-/*
+/**
  * read out the TCS34725 sensor
+ * and store the values in the class
  */
 void ColTrack::readSensor() {
     int m = millis();
@@ -53,7 +56,7 @@ void ColTrack::readSensor() {
     Serial.println(millis() - m);
 }
 
-/*
+/**
  * get the recent sensor color as a value useable for lineTracking
  * 0 - black (playground)
  * 1 - floor (floor) 1600

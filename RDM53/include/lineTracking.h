@@ -20,7 +20,7 @@
 
 /*
 * Line Tracker Interface
-* 
+* detect lines and colors
 */
 class lineTrackInterface {
     private:

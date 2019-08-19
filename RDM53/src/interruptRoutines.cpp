@@ -39,7 +39,7 @@ portMUX_TYPE timer0Mux = portMUX_INITIALIZER_UNLOCKED;
 // couter for 1 second
 byte secCounter = 0;
 
-/*
+/**
  * Interrupt Service Routine for Pin 19
  */
 void IRAM_ATTR handleInterruptP19() {
@@ -48,7 +48,7 @@ void IRAM_ATTR handleInterruptP19() {
   portEXIT_CRITICAL_ISR(&pinMux);
 }
 
-/*
+/**
  * Interrupt Service Routine for Pin 18
  */
 void IRAM_ATTR handleInterruptP18() {
@@ -57,7 +57,7 @@ void IRAM_ATTR handleInterruptP18() {
   portEXIT_CRITICAL_ISR(&pinMux);
 }
 
-/*
+/**
  * Timer0 ISR
  * ISR routine stored in IRAM
  */
@@ -67,7 +67,7 @@ void IRAM_ATTR onTimer0() {
   portEXIT_CRITICAL(&timer0Mux);
 }
 
-/*
+/**
  * Initialize Interrupts
  * Configure External Interrupt Pins and timer interrupts
  */
@@ -78,7 +78,7 @@ void interruptInitialization() {
   attachInterrupt(digitalPinToInterrupt(KEY2), handleInterruptP18, FALLING);
 
   Serial.print("start timer0...");
-    // init timer0, prescaler = 80, countup = true
+  // init timer0, prescaler = 80, countup = true
   timer0 = timerBegin(0, 80, true);
 
   // interrupt timer0, function = onTimer0, edge = true
@@ -93,7 +93,7 @@ void interruptInitialization() {
   Serial.println("[OK]");
 }
 
-/*
+/**
  * Do stuff that should be run if an Interrupt has occured
  * This function is OUTSIDE of the interrupt itself
  */
@@ -119,23 +119,12 @@ void interruptWorkers() {
 
   // this block is triggered every 100ms
   if(timer0State >= 1) {
-    // Serial.print("TIM0: ");
-    // Serial.println(millis());
     portENTER_CRITICAL(&timer0Mux);
     timer0State = 0;
     portEXIT_CRITICAL(&timer0Mux);
     secCounter++;
-    // int t1 = millis();
-    //readSensors();
-    // int t2 = millis() - t1;
-    // Serial.print("Read Sensors length: ");
-    // Serial.println(t2);
   }
 
-  // 500 ms intervall
-  /* if(secCounter % 5) {
-
-  } */
   // 1s intervall
   if(secCounter >= 10) {
       if(dC.wiFiNotificationSender == true) {
@@ -146,7 +135,7 @@ void interruptWorkers() {
   yield();
 }
 
-/*
+/**
  * This function is continuously called if the
  * dC.wiFiNotificationSender value is true
  * The function sends all recent sensor values

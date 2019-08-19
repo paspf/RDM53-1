@@ -8,7 +8,7 @@
 
 #include "EnginesInterface.h"
 
-/*
+/**
  * The constructor performs basic setup functions
  * - set PWM frequency and resolution
  * - attach pins to ledpwm
@@ -48,10 +48,10 @@ EnginesInterface::EnginesInterface() {
     ledcAttachPin(EBR2_PIN, EBR2_PWM_CH);
 }
 
-/*
+/**
  * Set a value to the engine front left
- * dir: 0 - forward, 1 - backward
- * value: pwm value from 0 to 255
+ * @param dir 0 - forward, 1 - backward
+ * @param value pwm value from 0 to 255
  */
 void EnginesInterface::setEFL(bool dir, unsigned char value) {
   if(dir == 0) {
@@ -64,10 +64,10 @@ void EnginesInterface::setEFL(bool dir, unsigned char value) {
   }
 }
 
-/*
+/**
  * Set a value to the engine front right
- * dir: 0 - forward, 1 - backward
- * value: pwm value from 0 to 255
+ * @param dir 0 - forward, 1 - backward
+ * @param value pwm value from 0 to 255
  */
 void EnginesInterface::setEFR(bool dir, unsigned char value) {
   if(dir == 0) {
@@ -80,10 +80,10 @@ void EnginesInterface::setEFR(bool dir, unsigned char value) {
   }
 }
 
-/*
+/**
  * Set a value to the engine back left
- * dir: 0 - forward, 1 - backward
- * value: pwm value from 0 to 255
+ * @param dir 0 - forward, 1 - backward
+ * @param value pwm value from 0 to 255
  */
 void EnginesInterface::setEBL(bool dir, unsigned char value) {
   if(dir == 0) {
@@ -96,10 +96,10 @@ void EnginesInterface::setEBL(bool dir, unsigned char value) {
   }
 }
 
-/*
+/**
  * Set a value to the engine back right
- * dir: 0 - forward, 1 - backward
- * value: pwm value from 0 to 255
+ * @param dir 0 - forward, 1 - backward
+ * @param value pwm value from 0 to 255
  */
 void EnginesInterface::setEBR(bool dir, unsigned char value) {
   if(dir == 0) {

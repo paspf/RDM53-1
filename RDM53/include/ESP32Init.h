@@ -9,11 +9,15 @@
 #ifndef RDM53INIT_H
 #define RDM53INIT_H
 
+// includes
 #include <Arduino.h>
 #include <ArduinoOTA.h>
+
+// defines
 #define GMT_OFFSET_SEC 3600
 #define DAYLIGHT_OFFSET_SEC 3600
 
+// functions
 void RDMWiFiInit();
 void setUpHomeWiFi();
 void setUpTHMWifi();

@@ -12,10 +12,19 @@
 
 #include "Adafruit_TCS34725.h"
 
+/**
+ * This Class handles all the function for
+ * the color sensor TCS34725
+ */
 class ColTrack {
     private:
     Adafruit_TCS34725 tcs = Adafruit_TCS34725(TCS34725_INTEGRATIONTIME_2_4MS, TCS34725_GAIN_4X);
-    int red, green, blue;
+    /** recent red sensor value */
+    int red;
+    /** recend green sensor value */
+    int green;
+    /** recent blue sensor value */
+    int blue;
     public:
     void initColTrack();
     short getLTcolor();

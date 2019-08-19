@@ -14,11 +14,13 @@
 #include "lidar.h"
 #include <Wire.h>
 
-/*
+/**
  * Expander write is a simple function, that
  * puts out the byte date to the device with 
  * the i2c address
  * for PCF85741
+ * @param i2caddr i2c address of the expander
+ * @param data expander output bits
  */
 void lidar::expanderWrite(int i2caddr, byte data)
 {
@@ -27,7 +29,7 @@ void lidar::expanderWrite(int i2caddr, byte data)
   Wire.endTransmission();   
 }
 
-/*
+/**
  * Initialize all Lidar sensors
  */
 void lidar::initLox() {
@@ -43,7 +45,7 @@ void lidar::initLox() {
   setID();
 }
 
-/*
+/**
  * Set a custom I2C ID on all lidar sensors
  * uses the port expander to enable and disable the sensors
  */
@@ -173,8 +175,7 @@ void lidar::setID() {
   isInit = true;
 }
 
-/*
- * readLOXSensors()
+/**
  * Reads out the data of all Lox sensors
  * built in the RDM53
  */
@@ -194,7 +195,6 @@ void lidar::readLOXSensors() {
 }
 
 /*
- * readLOXSensors()
  * Print out lidar distances
  * for debugging purposes
  */
@@ -204,7 +204,7 @@ int lidar::printLOXValues() {
     return 1;
   }
   
-    // print sensor one reading
+  // print sensor one reading
   Serial.print("0: ");
   if(measureLidar[0].RangeStatus != 4) {     // if not out of range
     Serial.print(measureLidar[0].RangeMilliMeter);
