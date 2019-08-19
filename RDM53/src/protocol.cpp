@@ -8,6 +8,7 @@
 #include <protocol.h>
 #include "connectivity.h"
 #include "HCSR04P.h"
+#include "colorTracking.h"
 
 
 #ifndef RDM_MAIN
@@ -28,6 +29,7 @@
     extern lineTrackInterface lineSensorFrontRight;
     extern lineTrackInterface lineSensorBackLeft;
     extern lineTrackInterface lineSensorBackRight;
+    extern ColTrack colTrack;
 #endif
 
 
@@ -385,6 +387,12 @@ void getValues(uint8_t dataSource, uint8_t dataSubSource){
         Serial.println("Protocol Case 0x19");
         protocolSend(0x0, dataSource, dataSubSource, (float) mylocation.getSpeedTrue());
         Serial.println("Protocol Case 0x19 Done?");
+        break;
+    case 0x20: // color sensor
+        // 11 03 03 20 00 00 00 00 00 12
+        // Serial.println("color sensor protocol BEGIN");
+        colTrack.readSensor();
+        // Serial.println("color sensor protocol END");
         break;
     default:
         webSocket.broadcastTXT("Error: GetValue Unknown dataSource query");

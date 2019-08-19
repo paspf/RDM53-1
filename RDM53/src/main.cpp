@@ -23,6 +23,7 @@ void setup() {
   RDMWiFiInit();
   OTAirInit();
   lidarSensors.initLox();
+  colTrack.initColTrack();
   webSocket.begin();                                                      // start the websocket server
   webSocket.onEvent(webSocketEvent);                                      // what to do on event...
   Wire.begin();
