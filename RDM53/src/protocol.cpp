@@ -32,7 +32,7 @@
 
 
 
-/*
+/**
  * protocolEnter() takes the incoming protocol and sends the commands to
  * their corresponding functions.
  */
@@ -114,7 +114,8 @@ void protocolEnter(unsigned char* incoming, size_t length)
         }
     }
 }
-/*autonomous is responsible for calling functions that will be part of the autonomous mode.
+/**
+ * autonomous is responsible for calling functions that will be part of the autonomous mode.
  * 
  */
 void autonomous(unsigned char autonomyNum)
@@ -124,7 +125,8 @@ void autonomous(unsigned char autonomyNum)
     dC.mode = 0x0000 + autonomyNum;
     dC.cyclicSensorRefresh = true;
 }
-/*remoteControl() is responsible for giving the steering function its payload.
+/**
+ * remoteControl() is responsible for giving the steering function its payload.
  * Please implement steering function.
  */
 void remoteControl(unsigned char* incoming, int payload)
@@ -149,7 +151,8 @@ void remoteControl(unsigned char* incoming, int payload)
 void calibration(unsigned char * incoming, int payload){
     // if something needs calibration this function will be filled
 }
-/*testing() takes a 4 Byte unsigned Char and tests the variables that are to be tested.
+/**
+ * testing() takes a 4 Byte unsigned Char and tests the variables that are to be tested.
  *Please implement return values and testing function.
  * 
  */
@@ -183,12 +186,13 @@ void testing(unsigned char* incoming, int payload){
             break;
     }
 }
-/*This function takes the incoming protocol, looks up which sensor value 
- *is looked for and calls that value. It then tells protocolSend to send that value.
+/**
+ * This function takes the incoming protocol, looks up which sensor value 
+ * is looked for and calls that value. It then tells protocolSend to send that value.
  *  
  */
 void getValues(uint8_t dataSource, uint8_t dataSubSource){
-    uint32_t dummy = 0; //REMOVE THIS AND SEND REAL DATA!!!!!!!
+    uint32_t dummy = 0;
     /*
      * xx xx xx DS SS ---PAYLOAD---
      * DS: dataSource
@@ -379,7 +383,7 @@ void getValues(uint8_t dataSource, uint8_t dataSubSource){
         break;
     case 0x19 : // Speed
         Serial.println("Protocol Case 0x19");
-        protocolSend(0x0, dataSource, dataSubSource, mylocation.getSpeedTrue());
+        protocolSend(0x0, dataSource, dataSubSource, (float) mylocation.getSpeedTrue());
         Serial.println("Protocol Case 0x19 Done?");
         break;
     default:
@@ -388,7 +392,7 @@ void getValues(uint8_t dataSource, uint8_t dataSubSource){
     }
 }
 
-/*
+/**
  * The protocolSend function accepts 3 unsigned Chars and one int payload (4 Byte!). 
  * The function fits the data in the protocol structure and sends them out
  */
@@ -409,8 +413,12 @@ void protocolSend(unsigned char dataType, unsigned char dataSource, unsigned cha
     toSend[9] = 0x12;
     sendBinCharArr(toSend, 10);
 }
+/**
+ * The protocolSend function accepts 3 unsigned chars and one float payload.
+ * The function adds this data according to the protocol and calls sendBinCharArr.
+ */
 void protocolSend(unsigned char dataType, unsigned char dataSource, unsigned char dataSubSource, float payload){
-    Serial.println("ProtocolSend Float");
+    //Serial.println("ProtocolSend Float");
     unsigned char toSend [10];
     union floatToBytes {
         char buffer[4];
@@ -431,9 +439,8 @@ void protocolSend(unsigned char dataType, unsigned char dataSource, unsigned cha
     toSend[8] = converter.buffer[3];
 
     toSend[9] = 0x12;
-
-    
-    Serial.println(converter.buffer);
-    Serial.println(converter.number);
+ 
+    //Serial.println(converter.buffer);
+    //Serial.println(converter.number);
     sendBinCharArr(toSend, 10);
 }

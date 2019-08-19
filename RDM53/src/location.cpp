@@ -4,13 +4,10 @@
 
 MPU9250 SensorArray(Wire1, 0x68);
 
-/* This function starts the sensor and sets all required components. If it has not been used
+/** 
+ * This function starts the sensor and sets all required components. If it has not been used
  * the sensor will not start. 
  */
-
-
-
-
 int Location::startMP()
 {
   if ((status = SensorArray.begin()) < 0) {
@@ -34,7 +31,7 @@ int Location::startMP()
   return status;
 
 }
-/* 
+/** 
  * This function updates all variables.
  */
 void Location::updateLocationVars()
@@ -88,7 +85,8 @@ void Location::updateLocationVars()
 
   }
 
-/* This function gets the current average rotational Speed of both sides of the Car. 
+/** 
+ * This function gets the current average rotational Speed of both sides of the Car. 
  * It is measured in rad/s. This number is always positive, even if you drive backwards.
  * 
  */
@@ -114,7 +112,8 @@ float Location::i2cGetSpeed()
     
 }
 
-/* This file gets you the heading with 0 being North. It is measured in Degrees.
+/** 
+ * This file gets you the heading with 0 being North. It is measured in Degrees.
  * Turning clockwise gets you a higher number, turning counterclockwise a lower.
  * When facing south the number switches from -180 to 180 and vice versa.
  * 
@@ -123,33 +122,38 @@ float Location::getHeading()
 {
     return yaw;
 }
-/* This file gets you the Pitch. It is measured in Degrees.
+/**
+ *  This file gets you the Pitch. It is measured in Degrees.
  * Testing is required to see which direction yields a higher or lower number.
  */
 float Location::getPitch()
 {
     return pitch;
 }
-/* This file gets the Roll. It is measured in Degrees.
+/**
+ *  This file gets the Roll. It is measured in Degrees.
  * Testing is required to see which direction yields a higher or lower number.
  */
 float Location::getRoll()
 {
     return roll;
 }
-/* This function gets the Speed of the sensor in the x-direction (forward)
+/**
+ *  This function gets the Speed of the sensor in the x-direction (forward)
  * The speed is measured in m/s (meters per second)
  */
 float Location::getSpeedX(){
   return speedX;
 }
-/* This function gets the Speed of the sensor in the y-direction (sideways)
+/**
+ *  This function gets the Speed of the sensor in the y-direction (sideways)
  * The speed is measured in m/s (meters per second)
  */
 float Location::getSpeedY(){
   return speedY;
 }
-/* This function gets the Speed of the wheels in general 
+/**
+ *  This function gets the Speed of the wheels in general 
  * The speed is measured in m/s (meters per second)
  * this value is always positive and doesn't tell you anything about the direction
  */
@@ -157,71 +161,82 @@ float Location::getSpeedTrue(){
   Serial.println(speedTrue);
   return speedTrue;
 }
-/* This function gets the distance travelled in the x-axis (forward/backward)
+/**
+ *  This function gets the distance travelled in the x-axis (forward/backward)
  * The distance is measured in m
  */
 float Location::getPosX(){
   return posX;
 }
-/* This function gets the distance travelled in the y-axis (sideways)
+/**
+ *  This function gets the distance travelled in the y-axis (sideways)
  * The distance is measured in m
  */
 float Location::getPosY(){
   return posY;
 }
 
-/* This function gets the accelaration on the x-axis (forward/backward)
+/**
+ *  This function gets the accelaration on the x-axis (forward/backward)
  * The accelaration is measured in m/s²
  * Be aware that the gravity component has not been removed
  */
 float Location::getAccX(){
   return accx;
 }
-/* This function gets the accelaration on the y-axis (sideways)
+/**
+ *  This function gets the accelaration on the y-axis (sideways)
  * The accelaration is measured in m/s²
  * Be aware that the gravity component has not been removed
  */
 float Location::getAccY(){
   return accy;
 }
-/* This function gets the accelaration on the z-axis (up and down)
+/**
+ *  This function gets the accelaration on the z-axis (up and down)
  * The accelaration is measured in m/s²
  * Be aware that the gravity component has not been removed
  */
 float Location::getAccZ(){
   return accz;
 }
-/* This function gets the rotation around the x-axis (forward/backward)
+/**
+ *  This function gets the rotation around the x-axis (forward/backward)
  * The rotation is measured in degrees/s
  */
 float Location::getGyrX(){
   return gyrx;
 }
-/* This function gets the rotation around the y-axis (sideways)
+/**
+ *  This function gets the rotation around the y-axis (sideways)
  * The rotation is measured in rad/s
  */
 float Location::getGyrY(){
   return gyry;
 }
-/* This function gets the rotation around the z-axis (up and down)
+/**
+ *  This function gets the rotation around the z-axis (up and down)
  * The rotation is measured in rad/s
  */
 float Location::getGyrZ(){
   return gyrz;
 }
-/* This function gets the magnetic induction at the x-axis (forward/backward)
+/**
+ *  This function gets the magnetic induction at the x-axis (forward/backward)
  * The rotation is measured in uT (Micro Tesla), T * 10^-6
  */
 float Location::getMagX(){
   return magx;
 }
-/* This function gets the magnetic induction at the y-axis (sideways)
+/**
+ * This function gets the magnetic induction at the y-axis (sideways)
  * The rotation is measured in uT (Micro Tesla), T * 10^-6
  */
 float Location::getMagY(){
   return magy;
 }
-/* This function gets the magnetic induction at the z-axis (up and down)
+/**
+ * This function gets the magnetic induction at the z-axis (up and down)
  * The rotation is measured in uT (Micro Tesla), T * 10^-6
  */
 float Location::getMagZ(){
@@ -229,14 +244,17 @@ float Location::getMagZ(){
 }
 
 
-// Implementation of Sebastian Madgwick's "...efficient orientation filter for... inertial/magnetic sensor arrays"
-// (see http://www.x-io.co.uk/category/open-source/ for examples and more details)
-// which fuses acceleration, rotation rate, and magnetic moments to produce a quaternion-based estimate of absolute
-// device orientation -- which can be converted to yaw, pitch, and roll. Useful for stabilizing quadcopters, etc.
-// The performance of the orientation filter is at least as good as conventional Kalman-based filtering algorithms
-// but is much less computationally intensive---it can be performed on a 3.3 V Pro Mini operating at 8 MHz!
-// Source: https://github.com/kriswiner/MPU9250/blob/master/quaternionFilters.ino         
-        
+       
+
+/**
+ * Implementation of Sebastian Madgwick's "...efficient orientation filter for... inertial/magnetic sensor arrays"
+ * (see http://www.x-io.co.uk/category/open-source/ for examples and more details)
+ * which fuses acceleration, rotation rate, and magnetic moments to produce a quaternion-based estimate of absolute
+ * device orientation -- which can be converted to yaw, pitch, and roll. Useful for stabilizing quadcopters, etc.
+ * The performance of the orientation filter is at least as good as conventional Kalman-based filtering algorithms
+ * but is much less computationally intensive---it can be performed on a 3.3 V Pro Mini operating at 8 MHz!
+ * Source: https://github.com/kriswiner/MPU9250/blob/master/quaternionFilters.ino  
+ */     
         
 void Location::MadgwickQuaternionUpdate(float ax, float ay, float az, float gx, float gy, float gz, float mx, float my, float mz)
 {
@@ -334,6 +352,7 @@ void Location::MadgwickQuaternionUpdate(float ax, float ay, float az, float gx, 
 
 // Similar to Madgwick scheme but uses proportional and integral filtering on the error between estimated reference vectors and
 // measured ones. Source: https://github.com/kriswiner/MPU9250/blob/master/quaternionFilters.ino 
+
 void Location::MahonyQuaternionUpdate(float ax, float ay, float az, float gx, float gy, float gz, float mx, float my, float mz)
 {
     float q1 = q[0], q2 = q[1], q3 = q[2], q4 = q[3];   // short name local variable for readability
@@ -425,7 +444,9 @@ void Location::MahonyQuaternionUpdate(float ax, float ay, float az, float gx, fl
     q[3] = q4 * norm;
 
 }
-
+/**
+ * This Function shows Herbie as Ascii art. It may be deleted, but I'd be sad if that would be done.
+ */
 void Location::aLittleJoke(){
 Serial.println("###%##%%%%%%%%###((#%#%###%%%%%%%%%%%&&&%%%%%&&&%%%%##%%##%%%%%#######%%%%########%#%%%%%%&&%%%%%%%%%%%%%#%%%%%%%%%%%&&%%&&&&&&&&&&&&%%%%%%###%####(**//((((///"); 
 Serial.println("((####%%%%%%%%#####((((##%%#########%%%&&&&&&%%%%%%%####%#%%%%%%%%%%%###%##############%%%%%%%%%%%####%%%%%%%%%&&%%%&&&&&&&&&&&&&&&&&%#%%&%#%%##((/**/(((#/*/()"); 

@@ -20,13 +20,18 @@ extern HCSR04P ultraSonic;
 }
  */
 
-
+/**
+ * This function checks all obstacles if the detected obstacle is within a square with a side lenght of 100mm of a previously
+ * detected ostacle.
+ * If it is within a square of a previous object the previous object gets returned.
+ * if not a pointer to NULL gets returned.
+ */
 ObstacleTracker::obstacle ObstacleTracker::checkIfObstacleExist(obstacle currentObstacle, float xTmp, float yTmp){
   while (currentObstacle != NULL){
     float xDiff = currentObstacle->xCoordinate - xTmp;
-    if (xDiff < 10 && xDiff > -10){
+    if (xDiff < 100 && xDiff > -100){
         float yDiff = currentObstacle->yCoordinate - yTmp;
-        if(yDiff < 10  && yDiff > -10){
+        if(yDiff < 100  && yDiff > -100){
           return currentObstacle;
         }
     }
@@ -34,7 +39,10 @@ ObstacleTracker::obstacle ObstacleTracker::checkIfObstacleExist(obstacle current
   }
   return NULL;
 }
-
+/**
+ * This function updates Obstacle Objects. it takes the object to update, an x and y float and 
+ * calculates the new position as well as a new radius. It also adds the last time updated.
+ */
 void ObstacleTracker::updateObstacle(obstacle thisObstacle, float xTmp, float yTmp){
   float anKatQ = pow(xTmp - thisObstacle->xCoordinate, 2);
   float gegKatQ = pow(yTmp - thisObstacle->yCoordinate, 2);
@@ -47,7 +55,12 @@ void ObstacleTracker::updateObstacle(obstacle thisObstacle, float xTmp, float yT
     thisObstacle->updateTime = millis();
   }
 }
-
+/**
+ * This function adds Obstacle Objects. It takes a pointer to the previous Obstacle Object and adds 
+ * values to the new Obstacle Object. These values are detection time, x/yCoordinate, a basic rdaius of 20 mm
+ * a pointer to the next Object (Null).
+ * It also adds the pointer to the new Object to the previous Object and increases the total Object amount
+ */
 void ObstacleTracker::addObstacle(obstacle thisObstacle, float xTmp, float yTmp){
   obstacle newObstacle = (obstacle) malloc(sizeof(struct obstacle_struct));
   while (thisObstacle->next != NULL){
@@ -56,12 +69,15 @@ void ObstacleTracker::addObstacle(obstacle thisObstacle, float xTmp, float yTmp)
   newObstacle->detectionTime = millis();
   newObstacle->xCoordinate = xTmp;
   newObstacle->yCoordinate = yTmp;
+  newObstacle->radius = 20;
   newObstacle->next = thisObstacle->next; //NULL
   thisObstacle->next = newObstacle;
 
   obstacleAmount++;
 }
-
+/**
+ * This function merge sorts the Obstacle Object List
+ */
 void ObstacleTracker::mergeSort(obstacle* thisObstacle){
   obstacle head = *thisObstacle;
   obstacle a;
@@ -77,7 +93,11 @@ void ObstacleTracker::mergeSort(obstacle* thisObstacle){
 
   *thisObstacle = sortedMerge(a,b);
 }
-
+/**
+ * This function compares two Objects by distance to the car and sorts them. 
+ * It changes the pointers in a way that the object with a further distance is further down the list.
+ * It then returns the pointer to the object which is nearer.
+ */
 ObstacleTracker::obstacle ObstacleTracker::sortedMerge(obstacle a, obstacle b)
 {
   obstacle result = NULL;
@@ -100,7 +120,8 @@ ObstacleTracker::obstacle ObstacleTracker::sortedMerge(obstacle a, obstacle b)
   }
   return (result);
 }
-/* Thanks to GeeksforGeeks for their amazing example.
+/**
+ * Thanks to GeeksforGeeks for their amazing example.
  * This function splits the nodes of a given list into front and back halves. If size is odd,
  * the extra node foes to front list.
  * Source: https://www.geeksforgeeks.org/merge-sort-for-linked-list/
@@ -125,7 +146,9 @@ void ObstacleTracker::frontBackSplit(obstacle thisObstacle, obstacle* frontRef, 
     *backRef = slow->next; 
     slow->next = NULL; 
 }
-
+/**
+ * This function deletes the last object from the list and frees the memory taken up by that object.
+ */
 void ObstacleTracker::delDistObst(obstacle thisObstacle)
 {
   while(thisObstacle->next->next != NULL){
@@ -133,8 +156,12 @@ void ObstacleTracker::delDistObst(obstacle thisObstacle)
   }
   obstacle tmp = thisObstacle->next;
   free(tmp);
+  obstacleAmount--;
 }
-
+/**
+ * This function checks sensor data and adds/updates an object if necessary.
+ * It also deletes the object furthest away if there are more objects than maxObstacleAmount.
+ */
 void ObstacleTracker::checkForObstacles(){
   if(obstacleAmount > maxObstacleAmount){
     mergeSort(&myObstacle);
