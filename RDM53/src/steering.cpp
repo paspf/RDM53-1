@@ -16,7 +16,7 @@
 
 //#define DEBUG_STEERING
 
-/*
+/**
  * valType: 0 = speed, 1 = turnrate
  * valType = 0: value 0-255 speed forward, 256-511 speed backward
  * speed 0x00 00 -> backwards max speed
@@ -57,16 +57,12 @@ void SteeringInterface::setVal(bool valType, int value)
     //sendString("Inside Steering.setVal");
 }
 
-/*
+/**
  * setPilot has to be called periodically so that the engine Values are set correctly.
  * setPilot does not accept values. It uses values in the steering object.
  */
 int SteeringInterface::setPilot()
 {
-    if (degreeToTurnTo != 0){
-        turnToDegrees(degreeToTurnTo);
-    }
-
     // check if a val update has occured
     if(valUpdate == false) {
         return -1;
@@ -163,67 +159,90 @@ void SteeringInterface::staticEngines(){
     enginesInt.setEBR(dirRight, enginesRight);
 }
 
-/*
- * Drive forward
- * no turn
+/**
+ * Function which controls the speed. Based on the PID Controller
  */
-void SteeringInterface::setForward(int speed) {
-    return;
-}
+float SteeringInterface::speedControl(float targetSpeed, float currentSpeed){
+    e = targetSpeed - currentSpeed;
+    Ta_Speed = millis() - lastCalc;
+    lastCalc = millis();
 
-/*
- * drive backward
- * no turn
- */
-void SteeringInterface::setBackward(int speed) {
-    return;
-}
-
-void SteeringInterface::turnHardLeftBy(float degrees){
-    turnHardLeft = true;
-    setVal(0, 0x100);
-    setVal(1,255);
-
-}
-
-void SteeringInterface::turnHardRightBy(float degrees){
-    turnHardRight = true;
-    setVal(0, 0x100);
-    setVal(1,1);
-}
-/*
- * Potentiell fehlerbehaftet bei Steuerung Richtung Süden.
- */
-void SteeringInterface::turnToDegrees(float degrees){
-    degreeToTurnTo = degrees;
-    if (degrees - mylocation.getHeading() < maxDeviation || degrees - mylocation.getHeading() > -maxDeviation){
-        degreeToTurnTo = 0;
+    esum = esum + e;
+    float correctedSpeed = Kp_Speed * e + Ki_Speed * Ta_Speed * esum + Kd_Speed * (e - ealt)/Ta_Speed;
+    if (correctedSpeed < 0){
+        correctedSpeed *= -1;
     }
-    else if (degrees - mylocation.getHeading() > maxDeviation){
-        turnHardRightBy(degrees - mylocation.getHeading());
+    if (correctedSpeed > 255){
+        correctedSpeed = 255;
+    }
+    ealt = e;
+    return correctedSpeed;
+}
+
+/**
+ * This function sets the target speeds of each side.
+ * It also calls speedControl to set the engineValues and checks the direction.
+ * When done it calls static Engines to send Vals to Engines.
+ */
+void SteeringInterface::navigation(float currentHeading, float currentLeftSpeed, float currentRightSpeed){
+    float targetLeftSpeed, targetRightSpeed;
+    if (curveRadius != 0  && (degreeToTurnTo > currentHeading + maxDeviation || degreeToTurnTo < currentHeading - maxDeviation))
+    {    
+        targetLeftSpeed = (curveRadius + carWidth / 2) * (targetGenSpeed / curveRadius);
+        targetRightSpeed = (curveRadius - carWidth / 2) * (targetGenSpeed / curveRadius);
     }
     else
     {
-        turnHardLeftBy(degrees - mylocation.getHeading());
+        if (degreeToTurnTo > currentHeading + maxDeviation){
+            targetLeftSpeed = targetGenSpeed;
+            targetRightSpeed = -targetGenSpeed;
+        }
+        else if (degreeToTurnTo < currentHeading - maxDeviation){
+            targetLeftSpeed = -targetGenSpeed;
+            targetRightSpeed = targetGenSpeed;
+        }
+        else
+        {
+            targetLeftSpeed = targetGenSpeed;
+            targetRightSpeed = targetGenSpeed;
+        }     
     }
+    enginesLeft = speedControl(targetLeftSpeed, currentLeftSpeed);
+    enginesRight = speedControl(targetRightSpeed, currentRightSpeed);
+    if(targetLeftSpeed < 0){
+        dirLeft = 1;
+    }
+    else dirLeft = 0;
+    if(targetRightSpeed < 0) {
+        dirRight = 1;
+    }
+    else dirRight = 0;
+    staticEngines();
 }
-
-void SteeringInterface::turnLeftBy(float degrees){
-    degreeToTurnTo = mylocation.getHeading() - degrees;
-    turnToDegrees(degreeToTurnTo);
-}
-
-void SteeringInterface::turnLeftBy(float degrees, int curveRadius){
-    degreeToTurnTo = mylocation.getHeading() - degrees;
-    turnToDegrees(degreeToTurnTo);
-}
-
-void SteeringInterface::turnRightBy(float degrees){
+/**
+ * This function sets the speed the device should have and by how many degrees it should turn 
+ * (negative counterclockwise, positive clockwise)
+ * If the amount to turn is larger than 180 it will take the shorter route. 
+ */
+void SteeringInterface::setNavigation(float speed, float degrees){
     degreeToTurnTo = mylocation.getHeading() + degrees;
-    turnToDegrees(degreeToTurnTo);
+    targetGenSpeed = speed;
+    curveRadius = 0;
+    //turnToDegrees(degreeToTurnTo);
+}
+/**
+ * This function sets the speed the device should have and by how many degrees it should turn 
+ * (negative counterclockwise, positive clockwise)
+ * If the amount to turn is larger than 180 it will take the shorter route. 
+ * It also sets a curve radius.
+ */
+void SteeringInterface::setNavigation(float speed, float degrees, float curveRadius){
+    degreeToTurnTo = mylocation.getHeading() + degrees;
+    targetGenSpeed = speed;
+    if (degrees > 0){
+        curveRadius *= -1;
+    }
+    this->curveRadius = curveRadius;
+    //turnToDegrees(degreeToTurnTo);
 }
 
-void SteeringInterface::turnRightBy(float degrees, int curveRadius){
-    degreeToTurnTo = mylocation.getHeading() + degrees;
-    turnToDegrees(degreeToTurnTo);
-}

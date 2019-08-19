@@ -154,20 +154,20 @@ void interruptWorkers() {
  */
 void wiFiNotificationSender() {
   // line tracking Sensors
-  protocolSend(0x0, 0x11, 0x00, lineSensorFrontLeft.getColorCode());
-  protocolSend(0x0, 0x12, 0x00, lineSensorFrontRight.getColorCode());
-  protocolSend(0x0, 0x13, 0x00, lineSensorBackLeft.getColorCode());
-  protocolSend(0x0, 0x14, 0x00, lineSensorBackRight.getColorCode());
+  protocolSend(0x0, 0x11, 0x00,  lineSensorFrontLeft.getColorCode());
+  protocolSend(0x0, 0x12, 0x00,  lineSensorFrontRight.getColorCode());
+  protocolSend(0x0, 0x13, 0x00,  lineSensorBackLeft.getColorCode());
+  protocolSend(0x0, 0x14, 0x00,  lineSensorBackRight.getColorCode());
 
   // lidar sensors
-  protocolSend(0x0, 0x00, 0x00, lidarSensors.measureLidar[0].RangeMilliMeter);
-  protocolSend(0x0, 0x01, 0x00, lidarSensors.measureLidar[1].RangeMilliMeter);
-  protocolSend(0x0, 0x02, 0x00, lidarSensors.measureLidar[2].RangeMilliMeter);
-  protocolSend(0x0, 0x03, 0x00, lidarSensors.measureLidar[3].RangeMilliMeter);
-  protocolSend(0x0, 0x04, 0x00, lidarSensors.measureLidar[4].RangeMilliMeter);
-  protocolSend(0x0, 0x05, 0x00, lidarSensors.measureLidar[5].RangeMilliMeter);
-  protocolSend(0x0, 0x06, 0x00, lidarSensors.measureLidar[6].RangeMilliMeter);
+  protocolSend(0x0, 0x00, 0x00,  lidarSensors.measureLidar[0].RangeMilliMeter);
+  protocolSend(0x0, 0x01, 0x00,  lidarSensors.measureLidar[1].RangeMilliMeter);
+  protocolSend(0x0, 0x02, 0x00,  lidarSensors.measureLidar[2].RangeMilliMeter);
+  protocolSend(0x0, 0x03, 0x00,  lidarSensors.measureLidar[3].RangeMilliMeter);
+  protocolSend(0x0, 0x04, 0x00,  lidarSensors.measureLidar[4].RangeMilliMeter);
+  protocolSend(0x0, 0x05, 0x00,  lidarSensors.measureLidar[5].RangeMilliMeter);
+  protocolSend(0x0, 0x06, 0x00,  lidarSensors.measureLidar[6].RangeMilliMeter);
 
   // ultrasonic
-  protocolSend(0x0, 0x08, 0x00, ultraSonic.getDist());
+  protocolSend(0x0, 0x08, 0x00,  ultraSonic.getDist());
 }
