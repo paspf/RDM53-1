@@ -94,7 +94,7 @@ void loop() {
       dC.mode = 0x020000;
       break;
     case 0x000000:
-      // Autonomous 0 - only lidar
+      // Autonomous 0 - only line Track
       // 11020000000000000012
       //webSocket.broadcastTXT("Autonomous 0 is set - Line Follower");
       followLine.followLine();

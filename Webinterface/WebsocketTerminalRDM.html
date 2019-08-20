@@ -121,9 +121,9 @@
 		<button type="button" id="buttonRebootRDM0" onclick="WebHexCmdSend(id);" value="11020300000000000012">Reboot RDM53</button></br>
 		<button type="button" id="buttonWiFiNotificationSender" onclick="WebHexCmdSend(id);" value="11030315000000000012">wiFiNotificationSender</button></br>
 		<h2> Autonomy </h2>
-		<button type="button" id="buttonAutonomous0" onclick="WebHexCmdSend(id);" value="11020000000000000012">Autonomous 0</button></br>
-		<button type="button" id="buttonAutonomous1" onclick="WebHexCmdSend(id);" value="11020000000000000112">Autonomous 1</button></br>
-		<button type="button" id="buttonAutonomous2" onclick="WebHexCmdSend(id);" value="11020000000000000212">Autonomous 2</button></br>
+		<button type="button" id="buttonAutonomous0" onclick="WebHexCmdSend(id);" value="11020000000000000012">Autonomous 0 - only line Track</button></br>
+		<button type="button" id="buttonAutonomous1" onclick="WebHexCmdSend(id);" value="11020000000000000112">Autonomous 1 - only lidar</button></br>
+		<button type="button" id="buttonAutonomous2" onclick="WebHexCmdSend(id);" value="11020000000000000212">Autonomous 2 - lidar and line Track</button></br>
 		<button type="button" id="buttonAutonomous3" onclick="WebHexCmdSend(id);" value="11020000000000000312">Autonomous 3</button></br>
 		<button type="button" id="buttonAutonomous4" onclick="WebHexCmdSend(id);" value="11020000000000000412">Autonomous 4</button></br>
 </div>
@@ -134,10 +134,10 @@
     //var WebSocketIPAdress = 'wss://echo.websocket.org';
 	//var WebSocketIPAdress = 'ws://192.168.178.29:81';
 	//var WebSocketIPAdress = 'ws://172.20.10.7:81';
-	//var WebSocketIPAdress = 'ws://192.168.43.156:81';
+	var WebSocketIPAdress = 'ws://192.168.43.156:81';
 	//var WebSocketIPAdress = 'ws://172.20.10.9:81';
 	//var WebSocketIPAdress = 'ws://192.168.43.185:81';
-	var WebSocketIPAdress = 'ws://10.3.141.206:81';
+	//var WebSocketIPAdress = 'ws://10.3.141.206:81';
 
 var my_gamepad = null;
 var refreshIntervalIdJoystick = null;
