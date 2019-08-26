@@ -1,32 +1,32 @@
 #include "SpeedSensor.h"
 
-float holesLeftDisk;
-float holesRightDisk;
+float holesLeftDisk = 20;
+float holesRightDisk = 20;
 
 float prevTime;
 /**
  * Function that returns rotational speed of left Disk by dividing the rotations by time passed
  */
-float doCountLeft(){
-    float timePassed = (float) millis() - prevTime;
-    prevTime = (float) millis();
-    if(timePassed > 1000){
-        return 0;
+float doMeasureLeft(){
+    float timePassed = (float) micros() - (float) prevTime;
+    prevTime = micros();
+    if(timePassed > 1000000){
+        return 0.0;
     }
 
-    return 1.0 / holesLeftDisk / timePassed;
+    return 1000000.0 / holesLeftDisk / timePassed;
 
 }
 /**
  * Function that returns rotational speed of right Disk by dividing the rotations by time passed
  */
-float doCountRight(){
-    float timePassed = (float) millis() - prevTime;
-    prevTime = (float) millis();
-    if(timePassed > 1000){
+float doMeasureRight(){
+    float timePassed = (float) micros() - prevTime;
+    prevTime = (float) micros();
+    if(timePassed > 1000000 || timePassed < 0){
         return 0;
     }
-    return 1.0 / holesRightDisk / timePassed;
+    return 1000000.0 / holesRightDisk / timePassed;
 
 }
 /**

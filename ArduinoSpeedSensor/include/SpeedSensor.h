@@ -3,8 +3,8 @@
 
 #include <Arduino.h>
 
-float doCountLeft();
-float doCountRight();
+float doMeasureLeft();
+float doMeasureRight();
 void setHoleLeft(float);
 void setHoleRight(float);
 

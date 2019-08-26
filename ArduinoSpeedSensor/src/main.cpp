@@ -77,14 +77,16 @@ void requestEvent() {
  * Calls doCountLeft to update rotational Speed.
  */
 void leftPassed(){
-  rotSpeedLeft = doCountLeft();
+  rotSpeedLeft = doMeasureLeft();
+  Serial.println(rotSpeedLeft);
 }
 /**
  * Command which gets called by Interrupt on right Wheel. 
  * Calls doCountRight to update rotational Speed.
  */
 void rightPassed(){
-  rotSpeedRight = doCountRight();
+  rotSpeedRight = doMeasureRight();
+  Serial.println(rotSpeedRight);
 }
 /**
  * Setup Function
