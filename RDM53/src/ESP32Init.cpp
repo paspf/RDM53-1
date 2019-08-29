@@ -18,6 +18,7 @@
 #include <WiFiUdp.h>
 #include "piezo.h"
 #include <esp_wifi.h>
+#include "Wire.h"
 
 // extern objects
 extern PiezoInterface piezo;
@@ -212,4 +213,25 @@ uint8_t getBatteryPercentage() {
     int rawValue = analogRead(35);
     rawValue = constrain(rawValue, 2250, 2446);
     return map(rawValue, 2250, 2446, 0, 100);
+}
+
+/**
+ * check if the expansion board (arduino nano)
+ * is ready to do his work
+ */
+void setUpArduinoNano() {
+    Wire1.beginTransmission(0x70);
+    // message for ready check
+    Wire1.write('R'); 
+    Wire1.endTransmission();
+
+    // request an 1 byte answer
+    Wire1.requestFrom(0x70, 1);
+
+    delay(2);
+    
+    // Wait for response
+    while (Wire1.available()) {
+        byte b = Wire1.read();
+    }
 }
