@@ -251,7 +251,7 @@ void getValues(uint8_t dataSource, uint8_t dataSubSource){
         // 11 03 03 07 00 00 00 00 00 12
         protocolSend(0x0, dataSource, dataSubSource, dummy);
         break;
-    case 0x8: //Ultraschall 2
+    case 0x8: // Ultraschall 2
         // 11 03 03 08 00 00 00 00 00 12
         protocolSend(0x0, dataSource, dataSubSource, ultraSonic.measureDist());
         break;
@@ -318,25 +318,25 @@ void getValues(uint8_t dataSource, uint8_t dataSubSource){
             break;
         }
         break;
-    case 0xC: //Phototransistor front left raw value
+    case 0xC: // Phototransistor front left raw value
         // 11 03 03 0C 00 00 00 00 00 12
         lineSensorFrontLeft.readSensor();
         Serial.println(lineSensorFrontLeft.getRawSensorValue());
         protocolSend(0x0, dataSource, dataSubSource, lineSensorFrontLeft.getRawSensorValue());
         break;
-    case 0xD: //Phototransistor front right raw value
+    case 0xD: // Phototransistor front right raw value
         // 11 03 03 0D 00 00 00 00 00 12
         lineSensorFrontRight.readSensor();
         Serial.println(lineSensorFrontRight.getRawSensorValue());
         protocolSend(0x0, dataSource, dataSubSource, lineSensorFrontRight.getRawSensorValue());
         break;
-    case 0xE: //Phototransistor back left raw value
+    case 0xE: // Phototransistor back left raw value
         // 11 03 03 0E 00 00 00 00 00 12
         lineSensorBackLeft.readSensor();
         Serial.println(lineSensorBackLeft.getRawSensorValue());
         protocolSend(0x0, dataSource, dataSubSource, lineSensorBackLeft.getRawSensorValue());
         break;
-    case 0xF: //Phototransistor back right raw value
+    case 0xF: // Phototransistor back right raw value
         // 11 03 03 0F 00 00 00 00 00 12
         lineSensorBackRight.readSensor();
         Serial.println(lineSensorBackRight.getRawSensorValue());
@@ -375,25 +375,26 @@ void getValues(uint8_t dataSource, uint8_t dataSubSource){
             sendStringln("wiFiNotificationSender: DISABLED");
         break;
     case 0x16 : // Heading
+        // 11 03 03 16 00 00 00 00 00 12
         protocolSend(0x0, dataSource, dataSubSource, mylocation.getHeading());
         break;
     case 0x17 : // Pitch
+        // 11 03 03 17 00 00 00 00 00 12
         protocolSend(0x0, dataSource, dataSubSource, mylocation.getPitch());
         break;
     case 0x18 : // Roll
+        // 11 03 03 18 00 00 00 00 00 12
         protocolSend(0x0, dataSource, dataSubSource, mylocation.getRoll());
         break;
-    case 0x19 : // Speed
+    case 0x19 : // Speed (from arduino)
+        // 11 03 03 19 00 00 00 00 00 12
         Serial.println("Protocol Case 0x19");
         protocolSend(0x0, dataSource, dataSubSource, (float) mylocation.getSpeedTrue());
-        Serial.println("Protocol Case 0x19 Done?");
         break;
-    case 0x20: // color sensor
-        // 11 03 03 20 00 00 00 00 00 12
-        // Serial.println("color sensor protocol BEGIN");
+    case 0x1A: // color sensor
+        // 11 03 03 1A 00 00 00 00 00 12
         colTrack.readSensor();
         protocolSend(0x0, dataSource, dataSubSource, colTrack.getLTcolor());
-        // Serial.println("color sensor protocol END");
         break;
     default:
         webSocket.broadcastTXT("Error: GetValue Unknown dataSource query");

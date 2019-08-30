@@ -81,7 +81,7 @@
 
 				<td> </td>
 				<td> </td>
-				<td><button type="button" id="buttonCSValues" onclick="WebHexCmdSend(id);" value="11030320000000000012">Color Sensor</button> </td>
+				<td><button type="button" id="buttonCSValues" onclick="WebHexCmdSend(id);" value="1103031A000000000012">Color Sensor</button> </td>
 				<td><div id="CSDisplay" style="border-style: solid; width: 1em; height: 1em"></div> </td>
 		</table> 
 		<table>
@@ -108,7 +108,12 @@
 		</table>
 	</div>
 	<div>
-		<h1>Joystick Steuerung</h1>
+		<h1>Remote Control</h1>
+		To use the remote control you first have to change the device mode to remote control static.
+		<h2>Manual</h2>
+		<button type="button" id="buttonRemoteForewardForceMax" onclick="WebHexCmdSend(id);" value="1103000000000001FF12">Forewards Force Max Speed</button>
+		<button type="button" id="buttonRemoteForewardForceStop" onclick="WebHexCmdSend(id);" value="11030000000000010012">Forewards Force Stop</button>
+		<h2>Joystick / gamepad</h2>
 		<button type="button" onclick="OnJoystickConnect();" value="Joystick">Connect Joystick</button>
 		<button type="button" onclick="OnJoystickDisconnect();" value="JoystickDisconnect">Disconnect Joystick</button>
 	</div>
@@ -134,10 +139,10 @@
     //var WebSocketIPAdress = 'wss://echo.websocket.org';
 	//var WebSocketIPAdress = 'ws://192.168.178.29:81';
 	//var WebSocketIPAdress = 'ws://172.20.10.7:81';
-	var WebSocketIPAdress = 'ws://192.168.43.156:81';
+	//var WebSocketIPAdress = 'ws://192.168.43.156:81';
 	//var WebSocketIPAdress = 'ws://172.20.10.9:81';
 	//var WebSocketIPAdress = 'ws://192.168.43.185:81';
-	//var WebSocketIPAdress = 'ws://10.3.141.206:81';
+	var WebSocketIPAdress = 'ws://10.3.141.206:81';
 
 var my_gamepad = null;
 var refreshIntervalIdJoystick = null;
@@ -369,7 +374,7 @@ function checkIfValIsKnown(value) {
 			// payload = value.substring(10, 18);
 			//document.getElementById("LTBRDisplay").innerHTML = parseInt(payload, 16).toString();
 		break;
-		case "01002000":
+		case "01001A00":
 			// Color Sensor
 			payload = value.substring(10, 18);
 			if(parseInt(payload, 16).toString() == "1") { // floor
@@ -466,7 +471,7 @@ function StrToByteArr(str) {
 			hexPos--;
 			binary[i] = binary[i] | shifted;
 		}
-		console.log(binary[i].toString(16));
+		//console.log(binary[i].toString(16));
 		
 	}
 	return binary.reverse();
