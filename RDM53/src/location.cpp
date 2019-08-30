@@ -112,7 +112,7 @@ float Location::i2cGetSpeed()
         index++;
     }
     // Serial.println(converter.number);
-    return converter.number * 2 * PI* wheelSize;   
+    return converter.number * wheelSize;   
 }
 
 /** 
@@ -138,7 +138,7 @@ float Location::i2cGetSpeedLeft()
         index++;
     }
     // Serial.println(converter.number);
-    return converter.number * 2 * PI * wheelSize;   
+    return converter.number * wheelSize;   
 }
 
 /** 

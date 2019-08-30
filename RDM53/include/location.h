@@ -19,7 +19,7 @@ public:
     float speedX, speedY, speedGen, speedTrue, speedLeft, speedRight;
     float posX, posY;
 
-    float wheelSize = 0.036;
+    float wheelSize = 0.36;
     
     int startMP();
     float getHeading();
