@@ -16,7 +16,7 @@
 class Location{
 public:
     float yaw, pitch, roll;
-    float speedX, speedY, speedGen, speedTrue;
+    float speedX, speedY, speedGen, speedTrue, speedLeft, speedRight;
     float posX, posY;
 
     float wheelSize = 0.036;
@@ -28,6 +28,8 @@ public:
     float getSpeedX();
     float getSpeedY();
     float getSpeedTrue();
+    float getSpeedLeft();
+    float getSpeedRight();
     float getPosX();
     float getPosY();
 
@@ -77,7 +79,8 @@ private:
     
     #define SpeedSensor 0x70
     float i2cGetSpeed();
-  
+    float i2cGetSpeedLeft();
+    float i2cGetSpeedRight();
     union floatToBytes {
         char buffer[4];
         float number;
