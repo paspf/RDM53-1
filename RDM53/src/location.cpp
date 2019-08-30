@@ -111,7 +111,7 @@ float Location::i2cGetSpeed()
         index++;
     }
     Serial.println(converter.number);
-    return converter.number * 2.0* PI * wheelSize;   
+    return converter.number * wheelSize;   
 }
 
 /** 
@@ -137,7 +137,7 @@ float Location::i2cGetSpeedLeft()
         index++;
     }
     Serial.println(converter.number);
-    return converter.number * 2.0* PI * wheelSize;   
+    return converter.number * wheelSize;   
 }
 
 /** 
@@ -163,7 +163,7 @@ float Location::i2cGetSpeedRight()
         index++;
     }
     Serial.println(converter.number);
-    return converter.number * 2.0* PI * wheelSize;   
+    return converter.number * wheelSize;   
 }
 /** 
  * This file gets you the heading with 0 being North. It is measured in Degrees.
