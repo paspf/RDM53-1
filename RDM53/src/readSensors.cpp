@@ -53,7 +53,7 @@ void readSensors() {
         #endif
         lineSensorBackRight.readSensor();
         ultraSonic.measureDist();
-
+        colTrack.readSensor();
     }
 }
 

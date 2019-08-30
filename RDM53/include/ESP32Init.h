@@ -24,6 +24,5 @@ void setUpTHMWifi();
 int printLocalTime();
 void OTAirInit();
 uint8_t getBatteryPercentage();
-void setUpArduinoNano();
 
 #endif

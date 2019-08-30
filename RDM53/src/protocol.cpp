@@ -187,10 +187,10 @@ void testing(unsigned char* incoming, int payload){
             // 11 03 02 06 00 00 00 00 00 12
             dC.cyclicSensorRefresh = !dC.cyclicSensorRefresh;
             if(dC.cyclicSensorRefresh == true) {
-                sendString("dC.cyclicSensorRefresh Enabled!");
+                sendStringln("dC.cyclicSensorRefresh Enabled!");
             }
             else {
-                sendString("dC.cyclicSensorRefresh Enabled!");
+                sendStringln("dC.cyclicSensorRefresh Disabled!");
             }
             break;
         default:
@@ -380,10 +380,13 @@ void getValues(uint8_t dataSource, uint8_t dataSubSource){
     case 0x15: // enable / disable wiFiNotificationSender
         // 11 03 03 15 00 00 00 00 00 12
         dC.wiFiNotificationSender = !dC.wiFiNotificationSender;
-        if(dC.wiFiNotificationSender == true)
+        if(dC.wiFiNotificationSender == true) {
+            dC.cyclicSensorRefresh = true;
             sendStringln("wiFiNotificationSender: ENABLED");
-        else
+        }
+        else {
             sendStringln("wiFiNotificationSender: DISABLED");
+        }
         break;
     case 0x16 : // Heading
         // 11 03 03 16 00 00 00 00 00 12
@@ -399,13 +402,26 @@ void getValues(uint8_t dataSource, uint8_t dataSubSource){
         break;
     case 0x19 : // Speed (from arduino)
         // 11 03 03 19 00 00 00 00 00 12
-        
-        protocolSend(0x0, dataSource, dataSubSource, mylocation.getSpeedTrue());
+        // protocolSend(0x0, dataSource, dataSubSource, mylocation.getSpeedTrue());
         break;
     case 0x1A: // color sensor
         // 11 03 03 1A 00 00 00 00 00 12
         colTrack.readSensor();
         protocolSend(0x0, dataSource, dataSubSource, colTrack.getLTcolor());
+        break; 
+    case 0x1B: // speed combined
+        // 11 03 03 1B 00 00 00 00 00 12
+        Serial.print("Speed: ");
+        Serial.println(mylocation.speedCombined2);
+        protocolSend(0x0, dataSource, dataSubSource, (float) mylocation.speedCombined2);
+        break;
+    case 0x1C: // speed left
+        // 11 03 03 1C 00 00 00 00 00 12
+        protocolSend(0x0, dataSource, dataSubSource, (float) mylocation.speedLeft2);
+        break;
+    case 0x1D: // speed right
+        // 11 03 03 1D 00 00 00 00 00 12
+        protocolSend(0x0, dataSource, dataSubSource, (float) mylocation.speedRight2);
         break;
     default:
         webSocket.broadcastTXT("Error: GetValue Unknown dataSource query");
@@ -439,8 +455,6 @@ void protocolSend(unsigned char dataType, unsigned char dataSource, unsigned cha
  * The function adds this data according to the protocol and calls sendBinCharArr.
  */
 void protocolSend(unsigned char dataType, unsigned char dataSource, unsigned char dataSubSource, float payload){
-    Serial.println("ProtocolSend Float");
-    Serial.println(payload);
     unsigned char toSend [10];
     union floatToBytes {
         char buffer[4];

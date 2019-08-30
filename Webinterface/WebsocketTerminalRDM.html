@@ -74,7 +74,7 @@
 				<td> </td>
 				<td> </td>
 			<tr>				
-				<td><button type="button" id="buttonSpeedValues" onclick="WebHexCmdSend(id);" value="11030319000000000012">Speed</button></td>
+				<td><button type="button" id="buttonSpeedValues" onclick="WebHexCmdSend(id);" value="1103031B000000000012">Speed</button></td>
 				<td><div id="buttonSpeedValuesDisplay">none</div></td>
 				<td> </td>
 				<td> </td>
@@ -138,12 +138,12 @@
 <script>
     //var WebSocketIPAdress = 'ws://192.168.178.252:81';
     //var WebSocketIPAdress = 'wss://echo.websocket.org';
-	//var WebSocketIPAdress = 'ws://192.168.178.29:81';
+	var WebSocketIPAdress = 'ws://192.168.178.42:81';
 	//var WebSocketIPAdress = 'ws://172.20.10.7:81';
 	//var WebSocketIPAdress = 'ws://192.168.43.156:81';
 	//var WebSocketIPAdress = 'ws://172.20.10.9:81';
 	//var WebSocketIPAdress = 'ws://192.168.43.185:81';
-	var WebSocketIPAdress = 'ws://10.3.141.206:81';
+	//var WebSocketIPAdress = 'ws://10.3.141.206:81';
 
 var my_gamepad = null;
 var refreshIntervalIdJoystick = null;
@@ -424,7 +424,7 @@ function checkIfValIsKnown(value) {
 			var num = view.getFloat32(0);
 			document.getElementById("Roll").innerHTML = parseFloat(payload, 16).toString();
 		break;
-		case "01001900":
+		case "01001b00":
 			payload = value.substring(10, 18);
 			
 			var p0 = payload.substring(0, 2);
@@ -440,7 +440,7 @@ function checkIfValIsKnown(value) {
 				view.setUint8(i, b);
 			});
 			var num = view.getFloat32(0);
-			document.getElementById("buttonSpeedValuesDisplay").innerHTML = (num.toString() + "m/s");
+			document.getElementById("buttonSpeedValuesDisplay").innerHTML = (num.toString().substring(0,5) + "m/s");
 		break;
 		
 	  default:

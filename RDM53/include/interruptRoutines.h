@@ -11,8 +11,8 @@
 #ifndef INTERRUPT_ROUTINES_H
 #define INTERRUPT_ROUTINES_H
 
-    #define KEY1 19
-    #define KEY2 18
+    #define KEY1 19 // 19 -> left speed sensor
+    #define KEY2 18  // 18 -> right speed sensor
 
     void IRAM_ATTR handleInterruptP18();
     void IRAM_ATTR handleInterruptP19();
@@ -20,4 +20,5 @@
     void interruptWorkers();
     void IRAM_ATTR onTimer0();
     void wiFiNotificationSender();
+    void calculateSpeed();
 #endif

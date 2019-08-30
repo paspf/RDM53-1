@@ -76,8 +76,8 @@ void IRAM_ATTR onTimer0() {
  * Configure External Interrupt Pins and timer interrupts
  */
 void interruptInitialization() {
-  pinMode(KEY1, INPUT_PULLUP);
-  pinMode(KEY2, INPUT_PULLUP);
+  pinMode(KEY1, INPUT);
+  pinMode(KEY2, INPUT);
   attachInterrupt(digitalPinToInterrupt(KEY1), handleInterruptP19, FALLING);
   attachInterrupt(digitalPinToInterrupt(KEY2), handleInterruptP18, FALLING);
 
@@ -88,22 +88,18 @@ void interruptInitialization() {
   // interrupt timer0, function = onTimer0, edge = true
   timerAttachInterrupt(timer0, &onTimer0, true);
 
-  // counter timer0, value = 100000, relead after interrupt = true
-  // timer interrupts programm every 100ms
-  timerAlarmWrite(timer0, 100000, true);
+  // counter timer0, value = 200000, relead after interrupt = true
+  // timer interrupts programm every 200ms
+  timerAlarmWrite(timer0, 200000, true);
 
   // enable the timer
   timerAlarmEnable(timer0);
   Serial.println("[OK]");
 }
 
-/**
- * Do stuff that should be run if an Interrupt has occured
- * This function is OUTSIDE of the interrupt itself
- */
-void interruptWorkers() {
- 
-  if(interruptCounterKey1 > 0){
+/*
+void keyHandler() {
+    if(interruptCounterKey1 > 0){
       // disable interrupts on both CPU cores, and spinlock tasks on other CPU
       portENTER_CRITICAL(&pinMux);
       interruptCounterKey1 = 0;
@@ -120,20 +116,34 @@ void interruptWorkers() {
       // enable interrupts on both CPU cores, disable spinlock
       portEXIT_CRITICAL(&pinMux);
   }
+}
+*/
 
-  // this block is triggered every 100ms
+/**
+ * Do stuff that should be run if an Interrupt has occured
+ * This function is OUTSIDE of the interrupt itself
+ */
+void interruptWorkers() {
+
+  // keyHandler();
+
+  // this block is triggered every 200ms
   if(timer0State >= 1) {
     portENTER_CRITICAL(&timer0Mux);
     timer0State = 0;
     portEXIT_CRITICAL(&timer0Mux);
-    // Serial.println("interrupt block!");
-        colTrack.readSensor();
-        mylocation.updateLocationVars();
+
+    portENTER_CRITICAL_ISR(&pinMux);
+    mylocation.calculateSpeed(interruptCounterKey1, interruptCounterKey2);
+    interruptCounterKey1 = 0;
+    interruptCounterKey2 = 0;
+    portEXIT_CRITICAL_ISR(&pinMux);
+    
     secCounter++;
   }
 
   // 1s intervall
-  if(secCounter >= 10) {
+  if(secCounter >= 5) {
       if(dC.wiFiNotificationSender == true) {
         wiFiNotificationSender();
     }
@@ -150,6 +160,7 @@ void interruptWorkers() {
  */
 void wiFiNotificationSender() {
   // line tracking Sensors
+  // 11 03 03 11 00 00 00 00 00 12
   protocolSend(0x0, 0x11, 0x00,  lineSensorFrontLeft.getColorCode());
   protocolSend(0x0, 0x12, 0x00,  lineSensorFrontRight.getColorCode());
   protocolSend(0x0, 0x13, 0x00,  lineSensorBackLeft.getColorCode());
@@ -166,4 +177,8 @@ void wiFiNotificationSender() {
 
   // ultrasonic
   protocolSend(0x0, 0x08, 0x00,  ultraSonic.getDist());
+
+  // combined speed
+  protocolSend(0x0, 0x19, 0x00, (float) mylocation.speedCombined2);
+
 }

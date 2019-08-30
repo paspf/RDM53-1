@@ -47,6 +47,13 @@ public:
 
     void aLittleJoke();
 
+
+    void calculateSpeed(byte, byte);
+    double speedFormula(double);
+    double speedLeft2 = 0.0;
+    double speedRight2 = 0.0;
+    double speedCombined2 = 0.0;
+
 private:
     // global constants for 9 DoF fusion and AHRS (Attitude and Heading Reference System)
     float GyroMeasError = PI * (40.0f / 180.0f);   // gyroscope measurement error in rads/s (start at 40 deg/s)

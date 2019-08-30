@@ -4,6 +4,8 @@
 
 MPU9250 SensorArray(Wire1, 0x68);
 
+// #define DEBUG_LOCATION
+
 /** 
  * This function starts the sensor and sets all required components. If it has not been used
  * the sensor will not start. 
@@ -86,6 +88,41 @@ void Location::updateLocationVars()
     posY = posY + speedY * millis() - lastLocUpdate;
     lastLocUpdate=millis();
 
+  }
+
+/**
+ * This function is called every 200ms
+ * radius wheel: 3.1cm = 0.031m
+ * 20 Segments per 360° -> 18° per segment
+ */
+  void Location::calculateSpeed(byte leftSegments, byte rightSegments) {
+    #ifdef DEBUG_LOCATION
+    Serial.println("CalculcateSpeed-----------------------");
+    Serial.print("left: ");
+    Serial.print(leftSegments);
+    Serial.print("   right:");
+    Serial.println(rightSegments);
+    #endif
+
+    speedLeft2 = speedFormula(leftSegments * 18);
+    speedRight2 = speedFormula(rightSegments * 18);
+
+    #ifdef DEBUG_LOCATION
+    Serial.print("speedLeft: ");
+    Serial.println(speedLeft2);
+    #endif
+
+    speedCombined2 = (speedLeft2 + speedRight2) / 2.0;
+    #ifdef DEBUG_LOCATION
+    Serial.println("END-------CalculcateSpeed------------");
+    #endif
+  }
+
+/**
+ * Formula to calculate arc of a circle
+ */
+  double Location::speedFormula(double degrees) {
+    return (degrees / 72.0) * PI * 0.062;
   }
 
 /** 
