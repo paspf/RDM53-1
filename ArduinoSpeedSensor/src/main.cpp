@@ -28,11 +28,13 @@ union floatToBytes {
 void receiveEvent(int howMany) {
     // remember the question: H=humidity, T=temperature
     #ifdef DEBUG_ARDUINO_SPEED_SENS
-    Serial.println("receiveEvent");
+    //Serial.println("receiveEvent");
     #endif
     int i = 0;
-    while (0 < Wire.available()) {
+    while (Wire.available()) {
         byte x = Wire.read();
+        Serial.println("SOMETHING RECEIVED_________________________");
+        Serial.println(x, HEX);
         c[i] = x;
         i++;
     }
@@ -48,16 +50,23 @@ void receiveEvent(int howMany) {
       }
       setHoleRight(converter.number);
     }
+    if (c[0] == 0xA)
+    {
+      Serial.println("A received");
+    }
 }
 /**
  * Function that gets called on request Event on I2C interface
  */ 
 void requestEvent() {
   #ifdef DEBUG_ARDUINO_SPEED_SENS
-  //Serial.println("requestEvent");
+  Serial.println("requestEvent");
   #endif
   // respond to the question
   if (c[0] == 0xA) {
+    #ifdef DEBUG_ARDUINO_SPEED_SENS
+    Serial.println("requestEvent: Rotation General");
+    #endif
     converter.number = (rotSpeedLeft + rotSpeedRight) /2.0;
 
     Wire.write(converter.buffer, 4);
@@ -65,6 +74,9 @@ void requestEvent() {
   }
 
     if (c[0] == 0xB) {
+    #ifdef DEBUG_ARDUINO_SPEED_SENS
+    Serial.println("requestEvent: Rotation Left");
+    #endif
     converter.number = rotSpeedLeft;
 
     Wire.write(converter.buffer, 4);
@@ -72,6 +84,9 @@ void requestEvent() {
   }
 
     if (c[0] == 0xC) {
+    #ifdef DEBUG_ARDUINO_SPEED_SENS
+    Serial.println("requestEvent: Rotation Right");
+    #endif    
     converter.number = rotSpeedRight;
 
     Wire.write(converter.buffer, 4);
