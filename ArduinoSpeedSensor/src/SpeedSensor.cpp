@@ -2,32 +2,35 @@
 
 float holesLeftDisk = 20;
 float holesRightDisk = 20;
-float prevTimeLeft;
-float prevTimeRight;
+long prevTimeLeft = 0;
+long prevTimeRight = 0;
 /**
- * Function that returns rotational speed of left Disk by dividing the rotations by time passed
+ * Function calls measure, sets prev Times and returns rot speed on left side.
  */
 float doMeasureLeft(){
-    float timePassed = (float) micros() - (float) prevTimeLeft;
-    prevTimeLeft = micros();
-    if(timePassed > 1000000|| timePassed < 800){
-        return 0.0;
-    }
-
-    return 1000000.0 / holesLeftDisk / timePassed;
-
+  float s = measure(holesLeftDisk, prevTimeLeft);
+  prevTimeLeft = millis();
+  return s;
 }
 /**
- * Function that returns rotational speed of right Disk by dividing the rotations by time passed
+ * Function calls measure, sets prev Times and returns rot speed on right side.
  */
 float doMeasureRight(){
-    float timePassed = (float) micros() - prevTimeRight;
-    prevTimeRight = (float) micros();
-    if(timePassed > 1000000 || timePassed < 800){
-        return 0;
-    }
-    return 1000000.0 / holesRightDisk / timePassed;
-
+  float s = measure(holesRightDisk, prevTimeRight);
+  prevTimeRight = millis();
+  return s;
+/**
+ * Function which calculates rotational speed over time
+ * Takes amount of holes and last time measured.
+ * returns speed as float.
+ */
+}
+float measure(float holes,long prevTime){
+  long timePassed = millis() - prevTime;
+  if(timePassed > 1000 || timePassed < 1){
+      return 0;
+  }
+  return (1.0 / holes) * ((float) timePassed/1000.0);
 }
 /**
  * Function which sets the amount of holes on the left side.
