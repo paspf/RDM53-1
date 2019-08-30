@@ -32,7 +32,9 @@ void ColTrack::initColTrack() {
  * and store the values in the class
  */
 void ColTrack::readSensor() {
+    #ifdef colTrack_DEBUG
     int m = millis();
+    #endif
     float red, green, blue;
     tcs.setInterrupt(false);  // turn on LED
 
@@ -51,9 +53,10 @@ void ColTrack::readSensor() {
         Serial.print("\tB:\t"); Serial.print(this->blue);
         Serial.println();
         Serial.println("-----colTrack_DEBUG_END-----");
-    #endif
+    
     Serial.print("Color Tracking time: ");
     Serial.println(millis() - m);
+    #endif
 }
 
 /**

@@ -183,11 +183,22 @@ void testing(unsigned char* incoming, int payload){
         case 0x5:
             //piezo(payload);
             break;
-        default :
+        case 0x6:
+            // 11 03 02 06 00 00 00 00 00 12
+            dC.cyclicSensorRefresh = !dC.cyclicSensorRefresh;
+            if(dC.cyclicSensorRefresh == true) {
+                sendString("dC.cyclicSensorRefresh Enabled!");
+            }
+            else {
+                sendString("dC.cyclicSensorRefresh Enabled!");
+            }
+            break;
+        default:
             Serial.println("Error in testing() due to invalid incoming[3]");
             break;
     }
 }
+
 /**
  * This function takes the incoming protocol, looks up which sensor value 
  * is looked for and calls that value. It then tells protocolSend to send that value.
@@ -388,8 +399,8 @@ void getValues(uint8_t dataSource, uint8_t dataSubSource){
         break;
     case 0x19 : // Speed (from arduino)
         // 11 03 03 19 00 00 00 00 00 12
-        Serial.println("Protocol Case 0x19");
-        protocolSend(0x0, dataSource, dataSubSource, (float) mylocation.getSpeedTrue());
+        
+        protocolSend(0x0, dataSource, dataSubSource, mylocation.getSpeedTrue());
         break;
     case 0x1A: // color sensor
         // 11 03 03 1A 00 00 00 00 00 12

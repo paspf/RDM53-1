@@ -13,6 +13,7 @@
 #include "PublicStructures.h"
 #include "HCSR04P.h"
 #include "colorTracking.h"
+#include "location.h"
 
 // extern objects
 extern lineTrackInterface lineSensorFrontLeft;
@@ -23,6 +24,7 @@ extern lidar lidarSensors;
 extern deviceConfig dC;
 extern HCSR04P ultraSonic;
 extern ColTrack colTrack;
+extern Location mylocation;
 
 // defines
 //#define DEBUG_READ_SENSORS
@@ -51,7 +53,7 @@ void readSensors() {
         #endif
         lineSensorBackRight.readSensor();
         ultraSonic.measureDist();
-        colTrack.readSensor();
+
     }
 }
 

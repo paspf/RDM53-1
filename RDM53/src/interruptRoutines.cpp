@@ -14,6 +14,8 @@
 #include "readSensors.h"
 #include <HCSR04P.h>
 #include <Arduino.h>
+#include "colorTracking.h"
+#include "location.h"
 
 // extern objects
 extern deviceConfig dC;
@@ -23,6 +25,8 @@ extern lineTrackInterface lineSensorFrontRight;
 extern lineTrackInterface lineSensorBackLeft;
 extern lineTrackInterface lineSensorBackRight;
 extern HCSR04P ultraSonic;
+extern ColTrack colTrack;
+extern Location mylocation;
 
 // iterrupts markers
 volatile byte interruptCounterKey1 = 0;
@@ -122,6 +126,9 @@ void interruptWorkers() {
     portENTER_CRITICAL(&timer0Mux);
     timer0State = 0;
     portEXIT_CRITICAL(&timer0Mux);
+    // Serial.println("interrupt block!");
+        colTrack.readSensor();
+        mylocation.updateLocationVars();
     secCounter++;
   }
 

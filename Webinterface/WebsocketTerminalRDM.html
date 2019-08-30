@@ -235,7 +235,7 @@ WebConnection.onmessage = function (e) {
 		StoreReceivedHexData(hexBuf);
 	}
    }
-   console.log("Something received");
+   // console.log("Something received");
 };
 
 WebConnection.onclose = function (e) {
@@ -374,7 +374,7 @@ function checkIfValIsKnown(value) {
 			// payload = value.substring(10, 18);
 			//document.getElementById("LTBRDisplay").innerHTML = parseInt(payload, 16).toString();
 		break;
-		case "01001A00":
+		case "01001a00":
 			// Color Sensor
 			payload = value.substring(10, 18);
 			if(parseInt(payload, 16).toString() == "1") { // floor
@@ -425,13 +425,21 @@ function checkIfValIsKnown(value) {
 		break;
 		case "01001900":
 			payload = value.substring(10, 18);
+			
+			var p0 = payload.substring(0, 2);
+			var p1 = payload.substring(2, 4);
+			var p2 = payload.substring(4, 6);
+			var p3 = payload.substring(6, 8);
+			
+			var data = [ parseInt(p3, 16), parseInt(p2, 16), parseInt(p1, 16), parseInt(p0, 16)];
+			
 			var buf = new ArrayBuffer(4);
 			var view = new DataView(buf);
 			data.forEach(function(b,i) {
 				view.setUint8(i, b);
 			});
 			var num = view.getFloat32(0);
-			document.getElementById("Speed").innerHTML = parseFloat(payload, 16).toString();
+			document.getElementById("buttonSpeedValuesDisplay").innerHTML = (num.toString() + "m/s");
 		break;
 		
 	  default:
