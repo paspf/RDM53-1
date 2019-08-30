@@ -1,7 +1,7 @@
 #include "SpeedSensor.h"
 
-int holesLeftDisk = 20;
-int holesRightDisk = 20;
+float holesLeftDisk = 20;
+float holesRightDisk = 20;
 long prevTimeLeft = 0;
 long prevTimeRight = 0;
 /**
@@ -9,7 +9,7 @@ long prevTimeRight = 0;
  */
 float doMeasureLeft(){
   float s = measure(holesLeftDisk, prevTimeLeft);
-  prevTimeLeft = micros();
+  prevTimeLeft = millis();
   return s;
 }
 /**
@@ -17,7 +17,7 @@ float doMeasureLeft(){
  */
 float doMeasureRight(){
   float s = measure(holesRightDisk, prevTimeRight);
-  prevTimeRight = micros();
+  prevTimeRight = millis();
   return s;
 /**
  * Function which calculates rotational speed over time
@@ -25,12 +25,12 @@ float doMeasureRight(){
  * returns speed as float.
  */
 }
-float measure(int holes,long prevTime){
-  long timePassed = micros() - prevTime;
-  if(timePassed > 1000000 || timePassed < 500){
+float measure(float holes,long prevTime){
+  long timePassed = millis() - prevTime;
+  if(timePassed > 1000 || timePassed < 1){
       return 0;
   }
-  return (1/(float) holes) * (1000000.0/(float) timePassed);
+  return (1.0 / holes) * ((float) timePassed/1000.0);
 }
 /**
  * Function which sets the amount of holes on the left side.
