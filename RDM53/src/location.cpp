@@ -36,7 +36,7 @@ int Location::startMP()
  */
 void Location::updateLocationVars()
 { 
-    Serial.println("Updating Loc Vars");       
+    // Serial.println("Updating Loc Vars");       
     SensorArray.readSensor();
     
     gyrx = SensorArray.getGyroX_rads();
@@ -106,11 +106,12 @@ float Location::i2cGetSpeed()
     // Wait for response
     while (Wire1.available()) {
         byte b = Wire1.read();
-
+        // Serial.print("i2cGetSpeed while loop: ");
+        // Serial.println(b, HEX);
         converter.buffer[index] = b;
         index++;
     }
-    Serial.println(converter.number);
+    // Serial.println(converter.number);
     return converter.number * 2.0* PI * wheelSize;   
 }
 
