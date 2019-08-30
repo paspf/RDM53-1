@@ -3,6 +3,8 @@
 
 #include "SpeedSensor.h"
 
+#define DEBUG_ARDUINO_SPEED_SENS
+
 char c[5];
 
 float rotSpeedLeft;
@@ -25,7 +27,9 @@ union floatToBytes {
  */
 void receiveEvent(int howMany) {
     // remember the question: H=humidity, T=temperature
+    #ifdef DEBUG_ARDUINO_SPEED_SENS
     Serial.println("receiveEvent");
+    #endif
     int i = 0;
     while (0 < Wire.available()) {
         byte x = Wire.read();
@@ -49,10 +53,12 @@ void receiveEvent(int howMany) {
  * Function that gets called on request Event on I2C interface
  */ 
 void requestEvent() {
-  Serial.println("requestEvent");
+  #ifdef DEBUG_ARDUINO_SPEED_SENS
+  //Serial.println("requestEvent");
+  #endif
   // respond to the question
   if (c[0] == 0xA) {
-    converter.number = (rotSpeedLeft + rotSpeedRight) /2;
+    converter.number = (rotSpeedLeft + rotSpeedRight) /2.0;
 
     Wire.write(converter.buffer, 4);
     Serial.println(converter.number);
@@ -78,7 +84,10 @@ void requestEvent() {
  */
 void leftPassed(){
   rotSpeedLeft = doMeasureLeft();
+  #ifdef DEBUG_ARDUINO_SPEED_SENS
+  Serial.print("Rot/s Left:");
   Serial.println(rotSpeedLeft);
+  #endif
 }
 /**
  * Command which gets called by Interrupt on right Wheel. 
@@ -86,7 +95,10 @@ void leftPassed(){
  */
 void rightPassed(){
   rotSpeedRight = doMeasureRight();
+  #ifdef DEBUG_ARDUINO_SPEED_SENS
+  Serial.print("Rot/s Right");
   Serial.println(rotSpeedRight);
+  #endif
 }
 /**
  * Setup Function
@@ -106,4 +118,7 @@ void setup() {
  */
 void loop() {
   // put your main code here, to run repeatedly:
+  delay(50);
+  rotSpeedLeft = 0;
+  rotSpeedRight = 0;
 }

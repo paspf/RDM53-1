@@ -35,7 +35,8 @@ int Location::startMP()
  * This function updates all variables.
  */
 void Location::updateLocationVars()
-{        
+{ 
+    Serial.println("Updating Loc Vars");       
     SensorArray.readSensor();
     
     gyrx = SensorArray.getGyroX_rads();
@@ -74,7 +75,9 @@ void Location::updateLocationVars()
     c_accy = accy -gravy;
     c_accz = accz -gravz;
 
-    speedTrue = i2cGetSpeed() * 2.0* PI * wheelSize;
+    speedTrue = i2cGetSpeed();
+    speedLeft = i2cGetSpeedLeft();
+    speedRight = i2cGetSpeedRight();
 
     speedX = speedTrue * cos(yaw);
     speedY = speedTrue * sin(yaw);
@@ -94,7 +97,7 @@ float Location::i2cGetSpeed()
 {
     converter.number = 0;
     Wire1.beginTransmission(SpeedSensor);
-    Wire1.write('S');
+    Wire1.write(0xA);
     Wire1.endTransmission();
 
     int index = 0;
@@ -107,11 +110,61 @@ float Location::i2cGetSpeed()
         converter.buffer[index] = b;
         index++;
     }
-    //Serial.println(converter.number);
-    return converter.number;
-    
+    Serial.println(converter.number);
+    return converter.number * 2.0* PI * wheelSize;   
 }
 
+/** 
+ * This function gets the current average rotational Speed of both sides of the Car. 
+ * It is measured in rad/s. This number is always positive, even if you drive backwards.
+ * 
+ */
+float Location::i2cGetSpeedLeft()
+{
+    converter.number = 0;
+    Wire1.beginTransmission(SpeedSensor);
+    Wire1.write(0xB);
+    Wire1.endTransmission();
+
+    int index = 0;
+
+    Wire1.requestFrom(SpeedSensor, 4);
+    // Wait for response
+    while (Wire1.available()) {
+        byte b = Wire1.read();
+
+        converter.buffer[index] = b;
+        index++;
+    }
+    Serial.println(converter.number);
+    return converter.number * 2.0* PI * wheelSize;   
+}
+
+/** 
+ * This function gets the current average rotational Speed of both sides of the Car. 
+ * It is measured in rad/s. This number is always positive, even if you drive backwards.
+ * 
+ */
+float Location::i2cGetSpeedRight()
+{
+    converter.number = 0;
+    Wire1.beginTransmission(SpeedSensor);
+    Wire1.write(0xC);
+    Wire1.endTransmission();
+
+    int index = 0;
+
+    Wire1.requestFrom(SpeedSensor, 4);
+    // Wait for response
+    while (Wire1.available()) {
+        byte b = Wire1.read();
+
+        converter.buffer[index] = b;
+        index++;
+    }
+    Serial.println(converter.number);
+    return converter.number * 2.0* PI * wheelSize;   
+}
 /** 
  * This file gets you the heading with 0 being North. It is measured in Degrees.
  * Turning clockwise gets you a higher number, turning counterclockwise a lower.
@@ -160,6 +213,16 @@ float Location::getSpeedY(){
 float Location::getSpeedTrue(){
   Serial.println(speedTrue);
   return speedTrue;
+}
+
+float Location::getSpeedLeft(){
+  Serial.println(speedLeft);
+  return speedLeft;
+}
+
+float Location::getSpeedRight(){
+  Serial.println(speedRight);
+  return speedRight;
 }
 /**
  *  This function gets the distance travelled in the x-axis (forward/backward)

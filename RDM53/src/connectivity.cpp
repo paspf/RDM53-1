@@ -131,7 +131,7 @@ void analyseString() {
   if(inputString.startsWith("DEBUG ")) {
     if(inputString.substring(6, 18) == "protocolSend") {
       Serial.println("protocolSend():");
-        protocolSend(0x82, 0x93, 0x30, 0xFE203040);
+        protocolSend(0x82, 0x93, 0x30, (int) 0xFE203040);
         // webSocket.broadcastTXT("DEBUG protocolSend is working!!!!!");
     }
     if(inputString.substring(6, 28) == "dC.cyclicSensorRefresh") {

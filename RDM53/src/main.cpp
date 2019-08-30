@@ -73,6 +73,7 @@ void loop() {
   webSocket.loop();
   interruptWorkers();
   readSensors();
+
   mylocation.updateLocationVars();
 
   //ObstTrack.checkForObstacles();

@@ -427,7 +427,8 @@ void protocolSend(unsigned char dataType, unsigned char dataSource, unsigned cha
  * The function adds this data according to the protocol and calls sendBinCharArr.
  */
 void protocolSend(unsigned char dataType, unsigned char dataSource, unsigned char dataSubSource, float payload){
-    //Serial.println("ProtocolSend Float");
+    Serial.println("ProtocolSend Float");
+    Serial.println(payload);
     unsigned char toSend [10];
     union floatToBytes {
         char buffer[4];
@@ -449,7 +450,7 @@ void protocolSend(unsigned char dataType, unsigned char dataSource, unsigned cha
 
     toSend[9] = 0x12;
  
-    //Serial.println(converter.buffer);
-    //Serial.println(converter.number);
+    Serial.println(converter.buffer);
+    Serial.println(converter.number);
     sendBinCharArr(toSend, 10);
 }
