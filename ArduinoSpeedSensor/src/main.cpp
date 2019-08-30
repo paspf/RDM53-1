@@ -3,12 +3,15 @@
 
 #include "SpeedSensor.h"
 
-#define DEBUG_ARDUINO_SPEED_SENS
+//#define DEBUG_ARDUINO_SPEED_SENS
 
 char c[5];
 
 float rotSpeedLeft;
 float rotSpeedRight;
+
+unsigned long lastInterrupt;
+
 /**
  * Union which stores the Bytes of the Float
  * Is for sending floats using I2C.
@@ -28,13 +31,11 @@ union floatToBytes {
 void receiveEvent(int howMany) {
     // remember the question: H=humidity, T=temperature
     #ifdef DEBUG_ARDUINO_SPEED_SENS
-    //Serial.println("receiveEvent");
+    Serial.println("receiveEvent");
     #endif
     int i = 0;
     while (Wire.available()) {
         byte x = Wire.read();
-        Serial.println("SOMETHING RECEIVED_________________________");
-        Serial.println(x, HEX);
         c[i] = x;
         i++;
     }
@@ -49,10 +50,6 @@ void receiveEvent(int howMany) {
         converter.buffer[j] = c[j+1];
       }
       setHoleRight(converter.number);
-    }
-    if (c[0] == 0xA)
-    {
-      Serial.println("A received");
     }
 }
 /**
@@ -70,7 +67,6 @@ void requestEvent() {
     converter.number = (rotSpeedLeft + rotSpeedRight) /2.0;
 
     Wire.write(converter.buffer, 4);
-    Serial.println(converter.number);
   }
 
     if (c[0] == 0xB) {
@@ -80,7 +76,6 @@ void requestEvent() {
     converter.number = rotSpeedLeft;
 
     Wire.write(converter.buffer, 4);
-    Serial.println(converter.number);
   }
 
     if (c[0] == 0xC) {
@@ -90,7 +85,6 @@ void requestEvent() {
     converter.number = rotSpeedRight;
 
     Wire.write(converter.buffer, 4);
-    Serial.println(converter.number);
   }
 }
 /**
@@ -98,6 +92,7 @@ void requestEvent() {
  * Calls doCountLeft to update rotational Speed.
  */
 void leftPassed(){
+  lastInterrupt = millis();
   rotSpeedLeft = doMeasureLeft();
   #ifdef DEBUG_ARDUINO_SPEED_SENS
   Serial.print("Rot/s Left:");
@@ -109,6 +104,8 @@ void leftPassed(){
  * Calls doCountRight to update rotational Speed.
  */
 void rightPassed(){
+  lastInterrupt = millis();
+
   rotSpeedRight = doMeasureRight();
   #ifdef DEBUG_ARDUINO_SPEED_SENS
   Serial.print("Rot/s Right");
@@ -125,6 +122,8 @@ void setup() {
     Wire.onReceive(receiveEvent); // data slave recieved 
     Serial.begin(115200);
 
+    lastInterrupt = millis();
+
     attachInterrupt(0,leftPassed,RISING);
     attachInterrupt(1,rightPassed,RISING);
 }
@@ -132,8 +131,9 @@ void setup() {
  * Loop Function
  */
 void loop() {
+  if(millis() - lastInterrupt > 100) {
+    rotSpeedLeft = 0.0;
+    rotSpeedRight = 0.0;
+  }
   // put your main code here, to run repeatedly:
-  delay(50);
-  rotSpeedLeft = 0;
-  rotSpeedRight = 0;
 }

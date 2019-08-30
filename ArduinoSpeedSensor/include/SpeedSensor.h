@@ -5,6 +5,7 @@
 
 float doMeasureLeft();
 float doMeasureRight();
+float measure(int, long);
 void setHoleLeft(float);
 void setHoleRight(float);
 
