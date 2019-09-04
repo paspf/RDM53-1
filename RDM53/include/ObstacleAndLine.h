@@ -9,7 +9,12 @@
 
         public:
 
+
+        void checkMod();
+        int startMod1;
+        int startMod2;
         void driveThroughParcour();
+        unsigned short mod = 0;
 
 
 
