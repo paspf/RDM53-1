@@ -11,8 +11,11 @@
         unsigned short directionleft;
         unsigned int cntright = 0;
         unsigned short directionright;
-
+        unsigned short mod = 0;
         void followLine();
+        void checkMod();
+        int startMod1;
+        int startMod2;
 
     };
 #endif

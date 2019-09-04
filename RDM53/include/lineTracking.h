@@ -27,7 +27,7 @@ class lineTrackInterface {
     int pin;
     // color [0]:lowVal [1]:highVal
     #ifdef ownColorsA2007
-    short black[2] = {4000,4095};
+    short black[2] = {3950,4095};
     short floor[2] = {3630,3950};
     short yellow[2] = {3500,3629};
     short green[2] = {1600,2600};

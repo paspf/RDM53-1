@@ -61,7 +61,7 @@ void ColTrack::readSensor() {
 
 /**
  * get the recent sensor color as a value useable for lineTracking
- * 0 - black (playground)
+ * 0 - black (line)
  * 1 - floor (floor) 1600
  * 2 - yellow (enemy goal)
  * 3 - green (our goal)

@@ -27,20 +27,6 @@ void ObstacleAndLine::driveThroughParcour(){
 
 
 
-    if ((rawValueFL == 0) && (
-        (lidarSensors.measureLidar[0].RangeMilliMeter > 0) && 
-        (lidarSensors.measureLidar[1].RangeMilliMeter > 0)   &&
-        (lidarSensors.measureLidar[2].RangeMilliMeter < 300)   &&
-        (lidarSensors.measureLidar[3].RangeMilliMeter < 300)   &&
-        (lidarSensors.measureLidar[4].RangeMilliMeter > 0)   &&
-        (lidarSensors.measureLidar[5].RangeMilliMeter > 0)   &&
-        (lidarSensors.measureLidar[6].RangeMilliMeter > 0) )
-        ) {
-            steering.setVal(0,0);
-            return;
-        }
-
-
     // if both front sensors are in the stripe, drive back
     if(rawValueFL == 0 && rawValueFR == 0) {
         steering.setVal(0,0);
@@ -67,55 +53,12 @@ void ObstacleAndLine::driveThroughParcour(){
         steering.setVal(1,0);
         return;
     }
+
     // if both right sensors are in the stripe, stop the car
     if(rawValueFR == 0 && rawValueBR == 0) {
-        steering.setVal(1,25);
+        steering.setVal(1,0);
         return;
     }
-
-
-    // Sensor 0 --> dann rechts 
-    if ((rawValueFL == 0) || (
-        (lidarSensors.measureLidar[0].RangeMilliMeter < 300) && 
-        (lidarSensors.measureLidar[1].RangeMilliMeter > 0)   &&
-        (lidarSensors.measureLidar[2].RangeMilliMeter > 0)   &&
-        (lidarSensors.measureLidar[3].RangeMilliMeter > 0)   &&
-        (lidarSensors.measureLidar[4].RangeMilliMeter > 0)   &&
-        (lidarSensors.measureLidar[5].RangeMilliMeter > 0)   &&
-        (lidarSensors.measureLidar[6].RangeMilliMeter > 0) )
-        ) {
-            steering.setVal(1,240);
-            return;
-        }
-
-    // Sensor 3 --> dann links 
-    if ((rawValueFR == 0) || (
-        (lidarSensors.measureLidar[0].RangeMilliMeter > 0 )  && 
-        (lidarSensors.measureLidar[1].RangeMilliMeter > 0 ) &&
-        (lidarSensors.measureLidar[2].RangeMilliMeter > 0 )  &&
-        (lidarSensors.measureLidar[3].RangeMilliMeter < 300 ) &&
-        (lidarSensors.measureLidar[4].RangeMilliMeter > 0  ) &&
-        (lidarSensors.measureLidar[5].RangeMilliMeter > 0  ) &&
-        (lidarSensors.measureLidar[6].RangeMilliMeter > 0 ))
-        ) {
-            steering.setVal(1,25);
-            return;
-        }
-
-    // Sensor 2 --> dann rechts 
-    if (rawValueFR == 0 && 
-        lidarSensors.measureLidar[0].RangeMilliMeter > 0   && 
-        lidarSensors.measureLidar[1].RangeMilliMeter > 0  &&
-        lidarSensors.measureLidar[2].RangeMilliMeter < 300   &&
-        lidarSensors.measureLidar[3].RangeMilliMeter > 0  &&
-        lidarSensors.measureLidar[4].RangeMilliMeter > 0  &&
-        lidarSensors.measureLidar[5].RangeMilliMeter > 0   &&
-        lidarSensors.measureLidar[6].RangeMilliMeter > 0
-        ) {
-            steering.setVal(1,255);
-            return;
-        }
-
 
 
     //vorwärts fahren
@@ -128,7 +71,7 @@ void ObstacleAndLine::driveThroughParcour(){
         lidarSensors.measureLidar[6].RangeMilliMeter > 0
         ) {
             steering.setVal(1,128);
-            steering.setVal(0,440);
+            steering.setVal(0,375);
             return;
         }
 
@@ -143,7 +86,7 @@ void ObstacleAndLine::driveThroughParcour(){
         lidarSensors.measureLidar[6].RangeMilliMeter < 250
         ) {
             steering.setVal(1,128);
-            steering.setVal(0,0x0000);
+            steering.setVal(0,0);
             return;
         }
 

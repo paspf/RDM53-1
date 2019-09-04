@@ -56,6 +56,8 @@ class SteeringInterface{
     void setNavigation(float, float, float);
 
     float speedControl(float, float);
+    void straightForewards(int speed);
+    void straightBackwards(int speed);
 };
 
 #endif

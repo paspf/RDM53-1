@@ -246,3 +246,14 @@ void SteeringInterface::setNavigation(float speed, float degrees, float curveRad
     //turnToDegrees(degreeToTurnTo);
 }
 
+void SteeringInterface::straightForewards(int speed) {
+    speed += 0x100;
+    setVal(1,128);
+    setVal(0,speed);
+}
+
+void SteeringInterface::straightBackwards(int speed) {
+    speed = 0x100 - speed;
+    setVal(1,128);
+    setVal(0,speed);
+}
