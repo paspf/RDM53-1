@@ -10,6 +10,8 @@
         public:
 
 
+        int startMod69;
+        int startMod70;
         void checkMod();
         int startMod1;
         int startMod2;

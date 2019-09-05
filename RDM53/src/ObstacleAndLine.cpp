@@ -27,7 +27,7 @@ void ObstacleAndLine::checkMod() {
         steering.setVal(1,255);
         if((millis() - startMod1 > 500) && (lineSensorFrontRight.getColorCode() != 0)) {
             mod = 0;
-            steering.straightForewards(0xA0);
+            steering.straightForewards(0xC0);
         }
     
     }
@@ -37,11 +37,34 @@ void ObstacleAndLine::checkMod() {
         steering.setVal(1,0);
         if((millis() - startMod2 > 500) && (lineSensorFrontLeft.getColorCode() != 0)){
             mod = 0;
-            steering.straightForewards(0xA0);
+            steering.straightForewards(0xC0);
+        }
+    }
+
+    //Hindernis mit schwarzen Steifen vorne rechts
+    if(mod == 69) {
+        steering.setVal(0,0x010);
+        steering.setVal(1,255);
+        steering.setVal(0,0);
+        if((millis() - startMod69 > 1000) && (lineSensorFrontRight.getColorCode() != 0)) {
+            mod = 0;
+            steering.straightForewards(0xC0);
+        }
+    }
+
+    //Hindernis mit schwarzen Steifen vorne links
+    if(mod == 70) {
+        steering.setVal(0,0x010);
+        steering.setVal(1,0);
+        steering.setVal(0,0);
+        if((millis() - startMod70 > 1000) && (lineSensorFrontLeft.getColorCode() != 0)) {
+            mod = 0;
+            steering.straightForewards(0xC0);
         }
     }
 
 }
+
 
 
 void ObstacleAndLine::driveThroughParcour(){
@@ -53,7 +76,42 @@ void ObstacleAndLine::driveThroughParcour(){
 
 
    checkMod();
-// rechst vorne erkennt schwarzen Streifen
+
+
+    //Hindernis mit schwarzen Steifen vorne rechts 
+    if (rawValueFR == 0 &&
+        ultraSonic.getDist() < 300 &&
+        lidarSensors.measureLidar[0].RangeMilliMeter < 300 && 
+        lidarSensors.measureLidar[1].RangeMilliMeter < 300 &&
+        lidarSensors.measureLidar[2].RangeMilliMeter > 0   &&
+        lidarSensors.measureLidar[3].RangeMilliMeter > 0   &&
+        lidarSensors.measureLidar[4].RangeMilliMeter > 0   &&
+        lidarSensors.measureLidar[5].RangeMilliMeter > 0   &&
+        lidarSensors.measureLidar[6].RangeMilliMeter > 0   &&
+        mod == 0
+        ) {
+            mod = 69;
+            startMod69 = millis();
+        }
+    
+
+    //Hindernis mit schwarzen Steifen vorne links 
+    if (rawValueFL == 0 &&
+        ultraSonic.getDist() < 300 &&
+        lidarSensors.measureLidar[0].RangeMilliMeter > 0   && 
+        lidarSensors.measureLidar[1].RangeMilliMeter > 0   &&
+        lidarSensors.measureLidar[2].RangeMilliMeter < 300 &&
+        lidarSensors.measureLidar[3].RangeMilliMeter < 300 &&
+        lidarSensors.measureLidar[4].RangeMilliMeter > 0   &&
+        lidarSensors.measureLidar[5].RangeMilliMeter > 0   &&
+        lidarSensors.measureLidar[6].RangeMilliMeter > 0   &&
+        mod == 0
+        ) {
+            mod = 70;
+            startMod70 = millis();
+        }
+    
+    // rechst vorne erkennt schwarzen Streifen (LineTrackingSensor)
     if(rawValueFR  == 0 &&
         rawValueFL != 0 &&
         rawValueBL != 0 &&
@@ -64,7 +122,7 @@ void ObstacleAndLine::driveThroughParcour(){
             startMod1 = millis();
     }
 
-    // links vorne erkennt schwarzen Streifen
+    // links vorne erkennt schwarzen Streifen (Linetrackingsensor)
     if(rawValueFL  == 0 &&
         rawValueFR != 0 &&
         rawValueBL != 0 &&
@@ -75,43 +133,12 @@ void ObstacleAndLine::driveThroughParcour(){
             startMod2 = millis();
     }
 
-    /*// if both front sensors are in the stripe, drive back
-    if(rawValueFL == 0 && rawValueFR == 0) {
-        steering.setVal(0,0);
-        return;
-    }
 
-    // if the left front sensor is in the stripe,
-    // turn the car in the position that both left sensors are in stripe
-    if(rawValueFL == 0 && rawValueBL != 0){
-        steering.setVal(1,255);
-        return;
-    }
-    
-    // if both left sensors are in the stripe, drive to right 
-    if(rawValueFL == 0 && rawValueBL == 0) {
-        steering.setVal(1,255);
-        return;
-    }
-
-
-    // if the right front sensor is in the stripe,
-    //turn the car in the position that both right sensors are in stripe
-    if(rawValueFR == 0 && rawValueBR != 0) {
-        steering.setVal(1,0);
-        return;
-    }
-
-    // if both right sensors are in the stripe, stop the car
-    if(rawValueFR == 0 && rawValueBR == 0) {
-        steering.setVal(1,0);
-        return;
-    }
-    */
 
    if(mod != 0) {
        return;
    }
+
 
     //vorwärts fahren
     if (lidarSensors.measureLidar[0].RangeMilliMeter > 300 && 
@@ -123,7 +150,7 @@ void ObstacleAndLine::driveThroughParcour(){
         lidarSensors.measureLidar[6].RangeMilliMeter > 0
         ) {
             steering.setVal(1,128);
-            steering.setVal(0,375);
+            steering.setVal(0,400);
             return;
         }
 
