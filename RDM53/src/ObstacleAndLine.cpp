@@ -78,7 +78,7 @@ int ObstacleAndLine::checkMod() {
         steering.setVal(0,0x0100);
         steering.straightForewards(0x60);
         piezo.setPiezo(400);
-        if((millis() - startMod10 > 2000) && (colTrack.getLTcolor() != 3)) {
+        if((millis() - startMod10 > 3000) && (colTrack.getLTcolor() != 3)) {
             mod = 0;    
             piezo.noSound();
             steering.setVal(0,0x0100);
@@ -343,4 +343,13 @@ void ObstacleAndLine::driveThroughParcour(){
             steering.setVal(1,25);
             return;
         }
+}
+
+void ObstacleAndLine::initValues() {
+    startMod69 = 0;
+    startMod70 = 0;
+    startMod10 = 0;
+    startMod1 = 0;
+    startMod2 = 0;
+    mod = 0;
 }

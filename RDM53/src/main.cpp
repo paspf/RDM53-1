@@ -116,6 +116,7 @@ void loop() {
     case 0x000003:
       // Autonomous 3 - 
       // 11020000000000000312
+      //float directionInDegrees = mylocation.getHeading(); //This returns the magnetic kompass in degrees
       webSocket.broadcastTXT("Autonomous 3 is set");
       dC.mode = 0x020000;
       break;

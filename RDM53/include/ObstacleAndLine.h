@@ -18,6 +18,7 @@
         int startMod2;
         void driveThroughParcour();
         unsigned short mod = 0;
+        void initValues();
 
 
 

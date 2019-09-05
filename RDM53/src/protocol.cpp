@@ -9,7 +9,7 @@
 #include "connectivity.h"
 #include "HCSR04P.h"
 #include "colorTracking.h"
-
+#include "ObstacleAndLine.h"
 
 #ifndef RDM_MAIN
     extern String inputString;
@@ -30,6 +30,7 @@
     extern lineTrackInterface lineSensorBackLeft;
     extern lineTrackInterface lineSensorBackRight;
     extern ColTrack colTrack;
+    extern ObstacleAndLine driverRDM;
 #endif
 
 
@@ -126,6 +127,14 @@ void autonomous(unsigned char autonomyNum)
     sendString("Autonomous mode");
     dC.mode = 0x0000 + autonomyNum;
     dC.cyclicSensorRefresh = true;
+    switch(dC.mode) {
+    case 0x000001:
+    case 0x000002:
+      // Autonomous 2 - Lidar and LineTracking
+      // 11020000000000000212
+      driverRDM.initValues();
+      break;
+    }
 }
 /**
  * remoteControl() is responsible for giving the steering function its payload.
