@@ -12,7 +12,8 @@
 
         int startMod69;
         int startMod70;
-        void checkMod();
+        int startMod10;
+        int checkMod();
         int startMod1;
         int startMod2;
         void driveThroughParcour();

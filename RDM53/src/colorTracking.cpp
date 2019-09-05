@@ -12,7 +12,7 @@
 #include "colorTracking.h"
 
 // defines
-// #define colTrack_DEBUG
+//#define colTrack_DEBUG
 
 /**
  * initialize TCS34725
@@ -86,9 +86,9 @@ void ColTrack::readSensor() {
  */
 short ColTrack::getLTcolor() {
     // yellow
-    if( (red >= 106 && red <= 113) &&
-        (green >= 89 && green <= 95) &&
-        (blue >= 34 && blue <= 39)
+    if( (red >= 105 && red <= 120) &&
+        (green >= 89 && green <= 104) &&
+        (blue >= 40 && blue <= 55)
     ) {
         #ifdef colTrack_DEBUG
             Serial.println("ColTrack: yellow");
@@ -96,14 +96,14 @@ short ColTrack::getLTcolor() {
         return 2;
     }
     // green
-    if( (red >= 80 && red <= 93) &&
-        (green >= 103 && green <= 115) &&
-        (blue >= 45 && blue <= 60)
+    if( (red >= 90 && red <= 105) &&
+        (green >= 105 && green <= 130) &&
+        (blue >= 50 && blue <= 80)
     ) {
         #ifdef colTrack_DEBUG
             Serial.println("ColTrack: green");
         #endif
-        return 2;
+        return 3;
     }
     // black
     if( (red >= 85 && red <= 109) &&

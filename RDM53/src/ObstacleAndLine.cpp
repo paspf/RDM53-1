@@ -6,6 +6,10 @@
 #include "LineFollower.h"
 #include "HCSR04P.h"
 #include "ObstacleAndLine.h"
+#include "colorTracking.h"
+#include "piezo.h"
+#include "PublicStructures.h"
+#include "EnginesInterface.h"
 
 extern SteeringInterface steering;
 extern lidar lidarSensors;
@@ -16,10 +20,14 @@ extern lineTrackInterface lineSensorBackLeft;
 extern lineTrackInterface lineSensorBackRight;
 
 extern HCSR04P ultraSonic;
+extern ColTrack colTrack;
+extern PiezoInterface piezo;
+extern EnginesInterface enginesInt;
+extern deviceConfig dC;
 
 
 
-void ObstacleAndLine::checkMod() {
+int ObstacleAndLine::checkMod() {
     
     // Modus1, falls RDM rechts vorne auf schwarzen Streifen kommt, nach links fahren für 0,5 Sekunden
     if(mod == 1) {
@@ -63,8 +71,26 @@ void ObstacleAndLine::checkMod() {
         }
     }
 
-}
 
+
+    // Farbsensor erkennt Ziel und hält an nach 2 Sekunden
+    if(mod == 10) {
+        steering.setVal(0,0x0100);
+        steering.straightForewards(0x60);
+        piezo.setPiezo(400);
+        if((millis() - startMod10 > 2000) && (colTrack.getLTcolor() != 3)) {
+            mod = 0;    
+            piezo.noSound();
+            steering.setVal(0,0x0100);
+            dC.mode = 0x20000;
+            dC.cyclicSensorRefresh = false;
+            enginesInt.stopE();
+            return 10;
+            
+        }
+    }
+    return 0;
+}
 
 
 void ObstacleAndLine::driveThroughParcour(){
@@ -73,9 +99,13 @@ void ObstacleAndLine::driveThroughParcour(){
     int rawValueFR = lineSensorFrontRight.getColorCode();
     int rawValueBL = lineSensorBackLeft.getColorCode();
     int rawValueBR = lineSensorBackRight.getColorCode();
+    
+    int rawValueColorSensor = colTrack.getLTcolor();
 
 
-   checkMod();
+   if(checkMod() == 10) {
+       return;
+   }
 
 
     //Hindernis mit schwarzen Steifen vorne rechts 
@@ -133,6 +163,12 @@ void ObstacleAndLine::driveThroughParcour(){
             startMod2 = millis();
     }
 
+    // Farbsensor erkennt grünen Streifen --> Ziel erkannt 
+    if(rawValueColorSensor == 3 && mod == 0) {
+            
+            mod = 10;
+            startMod10 = millis();
+    }
 
 
    if(mod != 0) {
