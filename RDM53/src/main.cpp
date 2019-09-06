@@ -5,7 +5,7 @@
  * 
  * Date: 2019 05 21
  * Author: Pascal Pfeiffer
- * Project Members: Pascal Pfeiffer, Jan Kühnemund, Taha Tekdemir (derbabo), Justin Neumann
+ * Project Members: Pascal Pfeiffer, Jan Kühnemund, Taha Tekdemir, Justin Neumann
  */
 
 #include "main.h"
@@ -20,25 +20,23 @@ TaskHandle_t TaskLidarLoop;
  */
 void setup() {
   Serial.begin(230400);
-  lidarSensors.expanderWrite(EXP_ADDRESS, 0x00);
-  Wire.begin();
-  Wire1.begin(17,16);
-  RDMWiFiInit();
-  OTAirInit();
-  colTrack.initColTrack();
-  lidarSensors.initLox();
-  webSocket.begin();                                                      // start the websocket server
-  webSocket.onEvent(webSocketEvent);                                      // what to do on event...
+  lidarSensors.expanderWrite(EXP_ADDRESS, 0x00);    // ensure all outputs on the port expander are low
+  Wire.begin();                                     // first I2C bus on pins 21(SDA) and 22(SCL)
+  Wire1.begin(17,16);                               // second I2C bus on pins 16(SDA) 17(SCL)
+  RDMWiFiInit();                                    // start wifi functions
+  OTAirInit();                                      // setup arduino ota
+  colTrack.initColTrack();                          // setup the color tracking sensor
+  lidarSensors.initLox();                           // setup lidar sensors
+  webSocket.begin();                                // start the websocket server
+  webSocket.onEvent(webSocketEvent);                // what to do on event...
   Serial.print("CPU Frequency [Mhz]: ");
-  Serial.println(getCpuFrequencyMhz()); //Get CPU clock
-  pinMode(BUILTIN_LED, OUTPUT);
-  digitalWrite(BUILTIN_LED, LOW);
-  interruptInitialization();
-  mylocation.startMP();
-  Serial.print("Creating Task lidarLoop...");
+  Serial.println(getCpuFrequencyMhz());             // get CPU clock
+  interruptInitialization();                        // start timers, setup HW interrupts
+  mylocation.startMP();                             // start location tracking
+  Serial.print("Creating Task lidarLoop on core 0...");
   xTaskCreatePinnedToCore(
-                    lidarloop,        // task function.
-                    "lidarLoop",      // name of task.
+                    lidarloop,        // task function
+                    "lidarLoop",      // name of task
                     10000,            // stack size in word
                     NULL,             // task input parameter
                     2,                // priority of the task
@@ -49,8 +47,8 @@ void setup() {
   Serial.println("[OK]");                 
   // mylocation.aLittleJoke();
   delay(10);
-  piezo.noSound();
-  dC.cyclicSensorRefresh = false;
+  dC.cyclicSensorRefresh = false;     // disable cyclic refresh of sensors
+  piezo.noSound();                    // stop boot beep
   Serial.println("-----------------------");
   Serial.println("RDM53 is ready to go!");
   Serial.println("-----------------------");
