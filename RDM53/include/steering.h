@@ -58,6 +58,9 @@ class SteeringInterface{
     float speedControl(float, float);
     void straightForewards(int speed);
     void straightBackwards(int speed);
+
+    bool directionIsBackwards();
+    bool directionIsForewards();
 };
 
 #endif
