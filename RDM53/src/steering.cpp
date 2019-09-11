@@ -257,3 +257,16 @@ void SteeringInterface::straightBackwards(int speed) {
     setVal(1,128);
     setVal(0,speed);
 }
+
+bool SteeringInterface::directionIsBackwards() {
+    if(dirLeft == 0 && dirRight == 0)
+        return false;
+    return true;
+    
+}
+
+bool SteeringInterface::directionIsForewards() {
+    if(dirLeft == 1 || dirRight == 1)
+        return false;
+    return true;
+}
