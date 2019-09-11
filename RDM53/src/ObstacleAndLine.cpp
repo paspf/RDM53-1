@@ -10,6 +10,7 @@
 #include "piezo.h"
 #include "PublicStructures.h"
 #include "EnginesInterface.h"
+#include "location.h"
 
 extern SteeringInterface steering;
 extern lidar lidarSensors;
@@ -24,7 +25,7 @@ extern ColTrack colTrack;
 extern PiezoInterface piezo;
 extern EnginesInterface enginesInt;
 extern deviceConfig dC;
-
+extern Location mylocation;
 
 
 int ObstacleAndLine::checkMod() {
@@ -36,8 +37,7 @@ int ObstacleAndLine::checkMod() {
         if((millis() - startMod1 > 500) && (lineSensorFrontRight.getColorCode() != 0)) {
             mod = 0;
             steering.straightForewards(0xC0);
-        }
-    
+        }  
     }
     // Modus2, falls RDM links vorne auf schwarzen Streifen kommt, nach rechts fahren dür 0,5 Sekunden
     if(mod == 2) {
@@ -76,7 +76,7 @@ int ObstacleAndLine::checkMod() {
     // Farbsensor erkennt Ziel und hält an nach 2 Sekunden
     if(mod == 10) {
         steering.setVal(0,0x0100);
-        steering.straightForewards(0x60);
+        steering.straightForewards(0xA0);
         piezo.setPiezo(400);
         if((millis() - startMod10 > 3000) && (colTrack.getLTcolor() != 3)) {
             mod = 0;    
@@ -110,9 +110,9 @@ void ObstacleAndLine::driveThroughParcour(){
 
     //Hindernis mit schwarzen Steifen vorne rechts 
     if (rawValueFR == 0 &&
-        ultraSonic.getDist() < 300 &&
-        lidarSensors.measureLidar[0].RangeMilliMeter < 300 && 
-        lidarSensors.measureLidar[1].RangeMilliMeter < 300 &&
+        ultraSonic.getDist() < 350 &&
+        lidarSensors.measureLidar[0].RangeMilliMeter > 0   && 
+        lidarSensors.measureLidar[1].RangeMilliMeter > 0   &&
         lidarSensors.measureLidar[2].RangeMilliMeter > 0   &&
         lidarSensors.measureLidar[3].RangeMilliMeter > 0   &&
         lidarSensors.measureLidar[4].RangeMilliMeter > 0   &&
@@ -124,14 +124,61 @@ void ObstacleAndLine::driveThroughParcour(){
             startMod69 = millis();
         }
     
+    //Hindernis mit schwarzen Steifen vorne rechts 
+    if (rawValueFR == 0 &&
+        ultraSonic.getDist() < 350 &&
+        lidarSensors.measureLidar[0].RangeMilliMeter > 0   && 
+        lidarSensors.measureLidar[1].RangeMilliMeter < 400 &&
+        lidarSensors.measureLidar[2].RangeMilliMeter > 0   &&
+        lidarSensors.measureLidar[3].RangeMilliMeter > 0   &&
+        lidarSensors.measureLidar[4].RangeMilliMeter > 0   &&
+        lidarSensors.measureLidar[5].RangeMilliMeter > 0   &&
+        lidarSensors.measureLidar[6].RangeMilliMeter > 0   &&
+        mod == 0
+        ) {
+            mod = 69;
+            startMod69 = millis();
+        }
+
+    //Hindernis mit schwarzen Steifen vorne rechts 
+    if (rawValueFR == 0 &&
+        ultraSonic.getDist() > 0 &&
+        lidarSensors.measureLidar[0].RangeMilliMeter > 0   && 
+        lidarSensors.measureLidar[1].RangeMilliMeter > 0   &&
+        lidarSensors.measureLidar[2].RangeMilliMeter > 0   &&
+        lidarSensors.measureLidar[3].RangeMilliMeter > 0   &&
+        lidarSensors.measureLidar[4].RangeMilliMeter > 0   &&
+        lidarSensors.measureLidar[5].RangeMilliMeter > 0   &&
+        lidarSensors.measureLidar[6].RangeMilliMeter < 450 &&
+        mod == 0
+        ) {
+            mod = 69;
+            startMod69 = millis();
+        }
 
     //Hindernis mit schwarzen Steifen vorne links 
     if (rawValueFL == 0 &&
-        ultraSonic.getDist() < 300 &&
+        ultraSonic.getDist() < 350 &&
         lidarSensors.measureLidar[0].RangeMilliMeter > 0   && 
         lidarSensors.measureLidar[1].RangeMilliMeter > 0   &&
-        lidarSensors.measureLidar[2].RangeMilliMeter < 300 &&
-        lidarSensors.measureLidar[3].RangeMilliMeter < 300 &&
+        lidarSensors.measureLidar[2].RangeMilliMeter > 0   &&
+        lidarSensors.measureLidar[3].RangeMilliMeter > 0   &&
+        lidarSensors.measureLidar[4].RangeMilliMeter > 0   &&
+        lidarSensors.measureLidar[5].RangeMilliMeter > 0   &&
+        lidarSensors.measureLidar[6].RangeMilliMeter > 0   &&
+        mod == 0
+        ) {
+            mod = 70;
+            startMod70 = millis();
+        }
+    
+    //Hindernis mit schwarzen Steifen vorne links 
+    if (rawValueFL == 0 &&
+        ultraSonic.getDist() < 350 &&
+        lidarSensors.measureLidar[0].RangeMilliMeter > 0   && 
+        lidarSensors.measureLidar[1].RangeMilliMeter > 0   &&
+        lidarSensors.measureLidar[2].RangeMilliMeter < 400 &&
+        lidarSensors.measureLidar[3].RangeMilliMeter > 0   &&
         lidarSensors.measureLidar[4].RangeMilliMeter > 0   &&
         lidarSensors.measureLidar[5].RangeMilliMeter > 0   &&
         lidarSensors.measureLidar[6].RangeMilliMeter > 0   &&
@@ -206,6 +253,20 @@ void ObstacleAndLine::driveThroughParcour(){
         }
 
 
+    // Sensor 0  --> dann rechts 
+    if (ultraSonic.getDist() < 300 &&
+        lidarSensors.measureLidar[0].RangeMilliMeter < 300 && 
+        lidarSensors.measureLidar[1].RangeMilliMeter > 0   &&
+        lidarSensors.measureLidar[2].RangeMilliMeter > 0   &&
+        lidarSensors.measureLidar[3].RangeMilliMeter > 0   &&
+        lidarSensors.measureLidar[4].RangeMilliMeter > 0   &&
+        lidarSensors.measureLidar[5].RangeMilliMeter > 0   &&
+        lidarSensors.measureLidar[6].RangeMilliMeter > 0
+        ) {
+            steering.setVal(1,240);
+            return;
+        }
+
 
 
     // Sensor 0 & 1 --> dann rechts 
@@ -274,6 +335,19 @@ void ObstacleAndLine::driveThroughParcour(){
         }
 
 
+    // Sensor 3 --> dann links 
+    if (ultraSonic.getDist() < 300 &&
+        lidarSensors.measureLidar[0].RangeMilliMeter > 0   && 
+        lidarSensors.measureLidar[1].RangeMilliMeter > 0   &&
+        lidarSensors.measureLidar[2].RangeMilliMeter > 0   &&
+        lidarSensors.measureLidar[3].RangeMilliMeter < 300 &&
+        lidarSensors.measureLidar[4].RangeMilliMeter > 0   &&
+        lidarSensors.measureLidar[5].RangeMilliMeter > 0   &&
+        lidarSensors.measureLidar[6].RangeMilliMeter > 0
+        ) {
+            steering.setVal(1,25);
+            return;
+        }
 
 
     // Sensor 3 & 2 --> dann links 
