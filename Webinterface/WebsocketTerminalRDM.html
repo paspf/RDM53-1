@@ -106,6 +106,8 @@
 				<th><div id="LTBRRawDisplay"></div></th>
 			</tr>
 		</table>
+		<button type="button" id="buttonGetHeadingValues" onclick="WebHexCmdSend(id);" value="11030316000000000012">Heading in Deg</button><br>
+		<div id="GetHeadingDisplay"></div><br>
 	</div>
 	<div>
 		<h1>Remote Control</h1>
@@ -395,16 +397,6 @@ function checkIfValIsKnown(value) {
 				document.getElementById("CSDisplay").style.backgroundColor= "red";
 			}
 		break;
-		case "01001600":
-			payload = value.substring(10, 18);
-			var buf = new ArrayBuffer(4);
-			var view = new DataView(buf);
-			data.forEach(function(b,i) {
-				view.setUint8(i, b);
-			});
-			var num = view.getFloat32(0);
-			document.getElementById("Heading").innerHTML = parseFloat(payload, 16).toString();
-		break;
 		case "01001700":
 			payload = value.substring(10, 18);
 			var buf = new ArrayBuffer(4);
@@ -426,6 +418,7 @@ function checkIfValIsKnown(value) {
 			document.getElementById("Roll").innerHTML = parseFloat(payload, 16).toString();
 		break;
 		case "01001b00":
+			// speed
 			payload = value.substring(10, 18);
 			
 			var p0 = payload.substring(0, 2);
@@ -443,7 +436,24 @@ function checkIfValIsKnown(value) {
 			var num = view.getFloat32(0);
 			document.getElementById("buttonSpeedValuesDisplay").innerHTML = (num.toString().substring(0,5) + "m/s");
 		break;
-		
+		case "01001600":
+			// heading
+			payload = value.substring(10, 18);
+			
+			var p0 = payload.substring(0, 2);
+			var p1 = payload.substring(2, 4);
+			var p2 = payload.substring(4, 6);
+			var p3 = payload.substring(6, 8);
+			
+			var data = [ parseInt(p3, 16), parseInt(p2, 16), parseInt(p1, 16), parseInt(p0, 16)];
+			
+			var buf = new ArrayBuffer(4);
+			var view = new DataView(buf);
+			data.forEach(function(b,i) {
+				view.setUint8(i, b);
+			});
+			var num = view.getFloat32(0);
+			document.getElementById("GetHeadingDisplay").innerHTML = (num.toString().substring(0,5) + "°");
 	  default:
 	  console.log("unknown binary stream");
 	  retVal = 1;

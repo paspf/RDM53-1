@@ -420,8 +420,8 @@ void getValues(uint8_t dataSource, uint8_t dataSubSource){
         break; 
     case 0x1B: // speed combined
         // 11 03 03 1B 00 00 00 00 00 12
-        Serial.print("Speed: ");
-        Serial.println(mylocation.speedCombined2);
+        // Serial.print("Speed: ");
+        // Serial.println(mylocation.speedCombined2);
         protocolSend(0x0, dataSource, dataSubSource, (float) mylocation.speedCombined2);
         break;
     case 0x1C: // speed left
