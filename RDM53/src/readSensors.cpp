@@ -35,6 +35,7 @@ extern Location mylocation;
  * This function is called in the main loop and running in core 1
  */
 void readSensors() {
+    mylocation.updateLocationVars();
     if(dC.cyclicSensorRefresh == true) {
         #ifdef DEBUG_READ_SENSORS
         Serial.println("FRONT LEFT:");
