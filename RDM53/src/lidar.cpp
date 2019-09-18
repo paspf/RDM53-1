@@ -12,7 +12,11 @@
 
 // includes
 #include "lidar.h"
+#include "steering.h"
 #include <Wire.h>
+
+
+extern SteeringInterface steering;
 
 /**
  * Expander write is a simple function, that
@@ -189,7 +193,10 @@ void lidar::readLOXSensors() {
   lox2.rangingTest(&measureLidar[2], false); // pass in 'true' to get debug data printout!
   lox3.rangingTest(&measureLidar[3], false); // pass in 'true' to get debug data printout!
   lox4.rangingTest(&measureLidar[4], false); // pass in 'true' to get debug data printout!
-  lox5.rangingTest(&measureLidar[5], false); // pass in 'true' to get debug data printout!
+  if(steering.directionIsBackwards()) {
+    lox5.rangingTest(&measureLidar[5], false); // pass in 'true' to get debug data printout!
+  }
+  
   lox6.rangingTest(&measureLidar[6], false); // pass in 'true' to get debug data printout!
   return;
 }
@@ -204,7 +211,7 @@ int lidar::printLOXValues() {
     return 1;
   }
   
-  // print sensor one reading
+  // print sensor one reading (front left top)
   Serial.print("0: ");
   if(measureLidar[0].RangeStatus != 4) {     // if not out of range
     Serial.print(measureLidar[0].RangeMilliMeter);
@@ -212,7 +219,7 @@ int lidar::printLOXValues() {
     Serial.print("Out of range");
   }
 
-  // print sensor two reading
+  // print sensor two reading (front left bottom)
   Serial.print(" 1: ");
   if(measureLidar[1].RangeStatus != 4) {
     Serial.print(measureLidar[1].RangeMilliMeter);
@@ -220,7 +227,7 @@ int lidar::printLOXValues() {
     Serial.print("Out of range");
   }
 
-  // print sensor three reading
+  // print sensor three reading (front right top)
   Serial.print(" 2: ");
   if(measureLidar[2].RangeStatus != 4) {
     Serial.print(measureLidar[2].RangeMilliMeter);
@@ -228,7 +235,7 @@ int lidar::printLOXValues() {
     Serial.print("Out of range");
   }
 
-  // print sensor four reading
+  // print sensor four reading (front right bottom)
   Serial.print(" 3: ");
   if(measureLidar[3].RangeStatus != 4) {
     Serial.print(measureLidar[3].RangeMilliMeter);
@@ -236,7 +243,7 @@ int lidar::printLOXValues() {
     Serial.print("Out of range");
   }
   
-  // print sensor five reading
+  // print sensor five reading (right)
   Serial.print(" 4: ");
   if(measureLidar[4].RangeStatus != 4) {
     Serial.print(measureLidar[4].RangeMilliMeter);
@@ -244,7 +251,7 @@ int lidar::printLOXValues() {
     Serial.print("Out of range");
   }
 
-  // print sensor six reading
+  // print sensor six reading (back)
   Serial.print(" 5: ");
   if(measureLidar[5].RangeStatus != 4) {
     Serial.print(measureLidar[5].RangeMilliMeter);
@@ -252,7 +259,7 @@ int lidar::printLOXValues() {
     Serial.print("Out of range");
   }
 
-  // print sensor seven reading
+  // print sensor seven reading (left)
   Serial.print(" 6: ");
   if(measureLidar[6].RangeStatus != 4) {
     Serial.print(measureLidar[6].RangeMilliMeter);
