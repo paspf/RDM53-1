@@ -13,6 +13,7 @@
 // includes
 #include "lidar.h"
 #include "steering.h"
+#include "connectivity.h"
 #include <Wire.h>
 
 
@@ -185,7 +186,7 @@ void lidar::setID() {
  */
 void lidar::readLOXSensors() {
   if(isInit == false) {
-    Serial.println("Not all Lidar Sensor initialized!");
+    sendStringln("Not all Lidar Sensor initialized!");
     return;
   }
   lox0.rangingTest(&measureLidar[0], false); // pass in 'true' to get debug data printout!
@@ -196,8 +197,18 @@ void lidar::readLOXSensors() {
   if(steering.directionIsBackwards()) {
     lox5.rangingTest(&measureLidar[5], false); // pass in 'true' to get debug data printout!
   }
+  else {
+    measureLidar[5].RangeMilliMeter = 8000;
+  }
   
   lox6.rangingTest(&measureLidar[6], false); // pass in 'true' to get debug data printout!
+
+  // check out of Range:
+  for(int i = 0; i < 6; i++) {
+    if(measureLidar[i].RangeStatus == 4) {
+      measureLidar[i].RangeMilliMeter = 8000;
+    }
+  }
   return;
 }
 
