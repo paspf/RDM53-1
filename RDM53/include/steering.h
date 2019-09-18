@@ -15,8 +15,7 @@
 #define STEERING_TURN 1
 
 class SteeringInterface{
-    public:
-
+private:
     int maxDeviation = 5;
     float carWidth;
 
@@ -46,7 +45,8 @@ class SteeringInterface{
     bool dirRight = false;
     bool dirGen = false;
     bool valUpdate = false; // valUpdate is set, when setVal is called
-    
+
+public: 
     int setPilot();
     void setVal(bool, int);
     void staticEngines();
