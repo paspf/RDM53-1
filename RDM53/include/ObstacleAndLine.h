@@ -16,11 +16,9 @@
         int checkMod();
         int startMod1;
         int startMod2;
+        int startMod13;
         void driveThroughParcour();
         unsigned short mod = 0;
         void initValues();
-
-
-
     };
 #endif

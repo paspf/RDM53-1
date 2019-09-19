@@ -89,12 +89,34 @@ int ObstacleAndLine::checkMod() {
             
         }
     }
+
+    // Farbsensor hat gelbe Linie (feindliches Ziel erkannt)
+    if(mod == 11) {
+        steering.straightForewards(0xA0);
+        // linie mit der linken seite zuerst angefahren, fahre nach rechts
+        if(lineSensorFrontLeft.getColorCode()  == 2) {
+                steering.setVal(0,0x010);
+                steering.setVal(1,0);
+                mod = 12;
+            }
+        // linie mit der rechten seite zuerst angefahren, fahre nach links
+        if(lineSensorFrontRight.getColorCode() == 2) {
+                steering.setVal(0,0x010);
+                steering.setVal(1,255);
+                mod = 13;
+                startMod13 = millis();
+            }
+    }
+    if((mod == 12 || mod == 13) && (millis() - startMod13 > 1000)) {
+        mod = 0;
+        steering.straightForewards(0xC0);
+    }
+    
     return 0;
 }
 
-
 void ObstacleAndLine::driveThroughParcour(){
-    
+    Serial.println(mod);
     int rawValueFL = lineSensorFrontLeft.getColorCode();
     int rawValueFR = lineSensorFrontRight.getColorCode();
     int rawValueBL = lineSensorBackLeft.getColorCode();
@@ -217,12 +239,21 @@ void ObstacleAndLine::driveThroughParcour(){
             startMod10 = millis();
     }
 
+    // Farbsensor erkennt gelben streifen -> Feindliches Ziel erkannt
+    if(rawValueColorSensor == 2 && mod == 0) {
+        mod = 11;
+    }
+
 
    if(mod != 0) {
        return;
    }
 
-
+/*
+    Serial.println("before Forewards!");
+      for(int i = 0; i < 6; i++) {
+      Serial.println(lidarSensors.measureLidar[i].RangeMilliMeter);
+  } */
     //vorwärts fahren
     if (lidarSensors.measureLidar[0].RangeMilliMeter > 300 && 
         lidarSensors.measureLidar[1].RangeMilliMeter > 0   &&
@@ -232,8 +263,7 @@ void ObstacleAndLine::driveThroughParcour(){
         lidarSensors.measureLidar[5].RangeMilliMeter > 0   &&
         lidarSensors.measureLidar[6].RangeMilliMeter > 0
         ) {
-            steering.setVal(1,128);
-            steering.setVal(0,400);
+            steering.straightForewards(0xA0);
             return;
         }
 
