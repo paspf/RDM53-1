@@ -116,6 +116,8 @@
 		<button type="button" id="buttonRemoteForewardForceMax" onclick="WebHexCmdSend(id);" value="1103000000000001FF12">Forewards Force Max Speed</button>
 		<button type="button" id="buttonRemoteForewardForceMin" onclick="WebHexCmdSend(id);" value="11030000000000017012">Forewards Force Min Speed</button>
 		<button type="button" id="buttonRemoteForewardForceStop" onclick="WebHexCmdSend(id);" value="11030000000000010012">Forewards Force Stop</button>
+		<button type="button" id="buttonRemoteBackwardsForceMin" onclick="WebHexCmdSend(id);" value="11030000000000008F12">Backwards Force Min Speed</button>
+		<button type="button" id="buttonRemoteBackwardsForceMax" onclick="WebHexCmdSend(id);" value="11030000000000000012">Backwards Force Max Speed</button>
 		<h2>Joystick / gamepad</h2>
 		<button type="button" onclick="OnJoystickConnect();" value="Joystick">Connect Joystick</button>
 		<button type="button" onclick="OnJoystickDisconnect();" value="JoystickDisconnect">Disconnect Joystick</button>
@@ -134,6 +136,9 @@
 		<button type="button" id="buttonAutonomous2" onclick="WebHexCmdSend(id);" value="11020000000000000212">Autonomous 2 - lidar and line Track</button></br>
 		<button type="button" id="buttonAutonomous3" onclick="WebHexCmdSend(id);" value="11020000000000000312">Autonomous 3</button></br>
 		<button type="button" id="buttonAutonomous4" onclick="WebHexCmdSend(id);" value="11020000000000000412">Autonomous 4</button></br>
+		<h2> Calibration </h2>
+		<button type="button" id="buttonCalibrateMagnetometer" onclick="WebHexCmdSend(id);" value="11030100000000000012">Calibrate Magnetometer</button></br>
+		
 </div>
 
 </body>
