@@ -43,6 +43,7 @@ public:
     float getMagY();
     float getMagZ();
     
+    bool calibrate();
     void updateLocationVars();
 
     void aLittleJoke();
@@ -67,6 +68,8 @@ private:
     float gravx, gravy, gravz, c_accx, c_accy, c_accz;
     float q[4] = {1.0f, 0.0f, 0.0f, 0.0f};    // vector to hold quaternion
     float eInt[3] = {0.0f, 0.0f, 0.0f}; 
+
+    float max_x, max_y, max_z, min_x, min_y, min_z, mx_offset, my_offset, mz_offset, avg_scale;
     
     float deltat = 0.0f, sum = 0.0f;        // integration interval for both filter schemes
     uint32_t lastUpdate = 0, firstUpdate = 0; // used to calculate integration interval

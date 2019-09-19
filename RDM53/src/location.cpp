@@ -1,6 +1,9 @@
 #include "location.h"
 #include "MPU9250.h"
+#include "connectivity.h"
 #include <math.h>
+#include <string>
+#include<stdio.h>
 
 MPU9250 SensorArray(Wire1, 0x68);
 
@@ -33,6 +36,42 @@ int Location::startMP()
   return status;
 
 }
+
+bool Location::calibrate()
+{
+  sendString("Do not move RDM. Calibrating Accelerometer and Gyroscope...");
+  SensorArray.calibrateAccel();
+  SensorArray.calibrateGyro();
+  sendString("Move RDM in Loopsided 8 for Calibration of Magnetometer");
+  sendString("This may take up to 20 seconds...");
+  SensorArray.calibrateMag();
+  sendString("Manual Magnetometer Calibration");
+  
+
+  for(int i = 0; i < 100; i++)
+  {
+    this->updateLocationVars();
+    if(magx > max_x){max_x = magx;}
+    if(magy > max_y){max_y = magy;}
+    if(magz > max_z){max_z = magz;}
+    if(magx < min_x){min_x = magx;}
+    if(magy < min_y){min_y = magy;}
+    if(magz < min_z){min_z = magz;}
+    delay(50);
+  }
+  mx_offset = (max_x + min_x)/2;
+  my_offset = (max_y + min_y)/2;
+  mz_offset = (max_z + min_z)/2;
+
+  float mx_scale =(max_x - min_x)/2;
+  float my_scale =(max_y - min_y)/2;
+  float mz_scale =(max_z - min_z)/2;
+
+  avg_scale = ((mx_scale + my_scale + mz_scale)/3);
+  char str[8];
+  snprintf(str, sizeof(str), "%.2f", avg_scale);
+  sendString(str);
+}
 /** 
  * This function updates all variables.
  */
@@ -47,9 +86,9 @@ void Location::updateLocationVars()
     accx = SensorArray.getAccelX_mss();
     accy = SensorArray.getAccelY_mss();
     accz = SensorArray.getAccelZ_mss();
-    magx = SensorArray.getMagX_uT();
-    magy = SensorArray.getMagY_uT();
-    magz = SensorArray.getMagZ_uT();
+    magx = (SensorArray.getMagX_uT()-mx_offset);
+    magy = (SensorArray.getMagY_uT()-my_offset);
+    magz = (SensorArray.getMagZ_uT()-mz_offset);
 
     Now = micros();
     deltat = ((Now - lastUpdate)/1000000.0f); // set integration time by time elapsed since last filter update
@@ -58,7 +97,7 @@ void Location::updateLocationVars()
     sum += deltat; // sum for averaging filter update rate
     sumCount++;
     
-    MahonyQuaternionUpdate(accx, accy, accz, gyrx*PI/180.0f, gyry*PI/180.0f, gyrz*PI/180.0f,  magy,  magx, magz);
+    MadgwickQuaternionUpdate(accx, accy, accz, gyrx*PI/180.0f, gyry*PI/180.0f, gyrz*PI/180.0f,  magy,  magx, magz);
 
     yaw   = atan2(2.0f * (q[1] * q[2] + q[0] * q[3]), q[0] * q[0] + q[1] * q[1] - q[2] * q[2] - q[3] * q[3]);   
     pitch = -asin(2.0f * (q[1] * q[3] - q[0] * q[2]));
