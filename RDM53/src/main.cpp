@@ -32,7 +32,6 @@ void setup() {
   Serial.print("CPU Frequency [Mhz]: ");
   Serial.println(getCpuFrequencyMhz());             // get CPU clock
   interruptInitialization();                        // start timers, setup HW interrupts
-  mylocation.startMP();                             // start location tracking
   Serial.print("Creating Task lidarLoop on core 0...");
   xTaskCreatePinnedToCore(
                     lidarloop,        // task function
@@ -49,6 +48,7 @@ void setup() {
   delay(10);
   dC.cyclicSensorRefresh = false;     // disable cyclic refresh of sensors
   piezo.noSound();                    // stop boot beep
+  mylocation.startMP();               // start location tracking
   Serial.println("-----------------------");
   Serial.println("RDM53 is ready to go!");
   Serial.println("-----------------------");

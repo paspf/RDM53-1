@@ -161,6 +161,16 @@ void remoteControl(unsigned char* incoming, int payload)
 
 void calibration(unsigned char * incoming, int payload){
     // if something needs calibration this function will be filled
+    switch (incoming[3])
+    {
+        case 0: // 11 03 01 00 00 00 00 00 00 12
+            mylocation.calibrate();             // calibrate location sensors
+            break;
+        default:
+            Serial.println("Error: calibration");
+            webSocket.broadcastTXT("Error: calibration");
+    }
+
 }
 /**
  * testing() takes a 4 Byte unsigned Char and tests the variables that are to be tested.
