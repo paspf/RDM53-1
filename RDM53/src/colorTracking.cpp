@@ -13,6 +13,7 @@
 
 // defines
 //#define colTrack_DEBUG
+#define PARCOUR_1
 
 /**
  * initialize TCS34725
@@ -86,6 +87,7 @@ void ColTrack::readSensor() {
  */
 short ColTrack::getLTcolor() {
     // yellow
+    #ifdef PARCOUR_0
     if( (red >= 105 && red <= 120) &&
         (green >= 89 && green <= 104) &&
         (blue >= 40 && blue <= 55)
@@ -95,7 +97,21 @@ short ColTrack::getLTcolor() {
         #endif
         return 2;
     }
+    #endif
+    #ifdef PARCOUR_1
+    if( (red >= 95 && red <= 104) &&
+        (green >= 89 && green <= 103) &&
+        (blue >= 40 && blue <= 50)
+    ) {
+        #ifdef colTrack_DEBUG
+            Serial.println("ColTrack: yellow");
+        #endif
+        return 2;
+    }
+    #endif
+
     // green
+    #ifdef PARCOUR_0
     if( (red >= 90 && red <= 105) &&
         (green >= 105 && green <= 130) &&
         (blue >= 50 && blue <= 80)
@@ -105,6 +121,20 @@ short ColTrack::getLTcolor() {
         #endif
         return 3;
     }
+    #endif
+
+    #ifdef PARCOUR_1
+    if( (red >= 65 && red <= 75) &&
+        (green >= 105 && green <= 130) &&
+        (blue >= 45 && blue <= 60)
+    ) {
+        #ifdef colTrack_DEBUG
+            Serial.println("ColTrack: green");
+        #endif
+        return 3;
+    }
+    #endif
+
     // black
     if( (red >= 85 && red <= 109) &&
         (green >= 51 && green <= 102) &&
@@ -126,7 +156,7 @@ short ColTrack::getLTcolor() {
         return 1;
     }
     #ifdef colTrack_DEBUG
-        Serial.println("ColTrack: Error");
+        Serial.println("ColTrack: Error, unknown color");
     #endif        
     return -1;
 }

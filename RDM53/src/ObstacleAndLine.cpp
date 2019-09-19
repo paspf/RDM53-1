@@ -116,7 +116,7 @@ int ObstacleAndLine::checkMod() {
 }
 
 void ObstacleAndLine::driveThroughParcour(){
-    Serial.println(mod);
+    // Serial.println(mod);
     int rawValueFL = lineSensorFrontLeft.getColorCode();
     int rawValueFR = lineSensorFrontRight.getColorCode();
     int rawValueBL = lineSensorBackLeft.getColorCode();
