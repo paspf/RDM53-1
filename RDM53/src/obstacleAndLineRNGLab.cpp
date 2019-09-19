@@ -5,7 +5,7 @@
 #include "lineTracking.h"
 #include "LineFollower.h"
 #include "HCSR04P.h"
-#include "ObstacleAndLine.h"
+#include "obstacleAndLineRNGLab.h"
 #include "colorTracking.h"
 #include "piezo.h"
 #include "PublicStructures.h"
@@ -33,7 +33,7 @@ extern Location mylocation;
 #define FOREWARDS_MID 0xA0
 
 
-int ObstacleAndLine::checkMod() {
+int ObstacleAndLine_RNGLAB::checkMod() {
     
     // Modus1, falls RDM rechts vorne auf schwarzen Streifen kommt, nach links fahren für 0,5 Sekunden
     if(mod == 1) {
@@ -120,7 +120,7 @@ int ObstacleAndLine::checkMod() {
     return 0;
 }
 
-void ObstacleAndLine::driveThroughParcour(){
+void ObstacleAndLine_RNGLAB::driveThroughParcour(){
     // Serial.println(mod);
     int rawValueFL = lineSensorFrontLeft.getColorCode();
     int rawValueFR = lineSensorFrontRight.getColorCode();
@@ -454,7 +454,7 @@ void ObstacleAndLine::driveThroughParcour(){
         }
 }
 
-void ObstacleAndLine::initValues() {
+void ObstacleAndLine_RNGLAB::initValues() {
     startMod69 = 0;
     startMod70 = 0;
     startMod10 = 0;

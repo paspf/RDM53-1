@@ -13,7 +13,9 @@
 
 // defines
 //#define colTrack_DEBUG
-#define PARCOUR_1
+#define PARCOUR_0 // DT Lab own colors
+#define PARCOUR_1 // RNG lab prof colors
+#define PARCOUR_2 // RNG lab own colors (no sun outside)
 
 /**
  * initialize TCS34725
@@ -58,6 +60,15 @@ void ColTrack::readSensor() {
     Serial.print("Color Tracking time: ");
     Serial.println(millis() - m);
     #endif
+}
+
+void ColTrack::printRawValues() {
+    Serial.println("-----colTrack_PrintRawValues-----");
+    Serial.print("R:\t"); Serial.print(this->red); 
+    Serial.print("\tG:\t"); Serial.print(this->green); 
+    Serial.print("\tB:\t"); Serial.print(this->blue);
+    Serial.println();
+    Serial.println("-----colTrack_PrintRawValues_END-----");
 }
 
 /**
@@ -110,6 +121,18 @@ short ColTrack::getLTcolor() {
     }
     #endif
 
+    #ifdef PARCOUR_2
+    if( (red >= 100 && red <= 114) &&
+        (green >= 90 && green <= 100) &&
+        (blue >= 32 && blue <= 45)
+    ) {
+        #ifdef colTrack_DEBUG
+            Serial.println("ColTrack: yellow");
+        #endif
+        return 2;
+    }
+    #endif
+
     // green
     #ifdef PARCOUR_0
     if( (red >= 90 && red <= 105) &&
@@ -134,6 +157,19 @@ short ColTrack::getLTcolor() {
         return 3;
     }
     #endif
+
+    #ifdef PARCOUR_2
+    if( (red >= 76 && red <= 90) &&
+        (green >= 105 && green <= 120) &&
+        (blue >= 45 && blue <= 60)
+    ) {
+        #ifdef colTrack_DEBUG
+            Serial.println("ColTrack: green");
+        #endif
+        return 3;
+    }
+    #endif
+
 
     // black
     if( (red >= 85 && red <= 109) &&
@@ -160,3 +196,4 @@ short ColTrack::getLTcolor() {
     #endif        
     return -1;
 }
+

@@ -28,6 +28,7 @@
 #include "esp32-hal-cpu.h"
 #include "ObstacleTracker.h"
 #include "colorTracking.h"
+#include "obstacleAndLineRNGLab.h"
 
 /**** structures ****/
 #include "PublicStructures.h"
@@ -62,6 +63,7 @@ HCSR04P ultraSonic(2, 15, 4000);
 LineFollower followLine;
 ObstacleAvoidance obstaclecircuittest;
 ObstacleAndLine driverRDM;
+ObstacleAndLine_RNGLAB driverRNG;
 
 ObstacleTracker ObstTrack;
 

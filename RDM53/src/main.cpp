@@ -115,8 +115,8 @@ void loop() {
       // Autonomous 3 - with direction check
       // 11020000000000000312
       //float directionInDegrees = mylocation.getHeading(); //This returns the magnetic kompass in degrees
-      webSocket.broadcastTXT("Autonomous 3 is set");
-      dC.mode = 0x020000;
+      driverRNG.driveThroughParcour();
+      steering.setPilot();
       break;
     case 0x000004:
       // Autonomous 4 - 

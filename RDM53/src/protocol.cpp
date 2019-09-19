@@ -10,6 +10,7 @@
 #include "HCSR04P.h"
 #include "colorTracking.h"
 #include "ObstacleAndLine.h"
+#include "obstacleAndLineRNGLab.h";
 
 #ifndef RDM_MAIN
     extern String inputString;
@@ -31,6 +32,7 @@
     extern lineTrackInterface lineSensorBackRight;
     extern ColTrack colTrack;
     extern ObstacleAndLine driverRDM;
+    extern ObstacleAndLine driverRNG;
 #endif
 
 
@@ -133,6 +135,10 @@ void autonomous(unsigned char autonomyNum)
       // Autonomous 2 - Lidar and LineTracking
       // 11020000000000000212
       driverRDM.initValues();
+      break;
+    case 0x000003:
+        // Autonomous 3 - RNG Lab
+        driverRNG.initValues();
       break;
     }
 }
@@ -442,6 +448,10 @@ void getValues(uint8_t dataSource, uint8_t dataSubSource){
         // 11 03 03 1D 00 00 00 00 00 12
         protocolSend(0x0, dataSource, dataSubSource, (float) mylocation.speedRight2);
         break;
+    case 0x1E:
+        // 11 03 03 1E 00 00 00 00 00 12
+        colTrack.readSensor();
+        colTrack.printRawValues();
     default:
         webSocket.broadcastTXT("Error: GetValue Unknown dataSource query");
         break;

@@ -28,6 +28,7 @@ class ColTrack {
     public:
     void initColTrack();
     short getLTcolor();
+    void printRawValues();
     void readSensor();
 };
 
