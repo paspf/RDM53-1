@@ -34,6 +34,27 @@ extern Location mylocation;
 
 
 int ObstacleAndLine_RNGLAB::checkMod() {
+
+    // Farbsensor erkennt Ziel und hält an nach 2 Sekunden
+    if(mod == 10 || modPasssive == 10) {
+        steering.setVal(0,0x0100);
+        steering.straightForewards(0xA0);
+        piezo.setPiezo(400);
+        if(mod == 10) {
+            mod = 0;
+        }
+        
+        if((millis() - startMod10 > 3000) && (colTrack.getLTcolor() != 3)) {
+            mod = 0;    
+            modPasssive = 0;
+            piezo.noSound();
+            steering.setVal(0,0x0100);
+            dC.mode = 0x20000;
+            dC.cyclicSensorRefresh = false;
+            enginesInt.stopE();
+            return 10;
+        }
+    }
     
     // Modus1, falls RDM rechts vorne auf schwarzen Streifen kommt, nach links fahren für 0,5 Sekunden
     if(mod == 1) {
@@ -76,25 +97,6 @@ int ObstacleAndLine_RNGLAB::checkMod() {
         }
     }
 
-
-
-    // Farbsensor erkennt Ziel und hält an nach 2 Sekunden
-    if(mod == 10) {
-        steering.setVal(0,0x0100);
-        steering.straightForewards(0xA0);
-        piezo.setPiezo(400);
-        if((millis() - startMod10 > 3000) && (colTrack.getLTcolor() != 3)) {
-            mod = 0;    
-            piezo.noSound();
-            steering.setVal(0,0x0100);
-            dC.mode = 0x20000;
-            dC.cyclicSensorRefresh = false;
-            enginesInt.stopE();
-            return 10;
-            
-        }
-    }
-
     // Farbsensor hat gelbe Linie (feindliches Ziel erkannt)
     if(mod == 11) {
         steering.straightForewards(0xA0);
@@ -112,7 +114,8 @@ int ObstacleAndLine_RNGLAB::checkMod() {
                 startMod13 = millis();
             }
     }
-    if((mod == 12 || mod == 13) && (millis() - startMod13 > 1000)) {
+    // zeit für das manöver ist abgelaufen
+    if((mod == 12 || mod == 13) && (millis() - startMod13 > 3000)) {
         mod = 0;
         steering.straightForewards(0xC0);
     }
@@ -241,6 +244,7 @@ void ObstacleAndLine_RNGLAB::driveThroughParcour(){
     if(rawValueColorSensor == 3 && mod == 0) {
             
             mod = 10;
+            modPasssive = 10;
             startMod10 = millis();
     }
 
@@ -460,5 +464,7 @@ void ObstacleAndLine_RNGLAB::initValues() {
     startMod10 = 0;
     startMod1 = 0;
     startMod2 = 0;
+
     mod = 0;
+    modPasssive = 0;
 }
