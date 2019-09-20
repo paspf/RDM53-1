@@ -40,11 +40,11 @@ int Location::startMP()
 bool Location::calibrate()
 {
   sendString("Do not move RDM. Calibrating Accelerometer and Gyroscope...");
-  SensorArray.calibrateAccel();
-  SensorArray.calibrateGyro();
+  if(SensorArray.calibrateAccel() == false) {return false;}
+  if(SensorArray.calibrateGyro() == false) {return false;}
   sendString("Move RDM in Loopsided 8 for Calibration of Magnetometer");
   sendString("This may take up to 20 seconds...");
-  SensorArray.calibrateMag();
+  if(SensorArray.calibrateMag() == false) {return false;}
   sendString("Manual Magnetometer Calibration");
   
 
@@ -71,6 +71,7 @@ bool Location::calibrate()
   char str[8];
   snprintf(str, sizeof(str), "%.2f", avg_scale);
   sendString(str);
+  return true;
 }
 /** 
  * This function updates all variables.
@@ -383,7 +384,45 @@ float Location::getMagZ(){
   return magz;
 }
 
+float Location::get_mx_offset()
+{
+  return mx_offset;
+}
 
+float Location::get_my_offset()
+{
+  return my_offset;
+}
+
+float Location::get_mz_offset()
+{
+  return mz_offset;
+}
+
+float Location::get_avg_scale()
+{
+  return avg_scale;
+}
+
+void Location::set_mx_offset(float var)
+{
+  mx_offset = var;
+}
+
+void Location::set_my_offset(float var)
+{
+  my_offset = var;
+}
+
+void Location::set_mz_offset(float var)
+{
+  mz_offset = var;
+}
+
+void Location::set_avg_scale(float var)
+{
+  avg_scale = var;
+}
        
 
 /**

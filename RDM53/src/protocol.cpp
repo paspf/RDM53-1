@@ -10,7 +10,7 @@
 #include "HCSR04P.h"
 #include "colorTracking.h"
 #include "ObstacleAndLine.h"
-#include "obstacleAndLineRNGLab.h";
+#include "obstacleAndLineRNGLab.h"
 
 #ifndef RDM_MAIN
     extern String inputString;
@@ -167,10 +167,34 @@ void remoteControl(unsigned char* incoming, int payload)
 
 void calibration(unsigned char * incoming, int payload){
     // if something needs calibration this function will be filled
+
+    union floatToBytes {
+        char buffer[4];
+        float number;
+    } converter;
+
+    converter.buffer[0] = incoming[8];
+    converter.buffer[1] = incoming[7];
+    converter.buffer[2] = incoming[6];
+    converter.buffer[3] = incoming[5];
+    
     switch (incoming[3])
     {
-        case 0: // 11 03 01 00 00 00 00 00 00 12
-            mylocation.calibrate();             // calibrate location sensors
+        case 0: // 11 03 01 00 00 00 00 00 00 12        // calibrate location sensors
+            if (mylocation.calibrate() == false) 
+            {sendString("Calibration failed.");}             
+            break;
+        case 1: // 11 03 01 01 00 00 00 00 00 12
+            mylocation.set_mx_offset(converter.number);
+            break;
+        case 2: // 11 03 01 02 00 00 00 00 00 12
+            mylocation.set_my_offset(converter.number);
+            break;
+        case 3: // 11 03 01 03 00 00 00 00 00 12
+            mylocation.set_mz_offset(converter.number);
+            break;
+        case 4: // 11 03 01 04 00 00 00 00 00 12
+            mylocation.set_avg_scale(converter.number);
             break;
         default:
             Serial.println("Error: calibration");
@@ -452,6 +476,18 @@ void getValues(uint8_t dataSource, uint8_t dataSubSource){
         // 11 03 03 1E 00 00 00 00 00 12
         colTrack.readSensor();
         colTrack.printRawValues();
+    case 0x1F:
+        // 11 03 03 1F 00 00 00 00 00 12
+        protocolSend(0x0, dataSource, dataSubSource, mylocation.get_mx_offset());
+    case 0x20:
+        // 11 03 03 20 00 00 00 00 00 12
+        protocolSend(0x0, dataSource, dataSubSource, mylocation.get_my_offset());
+    case 0x21:
+        // 11 03 03 21 00 00 00 00 00 12
+        protocolSend(0x0, dataSource, dataSubSource, mylocation.get_mz_offset());
+    case 0x22:
+        // 11 03 03 22 00 00 00 00 00 12//do something
+        protocolSend(0x0, dataSource, dataSubSource, mylocation.get_avg_scale());
     default:
         webSocket.broadcastTXT("Error: GetValue Unknown dataSource query");
         break;

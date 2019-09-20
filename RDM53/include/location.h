@@ -20,6 +20,16 @@ public:
     float posX, posY;
 
     float wheelSize = 0.36;
+
+    float get_mx_offset();
+    float get_my_offset();
+    float get_mz_offset();
+    void set_mx_offset(float);
+    void set_my_offset(float);
+    void set_mz_offset(float);
+
+    float get_avg_scale();
+    void set_avg_scale(float);
     
     int startMP();
     float getHeading();
