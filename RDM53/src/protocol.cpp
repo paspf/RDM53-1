@@ -51,7 +51,6 @@ void protocolEnter(unsigned char* incoming, size_t length)
     Serial.println(incoming[8], HEX);
     Serial.println("END PAYLOAD JAN");*/
     //webSocket.broadcastTXT("test");
-    //Serial.println("test");
     
 
     payload = (incoming[5]<<24) | (incoming[6]<<16) | (incoming[7]<<8) | incoming[8];
@@ -126,7 +125,6 @@ void protocolEnter(unsigned char* incoming, size_t length)
 void autonomous(unsigned char autonomyNum)
 { 
     //Put functions leading to Autonomy here
-    sendString("Autonomous mode");
     dC.mode = 0x0000 + autonomyNum;
     dC.cyclicSensorRefresh = true;
     switch(dC.mode) {
@@ -173,11 +171,11 @@ void calibration(unsigned char * incoming, int payload){
         float number;
     } converter;
 
-    converter.buffer[0] = incoming[8];
-    converter.buffer[1] = incoming[7];
-    converter.buffer[2] = incoming[6];
-    converter.buffer[3] = incoming[5];
-    
+    converter.buffer[0] = incoming[5];
+    converter.buffer[1] = incoming[6];
+    converter.buffer[2] = incoming[7];
+    converter.buffer[3] = incoming[8];
+
     switch (incoming[3])
     {
         case 0: // 11 03 01 00 00 00 00 00 00 12        // calibrate location sensors
@@ -479,15 +477,19 @@ void getValues(uint8_t dataSource, uint8_t dataSubSource){
     case 0x1F:
         // 11 03 03 1F 00 00 00 00 00 12
         protocolSend(0x0, dataSource, dataSubSource, mylocation.get_mx_offset());
+        break;
     case 0x20:
         // 11 03 03 20 00 00 00 00 00 12
         protocolSend(0x0, dataSource, dataSubSource, mylocation.get_my_offset());
+        break;
     case 0x21:
         // 11 03 03 21 00 00 00 00 00 12
         protocolSend(0x0, dataSource, dataSubSource, mylocation.get_mz_offset());
+        break;
     case 0x22:
         // 11 03 03 22 00 00 00 00 00 12//do something
         protocolSend(0x0, dataSource, dataSubSource, mylocation.get_avg_scale());
+        break;
     default:
         webSocket.broadcastTXT("Error: GetValue Unknown dataSource query");
         break;

@@ -10,6 +10,8 @@
 
 #include "main.h"
 
+int timed;
+
 TaskHandle_t TaskLidarLoop;
 
 /*
@@ -52,6 +54,7 @@ void setup() {
   Serial.println("-----------------------");
   Serial.println("RDM53 is ready to go!");
   Serial.println("-----------------------");
+  timed = millis();
 }
 
 /*
@@ -71,6 +74,17 @@ void loop() {
   webSocket.loop();
   interruptWorkers();
   readSensors();
+  if (timed + 500 < millis())
+  {
+    mylocation.updateLocationVars();
+    Serial.print(mylocation.getMagX());
+    Serial.print('\t');
+    Serial.print(mylocation.getMagY());
+    Serial.print('\t');
+    Serial.println(mylocation.getMagZ());
+    timed = millis();
+  }
+  
   
   //ObstTrack.checkForObstacles();
 

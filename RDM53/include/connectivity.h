@@ -15,7 +15,7 @@
 // send messages over websocket
 #define SEND_WEBSOCKET 
 // send messages over serial connection
-#define SEND_SERIAL
+//#define SEND_SERIAL
 
 void analyseString();
 
