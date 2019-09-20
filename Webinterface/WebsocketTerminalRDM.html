@@ -31,6 +31,30 @@
     <textarea name="text" style="width:81%" id="AllStore" rows="10" readonly placeholder="All data appears here..."></textarea>
 	
 	<div>
+		<h1> Calibration </h1>
+		<button type="button" id="buttonCalibrateMagnetometer" onclick="WebHexCmdSend(id);" value="11030100000000000012">Calibrate Magnetometer</button></br>
+		<table>
+		<tr>
+		<th> <button type="button" id="buttonGetXOffet" onclick="WebHexCmdSend(id);" value="1103031F000000000012">Get x Offset</button></th>
+		<th> <div id="buttonGetXOffsetDisplay">none</div></th>
+		</tr><tr>
+		<th><button type="button" id="buttonGetYOffet" onclick="WebHexCmdSend(id);" value="11030320000000000012">Get y Offset</button></th>
+		<th><div id="buttonGetYOffsetDisplay">none</div></th>
+		</tr><tr>
+		<th><button type="button" id="buttonGetZOffet" onclick="WebHexCmdSend(id);" value="11030321000000000012">Get z Offset</button></th>
+		<th><div id="buttonGetZOffsetDisplay">none</div></th>
+		</tr><tr>
+		<th><button type="button" id="buttonGetAVGScale" onclick="WebHexCmdSend(id);" value="11030322000000000012">Get avg scale</button></br></th>
+		<th><div id="buttonGetGetAVGScaleDisplay">none</div></th>
+		</tr>
+		</table>
+		
+		<input id="CalibrationInput" type="text" style="width:40em" placeholder="Float"/>
+		<button type="button" id="buttonSendXOffset" onclick="WebFloatToHexCmdSend(id);" value="11030100000000000012">Send x Offset</button>
+		<button type="button" id="buttonSendYOffset" onclick="WebFloatToHexCmdSend(id);" value="11030100000000000012">Send y Offset</button>
+		<button type="button" id="buttonSendZOffset" onclick="WebFloatToHexCmdSend(id);" value="11030100000000000012">Send z Offset</button>
+		<button type="button" id="buttonSendAVGScale" onclick="WebFloatToHexCmdSend(id);" value="11030100000000000012">Send avg scale</button>
+		</br>
 		<h1>Device Values</h1>
 		<table>
 			  <tr>
@@ -136,8 +160,6 @@
 		<button type="button" id="buttonAutonomous2" onclick="WebHexCmdSend(id);" value="11020000000000000212">Autonomous 2 - lidar and line Track</button></br>
 		<button type="button" id="buttonAutonomous3" onclick="WebHexCmdSend(id);" value="11020000000000000312">Autonomous 3 - RNG Lab</button></br>
 		<button type="button" id="buttonAutonomous4" onclick="WebHexCmdSend(id);" value="11020000000000000412">Autonomous 4</button></br>
-		<h2> Calibration </h2>
-		<button type="button" id="buttonCalibrateMagnetometer" onclick="WebHexCmdSend(id);" value="11030100000000000012">Calibrate Magnetometer</button></br>
 		
 </div>
 
@@ -152,68 +174,82 @@
 	//var WebSocketIPAdress = 'ws://192.168.43.185:81';
 	//var WebSocketIPAdress = 'ws://10.3.141.206:81';
 	var WebSocketIPAdress = 'ws://192.168.188.21:81';
+
+function WebFloatToHexCmdSend(id) {
+	var tosendFloat;
 	
-var my_gamepad = null;
-var refreshIntervalIdJoystick = null;
-
-function OnJoystickConnect() {
-    window.addEventListener("gamepadconnected", function(e) {
-		my_gamepad = e.gamepad;
-	})
-	refreshIntervalIdJoystick = window.setInterval(CheckJoy, 250); // CheckJoy wird alle 250ms aufgerufen
-}
-
-function OnJoystickDisconnect() {
-	clearInterval(refreshIntervalIdJoystick);
-	window.removeEventListener('gamepadconnected', my_gamepad);
-}
-
-function CheckJoy() {
-	if(my_gamepad != null) {
-		console.log("Joy %f %f", my_gamepad.axes[0], my_gamepad.axes[3]);
-		var xAxes = my_gamepad.axes[0] * 128 + 128; //LeftRight
-		var yAxes = 0;
-		var direction = 1;
-		if(my_gamepad.axes[3] > 0){
-			direction = 0;
-			yAxes = 255 - my_gamepad.axes[3] * 255;
-		}
-		else
-		{
-			direction = 1;
-			yAxes = -my_gamepad.axes[3] * 255;
-		}
-		if(xAxes > 255) {
-			xAxes = 255;
-		}
-		if(xAxes < 1) {
-			xAxes = 1;
-		}
-		console.log("LeftRight: %f, Velocity: %f, direction: %d", xAxes, yAxes, direction);
-
-		var binary = new Uint8Array(10);
-		binary[0] = 0x11;
-		binary[1] = 0x03;
-		binary[2] = 0x00;
-		binary[3] = 0x00;
-		binary[4] = 0x00;
-		binary[5] = 0x00;
-		binary[6] = 0x00;
-		binary[7] = direction;
-		binary[8] = yAxes;
-		binary[9] = 0x12;
-		WebConnection.send(binary);
-		binary[3] = 0x01;
-		binary[7] = 0x00;
-		binary[8] = xAxes;
-		WebConnection.send(binary);
-		if (my_gamepad.buttons[0] == true){
-			binary[1] = 0x02;
-			binary[2] = 0x01;
-			binary[8] = 0x00;
-			WebConnection.send(binary);
-		}
+	var farr = new Float32Array(1);  // indexes each element 4 bytes
+	if(id == "buttonSendXOffset") {
+		tosendFloat = parseFloat(document.getElementById("CalibrationInput").value);
 	}
+	else if(id == "buttonSendYOffset") {
+		tosendFloat = parseFloat(document.getElementById("CalibrationInput").value);
+	}
+	else if(id == "buttonSendZOffset") {
+		tosendFloat = parseFloat(document.getElementById("CalibrationInput").value);
+	}
+	else if(id == "buttonSendAVGScale") {
+		tosendFloat = parseFloat(document.getElementById("CalibrationInput").value);
+	}
+	else {
+		console.log("id not found");
+		return;
+	}
+	
+	farr[0] = tosendFloat;
+	
+	var barr = new Uint8Array(farr.buffer);   // use the buffer of Float32Array view
+	var arraybuffer = new Uint8Array(10);
+	arraybuffer[0] = 0x11;
+	arraybuffer[1] = 0x00;
+	arraybuffer[2] = 0x00;
+	arraybuffer[3] = 0x00;
+	arraybuffer[4] = 0x00;
+	
+	arraybuffer[5] = barr[0];
+	arraybuffer[6] = barr[1];
+	arraybuffer[7] = barr[2];
+	arraybuffer[8] = barr[3];
+	arraybuffer[9] = 0x12;
+	
+	// 11 03 01 01 00 00 00 00 00 12
+	// -- -- -- -- -- ## ## ## ## --
+	if(id == "buttonSendXOffset") {
+		arraybuffer[1] = 0x03;
+		arraybuffer[2] = 0x01;
+		arraybuffer[3] = 0x01;
+		arraybuffer[4] = 0x00;
+	}
+	// 11 03 01 02 00 00 00 00 00 12
+	// -- -- -- -- -- ## ## ## ## --
+	else if(id == "buttonSendYOffset") {
+		arraybuffer[1] = 0x03;
+		arraybuffer[2] = 0x01;
+		arraybuffer[3] = 0x02;
+		arraybuffer[4] = 0x00;
+	}
+	// 11 03 01 03 00 00 00 00 00 12
+	// -- -- -- -- -- ## ## ## ## --
+	else if(id == "buttonSendZOffset") {
+		arraybuffer[1] = 0x03;
+		arraybuffer[2] = 0x01;
+		arraybuffer[3] = 0x03;
+		arraybuffer[4] = 0x00;
+	}
+	// 11 03 01 04 00 00 00 00 00 12
+	// -- -- -- -- -- ## ## ## ## --
+	else if(id == "buttonSendAVGScale") {
+		arraybuffer[1] = 0x03;
+		arraybuffer[2] = 0x01;
+		arraybuffer[3] = 0x04;
+		arraybuffer[4] = 0x00;
+	}
+	
+	WebConnection.send(arraybuffer.buffer);
+	
+	// console.log(barr);
+	// console.log(arraybuffer);
+	// console.log(tosendFloat);
 }
 
 document.getElementById("WebSocketIPScreen").innerHTML = WebSocketIPAdress;
@@ -459,6 +495,83 @@ function checkIfValIsKnown(value) {
 			});
 			var num = view.getFloat32(0);
 			document.getElementById("GetHeadingDisplay").innerHTML = (num.toString().substring(0,5) + "°");
+			break;
+		// get x offset
+		case "01001f00":
+			payload = value.substring(10, 18);
+			
+			var p0 = payload.substring(0, 2);
+			var p1 = payload.substring(2, 4);
+			var p2 = payload.substring(4, 6);
+			var p3 = payload.substring(6, 8);
+			
+			var data = [ parseInt(p3, 16), parseInt(p2, 16), parseInt(p1, 16), parseInt(p0, 16)];
+			
+			var buf = new ArrayBuffer(4);
+			var view = new DataView(buf);
+			data.forEach(function(b,i) {
+				view.setUint8(i, b);
+			});
+			var num = view.getFloat32(0);
+		document.getElementById("buttonGetXOffsetDisplay").innerHTML = (num.toString().substring(0,5));
+		break;
+		// get y offset
+		case "01002000":
+			payload = value.substring(10, 18);
+			
+			var p0 = payload.substring(0, 2);
+			var p1 = payload.substring(2, 4);
+			var p2 = payload.substring(4, 6);
+			var p3 = payload.substring(6, 8);
+			
+			var data = [ parseInt(p3, 16), parseInt(p2, 16), parseInt(p1, 16), parseInt(p0, 16)];
+			
+			var buf = new ArrayBuffer(4);
+			var view = new DataView(buf);
+			data.forEach(function(b,i) {
+				view.setUint8(i, b);
+			});
+			var num = view.getFloat32(0);
+		document.getElementById("buttonGetYOffsetDisplay").innerHTML = (num.toString().substring(0,5));
+		break;
+		// get z offset
+		case "01002100":
+			payload = value.substring(10, 18);
+			
+			var p0 = payload.substring(0, 2);
+			var p1 = payload.substring(2, 4);
+			var p2 = payload.substring(4, 6);
+			var p3 = payload.substring(6, 8);
+			
+			var data = [ parseInt(p3, 16), parseInt(p2, 16), parseInt(p1, 16), parseInt(p0, 16)];
+			
+			var buf = new ArrayBuffer(4);
+			var view = new DataView(buf);
+			data.forEach(function(b,i) {
+				view.setUint8(i, b);
+			});
+			var num = view.getFloat32(0);
+		document.getElementById("buttonGetZOffsetDisplay").innerHTML = (num.toString().substring(0,5));
+		break;
+		// get avg scale display
+		case "01002200":
+			payload = value.substring(10, 18);
+			
+			var p0 = payload.substring(0, 2);
+			var p1 = payload.substring(2, 4);
+			var p2 = payload.substring(4, 6);
+			var p3 = payload.substring(6, 8);
+			
+			var data = [ parseInt(p3, 16), parseInt(p2, 16), parseInt(p1, 16), parseInt(p0, 16)];
+			
+			var buf = new ArrayBuffer(4);
+			var view = new DataView(buf);
+			data.forEach(function(b,i) {
+				view.setUint8(i, b);
+			});
+			var num = view.getFloat32(0);
+		document.getElementById("buttonGetGetAVGScaleDisplay").innerHTML = (num.toString().substring(0,5));
+		break;
 	  default:
 	  console.log("unknown binary stream");
 	  retVal = 1;
@@ -530,7 +643,6 @@ function WebHexCmdSend(commandSrc) {
     catch (e) { 																// on error
         console.log("Could not store data in StoreHexSent");
     }
-	
 };
 
 function EndWebsocketClient() {
@@ -548,7 +660,6 @@ function screenStatus(status) {
 	else if(status == 2) {
 		document.getElementById("WebSocketConnectionStateScreen").innerHTML = "<span style='color:red'> ERROR! </span>";
 	}
-	
 }
 
 function storeSentData(toStore) {
@@ -571,6 +682,7 @@ function storeSentData(toStore) {
 		console.log("Could not store data in AllStore");
 	}
 }
+
 function storeReceivedData(toStore) {
 	try{ 																	// code that may cause an error
 		var inStorage = document.getElementById("receiveStore").value; 		// get old data
@@ -593,6 +705,68 @@ function storeReceivedData(toStore) {
 	}
 }
 
+var my_gamepad = null;
+var refreshIntervalIdJoystick = null;
+
+function OnJoystickConnect() {
+    window.addEventListener("gamepadconnected", function(e) {
+		my_gamepad = e.gamepad;
+	})
+	refreshIntervalIdJoystick = window.setInterval(CheckJoy, 250); // CheckJoy wird alle 250ms aufgerufen
+}
+
+function OnJoystickDisconnect() {
+	clearInterval(refreshIntervalIdJoystick);
+	window.removeEventListener('gamepadconnected', my_gamepad);
+}
+
+function CheckJoy() {
+	if(my_gamepad != null) {
+		console.log("Joy %f %f", my_gamepad.axes[0], my_gamepad.axes[3]);
+		var xAxes = my_gamepad.axes[0] * 128 + 128; //LeftRight
+		var yAxes = 0;
+		var direction = 1;
+		if(my_gamepad.axes[3] > 0){
+			direction = 0;
+			yAxes = 255 - my_gamepad.axes[3] * 255;
+		}
+		else
+		{
+			direction = 1;
+			yAxes = -my_gamepad.axes[3] * 255;
+		}
+		if(xAxes > 255) {
+			xAxes = 255;
+		}
+		if(xAxes < 1) {
+			xAxes = 1;
+		}
+		console.log("LeftRight: %f, Velocity: %f, direction: %d", xAxes, yAxes, direction);
+
+		var binary = new Uint8Array(10);
+		binary[0] = 0x11;
+		binary[1] = 0x03;
+		binary[2] = 0x00;
+		binary[3] = 0x00;
+		binary[4] = 0x00;
+		binary[5] = 0x00;
+		binary[6] = 0x00;
+		binary[7] = direction;
+		binary[8] = yAxes;
+		binary[9] = 0x12;
+		WebConnection.send(binary);
+		binary[3] = 0x01;
+		binary[7] = 0x00;
+		binary[8] = xAxes;
+		WebConnection.send(binary);
+		if (my_gamepad.buttons[0] == true){
+			binary[1] = 0x02;
+			binary[2] = 0x01;
+			binary[8] = 0x00;
+			WebConnection.send(binary);
+		}
+	}
+}
 
 
 </script>
