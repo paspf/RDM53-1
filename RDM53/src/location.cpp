@@ -87,9 +87,9 @@ void Location::updateLocationVars()
     accx = SensorArray.getAccelX_mss();
     accy = SensorArray.getAccelY_mss();
     accz = SensorArray.getAccelZ_mss();
-    magx = (SensorArray.getMagX_uT()-mx_offset);
-    magy = (SensorArray.getMagY_uT()-my_offset);
-    magz = (SensorArray.getMagZ_uT()-mz_offset);
+    magx = SensorArray.getMagX_uT()+mx_offset;
+    magy = SensorArray.getMagY_uT()+my_offset;
+    magz = SensorArray.getMagZ_uT()+mz_offset;
 
     Now = micros();
     deltat = ((Now - lastUpdate)/1000000.0f); // set integration time by time elapsed since last filter update
@@ -98,7 +98,7 @@ void Location::updateLocationVars()
     sum += deltat; // sum for averaging filter update rate
     sumCount++;
     
-    MadgwickQuaternionUpdate(accx, accy, accz, gyrx*PI/180.0f, gyry*PI/180.0f, gyrz*PI/180.0f,  magy,  magx, magz);
+    MahonyQuaternionUpdate(accx/10, accy/10, accz/10, gyrx*PI/180.0f, gyry*PI/180.0f, gyrz*PI/180.0f,  10*magy,  10*magx, 10*magz);
 
     yaw   = atan2(2.0f * (q[1] * q[2] + q[0] * q[3]), q[0] * q[0] + q[1] * q[1] - q[2] * q[2] - q[3] * q[3]);   
     pitch = -asin(2.0f * (q[1] * q[3] - q[0] * q[2]));

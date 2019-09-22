@@ -74,6 +74,7 @@ void loop() {
   webSocket.loop();
   interruptWorkers();
   readSensors();
+  /*
   if (timed + 500 < millis())
   {
     mylocation.updateLocationVars();
@@ -83,7 +84,7 @@ void loop() {
     Serial.print('\t');
     Serial.println(mylocation.getMagZ());
     timed = millis();
-  }
+  }*/
   
   
   //ObstTrack.checkForObstacles();
