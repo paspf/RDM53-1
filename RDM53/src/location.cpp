@@ -403,7 +403,7 @@ float Location::get_mz_offset()
 
 float Location::get_avg_scale()
 {
-  return avg_scale;
+  return avg_delta;
 }
 
 void Location::set_mx_offset(float var)
@@ -423,7 +423,7 @@ void Location::set_mz_offset(float var)
 
 void Location::set_avg_scale(float var)
 {
-  avg_scale = var;
+  avg_delta = var;
 }
        
 
