@@ -74,20 +74,20 @@ void loop() {
   webSocket.loop();
   interruptWorkers();
   readSensors();
-  /*
+  
   if (timed + 500 < millis())
   {
-    mylocation.updateLocationVars();
+    //Serial.println(mylocation.getHeading());
+    /*
+    // updatelocation vars hier nicht aufrufen!!! wird in read sensors aufgerufen!
     Serial.print(mylocation.getMagX());
     Serial.print('\t');
     Serial.print(mylocation.getMagY());
     Serial.print('\t');
-    Serial.println(mylocation.getMagZ());
-    timed = millis();
-  }*/
+    Serial.println(mylocation.getMagZ()); */
+    timed = millis(); 
+  }
   
-  
-  //ObstTrack.checkForObstacles();
 
   // Serial.println(millis());
   switch(dC.mode) {

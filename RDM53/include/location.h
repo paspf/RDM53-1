@@ -71,8 +71,9 @@ private:
     float GyroMeasDrift = PI * (0.0f / 180.0f); // gyroscope measurement drift in rad/s/s (start at 0.0 deg/s/s)     
     float beta = sqrt(3.0f / 4.0f) * GyroMeasError;   // compute beta
     float zeta = sqrt(3.0f / 4.0f) * GyroMeasDrift;   // compute zeta, the other free parameter in the Madgwick scheme usually set to a small or zero value
+
     #define Kp 2.0f * 5.0f // these are the free parameters in the Mahony filter and fusion scheme, Kp for proportional feedback, Ki for integral
-    #define Ki 0.0f
+    #define Ki 0.00f
     
     float accx, accy, accz, gyrx, gyry, gyrz, magx, magy, magz;
     float gravx, gravy, gravz, c_accx, c_accy, c_accz;

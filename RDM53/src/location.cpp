@@ -594,12 +594,41 @@ void Location::MahonyQuaternionUpdate(float ax, float ay, float az, float gx, fl
         eInt[0] += ex;      // accumulate integral error
         eInt[1] += ey;
         eInt[2] += ez;
+
+        Serial.println("REGLER----------");
+        Serial.println(eInt[0]);
+        Serial.println(eInt[1]);
+        Serial.println(eInt[2]);
     }
     else
     {
         eInt[0] = 0.0f;     // prevent integral wind up
         eInt[1] = 0.0f;
         eInt[2] = 0.0f;
+    }
+
+    Serial.println(getHeading());
+
+  #define I_VALUE_MIN -10.0f
+  #define I_VALUE_MAX 10.0f
+    // NEW:  I - Value Limiter
+    if(eInt[0] > I_VALUE_MAX ) {
+      eInt[0] = I_VALUE_MAX;
+    }
+    if(eInt[0] < I_VALUE_MIN ) {
+      eInt[0] = I_VALUE_MAX;
+    }
+    if(eInt[1] > I_VALUE_MAX ) {
+      eInt[1] = I_VALUE_MAX;
+    }
+    if(eInt[1] < I_VALUE_MIN ) {
+      eInt[1] = I_VALUE_MAX;
+    }
+    if(eInt[2] > I_VALUE_MAX ) {
+      eInt[2] = I_VALUE_MAX;
+    }
+    if(eInt[2] < I_VALUE_MIN ) {
+      eInt[2] = I_VALUE_MAX;
     }
 
     // Apply feedback terms

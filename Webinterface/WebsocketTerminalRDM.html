@@ -378,7 +378,6 @@ function checkIfValIsKnown(value) {
 			else { // error
 				document.getElementById("LTFRDisplay").style.backgroundColor= "red";
 			}
-			// document.getElementById("LTFRDisplay").innerHTML = parseInt(payload, 16).toString();
 		break;
 		case "01001300":
 			payload = value.substring(10, 18);
@@ -397,7 +396,6 @@ function checkIfValIsKnown(value) {
 			else { // error
 				document.getElementById("LTBLDisplay").style.backgroundColor= "red";
 			}
-			//document.getElementById("LTBLDisplay").innerHTML = parseInt(payload, 16).toString();
 		break;
 		case "01001400":
 			payload = value.substring(10, 18);
@@ -416,8 +414,6 @@ function checkIfValIsKnown(value) {
 			else { // error
 				document.getElementById("LTBRDisplay").style.backgroundColor= "red";
 			}
-			// payload = value.substring(10, 18);
-			//document.getElementById("LTBRDisplay").innerHTML = parseInt(payload, 16).toString();
 		break;
 		case "01001a00":
 			// Color Sensor
@@ -438,6 +434,7 @@ function checkIfValIsKnown(value) {
 				document.getElementById("CSDisplay").style.backgroundColor= "red";
 			}
 		break;
+		/*
 		case "01001700":
 			payload = value.substring(10, 18);
 			var buf = new ArrayBuffer(4);
@@ -448,6 +445,7 @@ function checkIfValIsKnown(value) {
 			var num = view.getFloat32(0);
 			document.getElementById("Pitch").innerHTML = parseFloat(payload, 16).toString();
 		break;
+		
 		case "01001800":
 			payload = value.substring(10, 18);
 			var buf = new ArrayBuffer(4);
@@ -458,6 +456,7 @@ function checkIfValIsKnown(value) {
 			var num = view.getFloat32(0);
 			document.getElementById("Roll").innerHTML = parseFloat(payload, 16).toString();
 		break;
+		*/
 		case "01001b00":
 			// speed
 			payload = value.substring(10, 18);
