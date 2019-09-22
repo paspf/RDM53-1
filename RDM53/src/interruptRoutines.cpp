@@ -134,10 +134,12 @@ void interruptWorkers() {
     portEXIT_CRITICAL(&timer0Mux);
 
     portENTER_CRITICAL_ISR(&pinMux);
+    // interruptCounterKey1 = Left speed sensor, interruptCounterKey2 = right speed sensor;
     mylocation.calculateSpeed(interruptCounterKey1, interruptCounterKey2);
     interruptCounterKey1 = 0;
     interruptCounterKey2 = 0;
     portEXIT_CRITICAL_ISR(&pinMux);
+    // HIER SENSOR ZYKLISCH AUSLESEN UND GRAD BERECHNEN
     
     secCounter++;
   }

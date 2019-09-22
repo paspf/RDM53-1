@@ -46,7 +46,6 @@ bool Location::calibrate()
   sendString("This may take up to 20 seconds...");
   if(SensorArray.calibrateMag() == false) {return false;}
   sendString("Manual Magnetometer Calibration");
-  
 
   for(int i = 0; i < 100; i++)
   {
@@ -63,14 +62,17 @@ bool Location::calibrate()
   my_offset = (max_y + min_y)/2;
   mz_offset = (max_z + min_z)/2;
 
-  float mx_scale =(max_x - min_x)/2;
-  float my_scale =(max_y - min_y)/2;
-  float mz_scale =(max_z - min_z)/2;
+  float avg_delta_x = (max_x - min_x)/2;
+  float avg_delta_y = (max_y - min_y)/2;
+  float avg_delta_z = (max_z - min_z)/2;
 
-  avg_scale = ((mx_scale + my_scale + mz_scale)/3);
-  char str[8];
-  snprintf(str, sizeof(str), "%.2f", avg_scale);
-  sendString(str);
+  avg_delta = ((avg_delta_x + avg_delta_y + avg_delta_z)/3);
+
+  avg_scale_x = avg_delta / avg_delta_x;
+  avg_scale_y = avg_delta / avg_delta_y;
+  avg_scale_z = avg_delta / avg_delta_z;
+
+  sendString("Done");
   return true;
 }
 /** 
@@ -87,9 +89,9 @@ void Location::updateLocationVars()
     accx = SensorArray.getAccelX_mss();
     accy = SensorArray.getAccelY_mss();
     accz = SensorArray.getAccelZ_mss();
-    magx = SensorArray.getMagX_uT()+mx_offset;
-    magy = SensorArray.getMagY_uT()+my_offset;
-    magz = SensorArray.getMagZ_uT()+mz_offset;
+    magx = (SensorArray.getMagX_uT()+mx_offset) * avg_scale_x;
+    magy = (SensorArray.getMagY_uT()+my_offset) * avg_scale_y;
+    magz = (SensorArray.getMagZ_uT()+mz_offset) * avg_scale_z;
 
     Now = micros();
     deltat = ((Now - lastUpdate)/1000000.0f); // set integration time by time elapsed since last filter update
@@ -401,7 +403,7 @@ float Location::get_mz_offset()
 
 float Location::get_avg_scale()
 {
-  return avg_scale;
+  return avg_delta;
 }
 
 void Location::set_mx_offset(float var)
@@ -421,7 +423,7 @@ void Location::set_mz_offset(float var)
 
 void Location::set_avg_scale(float var)
 {
-  avg_scale = var;
+  avg_delta = var;
 }
        
 
@@ -592,12 +594,41 @@ void Location::MahonyQuaternionUpdate(float ax, float ay, float az, float gx, fl
         eInt[0] += ex;      // accumulate integral error
         eInt[1] += ey;
         eInt[2] += ez;
+
+        Serial.println("REGLER----------");
+        Serial.println(eInt[0]);
+        Serial.println(eInt[1]);
+        Serial.println(eInt[2]);
     }
     else
     {
         eInt[0] = 0.0f;     // prevent integral wind up
         eInt[1] = 0.0f;
         eInt[2] = 0.0f;
+    }
+
+    Serial.println(getHeading());
+
+  #define I_VALUE_MIN -10.0f
+  #define I_VALUE_MAX 10.0f
+    // NEW:  I - Value Limiter
+    if(eInt[0] > I_VALUE_MAX ) {
+      eInt[0] = I_VALUE_MAX;
+    }
+    if(eInt[0] < I_VALUE_MIN ) {
+      eInt[0] = I_VALUE_MAX;
+    }
+    if(eInt[1] > I_VALUE_MAX ) {
+      eInt[1] = I_VALUE_MAX;
+    }
+    if(eInt[1] < I_VALUE_MIN ) {
+      eInt[1] = I_VALUE_MAX;
+    }
+    if(eInt[2] > I_VALUE_MAX ) {
+      eInt[2] = I_VALUE_MAX;
+    }
+    if(eInt[2] < I_VALUE_MIN ) {
+      eInt[2] = I_VALUE_MAX;
     }
 
     // Apply feedback terms

@@ -71,15 +71,18 @@ private:
     float GyroMeasDrift = PI * (0.0f / 180.0f); // gyroscope measurement drift in rad/s/s (start at 0.0 deg/s/s)     
     float beta = sqrt(3.0f / 4.0f) * GyroMeasError;   // compute beta
     float zeta = sqrt(3.0f / 4.0f) * GyroMeasDrift;   // compute zeta, the other free parameter in the Madgwick scheme usually set to a small or zero value
+
     #define Kp 2.0f * 5.0f // these are the free parameters in the Mahony filter and fusion scheme, Kp for proportional feedback, Ki for integral
-    #define Ki 0.0f
+    #define Ki 0.00f
     
     float accx, accy, accz, gyrx, gyry, gyrz, magx, magy, magz;
     float gravx, gravy, gravz, c_accx, c_accy, c_accz;
     float q[4] = {1.0f, 0.0f, 0.0f, 0.0f};    // vector to hold quaternion
     float eInt[3] = {0.0f, 0.0f, 0.0f}; 
 
-    float max_x, max_y, max_z, min_x, min_y, min_z, mx_offset = 200.89, my_offset = 79.9, mz_offset = 115.28, avg_scale;
+    float max_x, max_y, max_z, min_x, min_y, min_z; 
+    float mx_offset = 200.89, my_offset = 79.9, mz_offset = 115.28; 
+    float avg_scale_x = 1.87, avg_scale_y = 0.47, avg_scale_z = 2.67, avg_delta = 7.44;
     
     float deltat = 0.0f, sum = 0.0f;        // integration interval for both filter schemes
     uint32_t lastUpdate = 0, firstUpdate = 0; // used to calculate integration interval
