@@ -46,7 +46,6 @@ bool Location::calibrate()
   sendString("This may take up to 20 seconds...");
   if(SensorArray.calibrateMag() == false) {return false;}
   sendString("Manual Magnetometer Calibration");
-  
 
   for(int i = 0; i < 100; i++)
   {
@@ -63,14 +62,17 @@ bool Location::calibrate()
   my_offset = (max_y + min_y)/2;
   mz_offset = (max_z + min_z)/2;
 
-  float mx_scale =(max_x - min_x)/2;
-  float my_scale =(max_y - min_y)/2;
-  float mz_scale =(max_z - min_z)/2;
+  float avg_delta_x = (max_x - min_x)/2;
+  float avg_delta_y = (max_y - min_y)/2;
+  float avg_delta_z = (max_z - min_z)/2;
 
-  avg_scale = ((mx_scale + my_scale + mz_scale)/3);
-  char str[8];
-  snprintf(str, sizeof(str), "%.2f", avg_scale);
-  sendString(str);
+  avg_delta = ((avg_delta_x + avg_delta_y + avg_delta_z)/3);
+
+  avg_scale_x = avg_delta / avg_delta_x;
+  avg_scale_y = avg_delta / avg_delta_y;
+  avg_scale_z = avg_delta / avg_delta_z;
+
+  sendString("Done");
   return true;
 }
 /** 
@@ -87,9 +89,9 @@ void Location::updateLocationVars()
     accx = SensorArray.getAccelX_mss();
     accy = SensorArray.getAccelY_mss();
     accz = SensorArray.getAccelZ_mss();
-    magx = SensorArray.getMagX_uT()+mx_offset;
-    magy = SensorArray.getMagY_uT()+my_offset;
-    magz = SensorArray.getMagZ_uT()+mz_offset;
+    magx = (SensorArray.getMagX_uT()+mx_offset) * avg_scale_x;
+    magy = (SensorArray.getMagY_uT()+my_offset) * avg_scale_y;
+    magz = (SensorArray.getMagZ_uT()+mz_offset) * avg_scale_z;
 
     Now = micros();
     deltat = ((Now - lastUpdate)/1000000.0f); // set integration time by time elapsed since last filter update

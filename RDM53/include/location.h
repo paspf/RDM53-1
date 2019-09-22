@@ -79,7 +79,9 @@ private:
     float q[4] = {1.0f, 0.0f, 0.0f, 0.0f};    // vector to hold quaternion
     float eInt[3] = {0.0f, 0.0f, 0.0f}; 
 
-    float max_x, max_y, max_z, min_x, min_y, min_z, mx_offset = 200.89, my_offset = 79.9, mz_offset = 115.28, avg_scale;
+    float max_x, max_y, max_z, min_x, min_y, min_z; 
+    float mx_offset = 200.89, my_offset = 79.9, mz_offset = 115.28; 
+    float avg_scale_x = 1.87, avg_scale_y = 0.47, avg_scale_z = 2.67, avg_delta = 7.44;
     
     float deltat = 0.0f, sum = 0.0f;        // integration interval for both filter schemes
     uint32_t lastUpdate = 0, firstUpdate = 0; // used to calculate integration interval
