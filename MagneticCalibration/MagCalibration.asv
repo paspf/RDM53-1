@@ -7,9 +7,9 @@ A = fscanf(fid,formatSpec,sizeA);
 x = A(1,:);
 y = A(2,:);
 z = A(3,:);
-mx_offset = (max(x) + min(x))/2;
-my_offset = (max(y) + min(y))/2;
-mz_offset = (max(z) + min(z))/2;
+mx_offset = (max(x) + min(x))/2
+my_offset = (max(y) + min(y))/2
+mz_offset = (max(z) + min(z))/2
 
 avg_delta_x =(max(x) - min(x))/2;
 avg_delta_y =(max(y) - min(y))/2;
@@ -51,13 +51,10 @@ text = "Recommended Offset:" + "\n"...
     + "Y Offset = " + sprintf('%0.5f',my_offset) + "\n"...
     + "Z Offset = " + sprintf('%0.5f',mz_offset);
 text = compose(text);
-
-q = "No";
-while q ~= "Yes" 
 w = waitforbuttonpress;
-waitfor(msgbox(text,'Offset Values'));
+f = msgbox(text,'Offset Values');
+w = waitforbuttonpress;
 q = questdlg('Would you like to continue?');
-end
 close all
 
 
@@ -68,17 +65,9 @@ scatter(xfin,zfin,'b');
 scatter(yfin,zfin,'b');
 axis equal;
 text = "Recommended Scale:" + "\n" + "\n"...
-    + "Average Scale = " + sprintf('%0.5f',avg_delta)+ "\n"...
-    + "X Scale = " + sprintf('%0.5f', x_scale)+ "\n"...
-    + "Y Scale = " + sprintf('%0.5f', y_scale)+ "\n"...
-    + "Z Scale = " + sprintf('%0.5f', z_scale);
+    + "Average Scale = " + sprintf('%0.5f',avg_scale)...
+    + "X Scale = " + sprintf('%0.5f', x_scale)...
+    + "Y Scale = " + sprintf('%0.5f', y_scale)...
+    + "Z Scale = " + sprintf('%0.5f;
     
 text = compose(text);
-
-q = "No";
-while q ~= "Yes" 
-w = waitforbuttonpress;
-waitfor(msgbox(text,'Scale values'));
-q = questdlg('Would you like to continue?');
-end
-close all
