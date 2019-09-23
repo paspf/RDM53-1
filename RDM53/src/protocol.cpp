@@ -194,11 +194,25 @@ void calibration(unsigned char * incoming, int payload){
         case 4: // 11 03 01 04 00 00 00 00 00 12
             mylocation.set_avg_scale(converter.number);
             break;
+        case 5: // 11 03 01 05 00 00 00 00 00 12
+            mylocation.set_mx_scale(converter.number);
+            break;
+        case 6: // 11 03 01 06 00 00 00 00 00 12
+            mylocation.set_my_scale(converter.number);
+            break;
+        case 7: // 11 03 01 07 00 00 00 00 00 12
+            mylocation.set_mz_scale(converter.number);
+            break;
+        case 8: // 11 03 01 08 00 00 00 00 00 12
+            mylocation.set_Kp(converter.number);
+            break;
+        case 9: // 11 03 01 09 00 00 00 00 00 12
+            mylocation.set_Ki(converter.number);
+            break;
         default:
             Serial.println("Error: calibration");
             webSocket.broadcastTXT("Error: calibration");
     }
-
 }
 /**
  * testing() takes a 4 Byte unsigned Char and tests the variables that are to be tested.
@@ -489,6 +503,26 @@ void getValues(uint8_t dataSource, uint8_t dataSubSource){
     case 0x22:
         // 11 03 03 22 00 00 00 00 00 12//do something
         protocolSend(0x0, dataSource, dataSubSource, mylocation.get_avg_scale());
+        break;
+    case 0x23:
+        // 11 03 03 22 00 00 00 00 00 12//do something
+        protocolSend(0x0, dataSource, dataSubSource, mylocation.get_mx_scale());
+        break;
+    case 0x24:
+        // 11 03 03 22 00 00 00 00 00 12//do something
+        protocolSend(0x0, dataSource, dataSubSource, mylocation.get_my_scale());
+        break;
+    case 0x25:
+        // 11 03 03 22 00 00 00 00 00 12//do something
+        protocolSend(0x0, dataSource, dataSubSource, mylocation.get_mz_scale());
+        break;
+    case 0x26:
+        // 11 03 03 22 00 00 00 00 00 12//do something
+        protocolSend(0x0, dataSource, dataSubSource, mylocation.get_Kp());
+        break;
+    case 0x27:
+        // 11 03 03 22 00 00 00 00 00 12//do something
+        protocolSend(0x0, dataSource, dataSubSource, mylocation.get_Ki());
         break;
     default:
         webSocket.broadcastTXT("Error: GetValue Unknown dataSource query");

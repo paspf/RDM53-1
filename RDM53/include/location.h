@@ -24,9 +24,24 @@ public:
     float get_mx_offset();
     float get_my_offset();
     float get_mz_offset();
+
+    float get_mx_scale();
+    float get_my_scale();
+    float get_mz_scale();
+
+    float get_Kp();
+    float get_Ki();
+
     void set_mx_offset(float);
     void set_my_offset(float);
     void set_mz_offset(float);
+
+    void set_mx_scale(float);
+    void set_my_scale(float);
+    void set_mz_scale(float);
+
+    void set_Kp(float);
+    void set_Ki(float);
 
     float get_avg_scale();
     void set_avg_scale(float);
@@ -72,8 +87,8 @@ private:
     float beta = sqrt(3.0f / 4.0f) * GyroMeasError;   // compute beta
     float zeta = sqrt(3.0f / 4.0f) * GyroMeasDrift;   // compute zeta, the other free parameter in the Madgwick scheme usually set to a small or zero value
 
-    #define Kp 2.0f * 5.0f // these are the free parameters in the Mahony filter and fusion scheme, Kp for proportional feedback, Ki for integral
-    #define Ki 0.00f
+    float Kp = 2.0f * 5.0f; // these are the free parameters in the Mahony filter and fusion scheme, Kp for proportional feedback, Ki for integral
+    float Ki = 0.00f;
     
     float accx, accy, accz, gyrx, gyry, gyrz, magx, magy, magz;
     float gravx, gravy, gravz, c_accx, c_accy, c_accz;

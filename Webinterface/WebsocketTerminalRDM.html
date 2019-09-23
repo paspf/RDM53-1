@@ -9,16 +9,50 @@
 	Date: 2019 07 04
 	Author: Pascal Pfeiffer
 -->
+<style>
+	.collapsible {
+	  background-color: #777;
+	  color: white;
+	  cursor: pointer;
+	  padding: 18px;
+	  width: 100%;
+	  border: none;
+	  text-align: left;
+	  outline: none;
+	  font-size: 15px;
+	}
+	
+	.active, .collapsible:hover {
+	  background-color: #555;
+	}
+	
+	.content {
+	  padding: 0 18px;
+	  display: none;
+	  overflow: hidden;
+	  background-color: #f1f1f1;
+	}
+	</style>
+</head>
 <body>
 
 
 
 <div id="PageContent">
+	
 	<h1><a href='/Tools/WebsocketTerminal.html' target="_self" >Websocket Terminal for RDM53</a> </h1><br>
-	last update: 04 07 2019 <br> <br> <br>
+	<div>
+	last update: 23 09 19 <br> <br> <br>
+	Change IP Address: 	<input id="IPInputString" type="url" style="width:30em" placeholder="ws://xxx.xxx.xxx.xxx:xx"/>
+	<button type="button" id="buttonChangeIP" onclick="refreshIPAdress(id);" value="IPInputString">Change IP</button></br>
 	Server IP Adress: 	<span id="WebSocketIPScreen"></span>
 						<button type="button" id="IPSocket" onclick="EndWebsocketClient();" value="IPInput1">Disconnect</button><br>
-	Status: 			<span id="WebSocketConnectionStateScreen"> disconnected </span><br>
+	Status: 			<span id="WebSocketConnectionStateScreen"> disconnected </span>
+	<button type="button" id="buttonRefreshConnection" onclick="retryConnection()">Retry Connection</button>
+	<br>
+	</div>
+	<button class="collapsible"><h2>Raw Data</h2></button>
+	<div class="content">
 	String Command: 			<input id="TerminalInputStr" type="text" style="width:40em" placeholder="Enter String commands!" />
 						<button type="button" id="websocketStrCmdSend" onclick="sendCommandOnClick(value);" value="TerminalInputStr">Send</button></br>
 	Hex Command:		<input id="TerminalInputHex" type="text" style="width:40em" placeholder="Enter Hex commands!" />
@@ -29,33 +63,48 @@
 	<textarea name="text" style="width:40%" id="StoreHexSent" rows="10" readonly placeholder="Sent Hex values appear here" ></textarea>
 	<textarea name="text" style="width:40%" id="StoreHexReceived" rows="10" readonly placeholder="Received Hex values appear here" ></textarea></br>
     <textarea name="text" style="width:81%" id="AllStore" rows="10" readonly placeholder="All data appears here..."></textarea>
-	
-	<div>
-		<h1> Calibration </h1>
+	</div>
+
+	<button class="collapsible"><h2>Calibration</h2></button>
+	<div class="content">
 		<button type="button" id="buttonCalibrateMagnetometer" onclick="WebHexCmdSend(id);" value="11030100000000000012">Calibrate Magnetometer</button></br>
 		<table>
 		<tr>
-		<th> <button type="button" id="buttonGetXOffet" onclick="WebHexCmdSend(id);" value="1103031F000000000012">Get x Offset</button></th>
-		<th> <div id="buttonGetXOffsetDisplay">none</div></th>
+			<th> <button type="button" id="buttonGetXOffet" onclick="WebHexCmdSend(id);" value="1103031F000000000012">Get x Offset</button></th>
+			<th> <div id="buttonGetXOffsetDisplay">none</div></th>
+			<th> <button type="button" id="buttonGetXScale" onclick="WebHexCmdSend(id);"value="1103031F000000000012">Get x Scale</button></th>
+			<th> <div id="buttonGetXScaleDisplay">none</div></th>
 		</tr><tr>
-		<th><button type="button" id="buttonGetYOffet" onclick="WebHexCmdSend(id);" value="11030320000000000012">Get y Offset</button></th>
-		<th><div id="buttonGetYOffsetDisplay">none</div></th>
+			<th><button type="button" id="buttonGetYOffet" onclick="WebHexCmdSend(id);" value="11030320000000000012">Get y Offset</button></th>
+			<th><div id="buttonGetYOffsetDisplay">none</div></th>
+			<th> <button type="button" id="buttonGetYScale" onclick="WebHexCmdSend(id);"value="1103031F000000000012">Get y Scale</button></th>
+			<th> <div id="buttonGetYScaleDisplay">none</div></th>
 		</tr><tr>
-		<th><button type="button" id="buttonGetZOffet" onclick="WebHexCmdSend(id);" value="11030321000000000012">Get z Offset</button></th>
-		<th><div id="buttonGetZOffsetDisplay">none</div></th>
+			<th><button type="button" id="buttonGetZOffet" onclick="WebHexCmdSend(id);" value="11030321000000000012">Get z Offset</button></th>
+			<th><div id="buttonGetZOffsetDisplay">none</div></th>
+			<th> <button type="button" id="buttonGetZScale" onclick="WebHexCmdSend(id);"value="1103031F000000000012">Get z Scale</button></th>
+			<th> <div id="buttonGetZScaleDisplay">none</div></th>
 		</tr><tr>
-		<th><button type="button" id="buttonGetAVGScale" onclick="WebHexCmdSend(id);" value="11030322000000000012">Get avg scale</button></br></th>
-		<th><div id="buttonGetGetAVGScaleDisplay">none</div></th>
+			<th><button type="button" id="buttonGetAVGScale" onclick="WebHexCmdSend(id);" value="11030322000000000012">Get avg scale</button></br></th>
+			<th><div id="buttonGetGetAVGScaleDisplay">none</div></th>
 		</tr>
 		</table>
-		
+	</br>
 		<input id="CalibrationInput" type="text" style="width:40em" placeholder="Float"/>
 		<button type="button" id="buttonSendXOffset" onclick="WebFloatToHexCmdSend(id);" value="11030100000000000012">Send x Offset</button>
 		<button type="button" id="buttonSendYOffset" onclick="WebFloatToHexCmdSend(id);" value="11030100000000000012">Send y Offset</button>
 		<button type="button" id="buttonSendZOffset" onclick="WebFloatToHexCmdSend(id);" value="11030100000000000012">Send z Offset</button>
 		<button type="button" id="buttonSendAVGScale" onclick="WebFloatToHexCmdSend(id);" value="11030100000000000012">Send avg scale</button>
-		</br>
-		<h1>Device Values</h1>
+	</br>
+		<button type="button" id="buttonSendXScale" onclick="WebFloatToHexCmdSend(id);" value="11030100000000000012">Send x Scale</button>
+		<button type="button" id="buttonSendYScale" onclick="WebFloatToHexCmdSend(id);" value="11030100000000000012">Send y Scale</button>
+		<button type="button" id="buttonSendZScale" onclick="WebFloatToHexCmdSend(id);" value="11030100000000000012">Send z Scale</button>
+	</br>
+		<button type="button" id="buttonSendKp" onclick="WebFloatToHexCmdSend(id);" value="11030100000000000012">Send Proportional Value</button>
+		<button type="button" id="buttonSendKi" onclick="WebFloatToHexCmdSend(id);" value="11030100000000000012">Send Integral Value</button>
+	</div>
+	<button class="collapsible"><h2>Device Values</h2></button>
+	<div class="content">
 		<table>
 			  <tr>
 				<th><button type="button" id="buttonBatteryStatus" onclick="WebHexCmdSend(id);" value="11030310000000000012">Battery status</button></th>
@@ -133,21 +182,13 @@
 		<button type="button" id="buttonGetHeadingValues" onclick="WebHexCmdSend(id);" value="11030316000000000012">Heading in Deg</button><br>
 		<div id="GetHeadingDisplay"></div><br>
 	</div>
-	<div>
-		<h1>Remote Control</h1>
-		To use the remote control you first have to change the device mode to remote control static.
-		<h2>Manual</h2>
-		<button type="button" id="buttonRemoteForewardForceMax" onclick="WebHexCmdSend(id);" value="1103000000000001FF12">Forewards Force Max Speed</button>
-		<button type="button" id="buttonRemoteForewardForceMin" onclick="WebHexCmdSend(id);" value="11030000000000017012">Forewards Force Min Speed</button>
-		<button type="button" id="buttonRemoteForewardForceStop" onclick="WebHexCmdSend(id);" value="11030000000000010012">Forewards Force Stop</button>
-		<button type="button" id="buttonRemoteBackwardsForceMin" onclick="WebHexCmdSend(id);" value="11030000000000008F12">Backwards Force Min Speed</button>
-		<button type="button" id="buttonRemoteBackwardsForceMax" onclick="WebHexCmdSend(id);" value="11030000000000000012">Backwards Force Max Speed</button>
-		<h2>Joystick / gamepad</h2>
+	<button class="collapsible"><h2>Gamepad</h2></button>
+	<div class="content">
 		<button type="button" onclick="OnJoystickConnect();" value="Joystick">Connect Joystick</button>
 		<button type="button" onclick="OnJoystickDisconnect();" value="JoystickDisconnect">Disconnect Joystick</button>
 	</div>
-	<div>
-		<h1> Quick Commands </h1>
+	<button class="collapsible"><h2>Quick Commands</h2></button>
+	<div class="content">
 		<h2> Modes </h2>
 		<button type="button" id="buttonChill" onclick="WebHexCmdSend(id);" value="11020200000000000012">Chill</button></br>
 		<button type="button" id="buttonRCS0" onclick="WebHexCmdSend(id);" value="11020100000000000012">Remote Control Static</button></br>
@@ -160,7 +201,7 @@
 		<button type="button" id="buttonAutonomous2" onclick="WebHexCmdSend(id);" value="11020000000000000212">Autonomous 2 - lidar and line Track</button></br>
 		<button type="button" id="buttonAutonomous3" onclick="WebHexCmdSend(id);" value="11020000000000000312">Autonomous 3 - RNG Lab</button></br>
 		<button type="button" id="buttonAutonomous4" onclick="WebHexCmdSend(id);" value="11020000000000000412">Autonomous 4</button></br>
-		
+	</div>	
 </div>
 
 </body>
@@ -174,6 +215,7 @@
 	//var WebSocketIPAdress = 'ws://192.168.43.185:81';
 	//var WebSocketIPAdress = 'ws://10.3.141.206:81';
 	var WebSocketIPAdress = 'ws://192.168.188.21:81';
+	var WebConnection;
 
 function WebFloatToHexCmdSend(id) {
 	var tosendFloat;
@@ -189,6 +231,21 @@ function WebFloatToHexCmdSend(id) {
 		tosendFloat = parseFloat(document.getElementById("CalibrationInput").value);
 	}
 	else if(id == "buttonSendAVGScale") {
+		tosendFloat = parseFloat(document.getElementById("CalibrationInput").value);
+	}
+	else if(id == "buttonSendXScale") {
+		tosendFloat = parseFloat(document.getElementById("CalibrationInput").value);
+	}
+	else if(id == "buttonSendYScale") {
+		tosendFloat = parseFloat(document.getElementById("CalibrationInput").value);
+	}
+	else if(id == "buttonSendZScale") {
+		tosendFloat = parseFloat(document.getElementById("CalibrationInput").value);
+	}
+	else if(id == "buttonSendKp") {
+		tosendFloat = parseFloat(document.getElementById("CalibrationInput").value);
+	}
+	else if(id == "buttonSendKi") {
 		tosendFloat = parseFloat(document.getElementById("CalibrationInput").value);
 	}
 	else {
@@ -244,6 +301,46 @@ function WebFloatToHexCmdSend(id) {
 		arraybuffer[3] = 0x04;
 		arraybuffer[4] = 0x00;
 	}
+	// 11 03 01 04 00 00 00 00 00 12
+	// -- -- -- -- -- ## ## ## ## --
+	else if(id == "buttonSendXScale") {
+		arraybuffer[1] = 0x03;
+		arraybuffer[2] = 0x01;
+		arraybuffer[3] = 0x05;
+		arraybuffer[4] = 0x00;
+	}
+	// 11 03 01 04 00 00 00 00 00 12
+	// -- -- -- -- -- ## ## ## ## --
+	else if(id == "buttonSendYScale") {
+		arraybuffer[1] = 0x03;
+		arraybuffer[2] = 0x01;
+		arraybuffer[3] = 0x06;
+		arraybuffer[4] = 0x00;
+	}
+	// 11 03 01 04 00 00 00 00 00 12
+	// -- -- -- -- -- ## ## ## ## --
+	else if(id == "buttonSendZScale") {
+		arraybuffer[1] = 0x03;
+		arraybuffer[2] = 0x01;
+		arraybuffer[3] = 0x07;
+		arraybuffer[4] = 0x00;
+	}
+	// 11 03 01 04 00 00 00 00 00 12
+	// -- -- -- -- -- ## ## ## ## --
+	else if(id == "buttonSendKp") {
+		arraybuffer[1] = 0x03;
+		arraybuffer[2] = 0x01;
+		arraybuffer[3] = 0x08;
+		arraybuffer[4] = 0x00;
+	}
+	// 11 03 01 04 00 00 00 00 00 12
+	// -- -- -- -- -- ## ## ## ## --
+	else if(id == "buttonSendKi") {
+		arraybuffer[1] = 0x03;
+		arraybuffer[2] = 0x01;
+		arraybuffer[3] = 0x09;
+		arraybuffer[4] = 0x00;
+	}
 	
 	WebConnection.send(arraybuffer.buffer);
 	
@@ -253,7 +350,7 @@ function WebFloatToHexCmdSend(id) {
 }
 
 document.getElementById("WebSocketIPScreen").innerHTML = WebSocketIPAdress;
-    var WebConnection = new WebSocket(WebSocketIPAdress, ['arduino']);
+    WebConnection = new WebSocket(WebSocketIPAdress, ['arduino']);
     WebConnection.binaryType = "arraybuffer"; //Binaertyp auf arraybuffer setzen
 
 WebConnection.onopen = function () {
@@ -285,6 +382,17 @@ WebConnection.onmessage = function (e) {
 
 WebConnection.onclose = function (e) {
 	screenStatus(false);
+}
+
+function refreshIPAdress(_address)
+{
+	WebSocketIPAdress = _address;
+	retryConnection();
+}
+
+function retryConnection() {
+	WebConnection = new WebSocket(WebSocketIPAdress, ['arduino']);
+    WebConnection.binaryType = "arraybuffer"; //Binaertyp auf arraybuffer setzen
 }
 
 function checkIfValIsKnown(value) {
@@ -571,6 +679,60 @@ function checkIfValIsKnown(value) {
 			var num = view.getFloat32(0);
 		document.getElementById("buttonGetGetAVGScaleDisplay").innerHTML = (num.toString().substring(0,5));
 		break;
+		case "01002300":
+			payload = value.substring(10, 18);
+			
+			var p0 = payload.substring(0, 2);
+			var p1 = payload.substring(2, 4);
+			var p2 = payload.substring(4, 6);
+			var p3 = payload.substring(6, 8);
+			
+			var data = [ parseInt(p3, 16), parseInt(p2, 16), parseInt(p1, 16), parseInt(p0, 16)];
+			
+			var buf = new ArrayBuffer(4);
+			var view = new DataView(buf);
+			data.forEach(function(b,i) {
+				view.setUint8(i, b);
+			});
+			var num = view.getFloat32(0);
+		document.getElementById("buttonGetXScaleDisplay").innerHTML = (num.toString().substring(0,5));
+		break;
+		case "01002400":
+			payload = value.substring(10, 18);
+			
+			var p0 = payload.substring(0, 2);
+			var p1 = payload.substring(2, 4);
+			var p2 = payload.substring(4, 6);
+			var p3 = payload.substring(6, 8);
+			
+			var data = [ parseInt(p3, 16), parseInt(p2, 16), parseInt(p1, 16), parseInt(p0, 16)];
+			
+			var buf = new ArrayBuffer(4);
+			var view = new DataView(buf);
+			data.forEach(function(b,i) {
+				view.setUint8(i, b);
+			});
+			var num = view.getFloat32(0);
+		document.getElementById("buttonGetYScaleDisplay").innerHTML = (num.toString().substring(0,5));
+		break;
+		case "01002500":
+			payload = value.substring(10, 18);
+			
+			var p0 = payload.substring(0, 2);
+			var p1 = payload.substring(2, 4);
+			var p2 = payload.substring(4, 6);
+			var p3 = payload.substring(6, 8);
+			
+			var data = [ parseInt(p3, 16), parseInt(p2, 16), parseInt(p1, 16), parseInt(p0, 16)];
+			
+			var buf = new ArrayBuffer(4);
+			var view = new DataView(buf);
+			data.forEach(function(b,i) {
+				view.setUint8(i, b);
+			});
+			var num = view.getFloat32(0);
+		document.getElementById("buttonGetZScaleDisplay").innerHTML = (num.toString().substring(0,5));
+		break;
 	  default:
 	  console.log("unknown binary stream");
 	  retVal = 1;
@@ -766,6 +928,20 @@ function CheckJoy() {
 		}
 	}
 }
+var coll = document.getElementsByClassName("collapsible");
+var i;
 
+for (i = 0; i < coll.length; i++) {
+  coll[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var content = this.nextElementSibling;
+    if (content.style.display === "block") {
+      content.style.display = "none";
+    } else {
+      content.style.display = "block";
+    }
+  });
+}
 
 </script>
+</html>
