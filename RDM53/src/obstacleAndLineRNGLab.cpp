@@ -29,8 +29,9 @@ extern Location mylocation;
 
 
 // defines
-#define FOREWARDS_FAST 0xC0
-#define FOREWARDS_MID 0xA0
+#define SPEED_FOREWARDS_FAST 0xD0
+#define SPEED_FOREWARDS_MID 0xC0
+#define SPEED_FOREWARDS SPEED_FOREWARDS_MID
 
 
 int ObstacleAndLine_RNGLAB::checkMod() {
@@ -58,42 +59,40 @@ int ObstacleAndLine_RNGLAB::checkMod() {
     
     // Modus1, falls RDM rechts vorne auf schwarzen Streifen kommt, nach links fahren für 0,5 Sekunden
     if(mod == 1) {
-        steering.setVal(0,0x010);
+        steering.setVal(0,0x000);
         steering.setVal(1,255);
         if((millis() - startMod1 > 500) && (lineSensorFrontRight.getColorCode() != 0)) {
             mod = 0;
-            steering.straightForewards(0xC0);
+            steering.straightForewards(SPEED_FOREWARDS);
         }  
     }
     // Modus2, falls RDM links vorne auf schwarzen Streifen kommt, nach rechts fahren dür 0,5 Sekunden
     if(mod == 2) {
-        steering.setVal(0,0x010);
+        steering.setVal(0,0x000);
         steering.setVal(1,0);
         if((millis() - startMod2 > 500) && (lineSensorFrontLeft.getColorCode() != 0)){
             mod = 0;
-            steering.straightForewards(0xC0);
+            steering.straightForewards(SPEED_FOREWARDS);
         }
     }
 
     //Hindernis mit schwarzen Steifen vorne rechts
     if(mod == 69) {
-        steering.setVal(0,0x010);
         steering.setVal(1,255);
         steering.setVal(0,0);
         if((millis() - startMod69 > 1000) && (lineSensorFrontRight.getColorCode() != 0)) {
             mod = 0;
-            steering.straightForewards(0xC0);
+            steering.straightForewards(SPEED_FOREWARDS);
         }
     }
 
     //Hindernis mit schwarzen Steifen vorne links
     if(mod == 70) {
-        steering.setVal(0,0x010);
         steering.setVal(1,0);
         steering.setVal(0,0);
         if((millis() - startMod70 > 1000) && (lineSensorFrontLeft.getColorCode() != 0)) {
             mod = 0;
-            steering.straightForewards(0xC0);
+            steering.straightForewards(SPEED_FOREWARDS);
         }
     }
 
@@ -117,7 +116,7 @@ int ObstacleAndLine_RNGLAB::checkMod() {
     // zeit für das manöver ist abgelaufen
     if((mod == 12 || mod == 13) && (millis() - startMod13 > 3000)) {
         mod = 0;
-        steering.straightForewards(0xC0);
+        steering.straightForewards(SPEED_FOREWARDS);
     }
     
     return 0;

@@ -9,30 +9,6 @@
 	Date: 2019 07 04
 	Author: Pascal Pfeiffer
 -->
-<style>
-	.collapsible {
-	  background-color: #777;
-	  color: white;
-	  cursor: pointer;
-	  padding: 18px;
-	  width: 100%;
-	  border: none;
-	  text-align: left;
-	  outline: none;
-	  font-size: 15px;
-	}
-	
-	.active, .collapsible:hover {
-	  background-color: #555;
-	}
-	
-	.content {
-	  padding: 0 18px;
-	  display: none;
-	  overflow: hidden;
-	  background-color: #f1f1f1;
-	}
-	</style>
 </head>
 <body>
 
@@ -182,10 +158,20 @@
 		<button type="button" id="buttonGetHeadingValues" onclick="WebHexCmdSend(id);" value="11030316000000000012">Heading in Deg</button><br>
 		<div id="GetHeadingDisplay"></div><br>
 	</div>
-	<button class="collapsible"><h2>Gamepad</h2></button>
+	<button class="collapsible"><h2>Remote Control and Gamepad</h2></button>
 	<div class="content">
+		<h2>Remote Control</h2>
+		To enable Remote Control you first have to enable "Remote Control Static".
 		<button type="button" onclick="OnJoystickConnect();" value="Joystick">Connect Joystick</button>
 		<button type="button" onclick="OnJoystickDisconnect();" value="JoystickDisconnect">Disconnect Joystick</button>
+		<h2>Static Controls</h2>
+		<button type="button" id="buttonRemoteSetDirectionForewards" onclick="WebHexCmdSend(id);" value="11030001000000008012">Force Forewards</button>
+		</br>
+		<button type="button" id="buttonRemoteForewardForceMax" onclick="WebHexCmdSend(id);" value="1103000000000001FF12">Forewards Force Max Speed</button>
+		<button type="button" id="buttonRemoteForewardForceMin" onclick="WebHexCmdSend(id);" value="11030000000000017012">Forewards Force Min Speed</button>
+		<button type="button" id="buttonRemoteForewardForceStop" onclick="WebHexCmdSend(id);" value="11030000000000010012">Forewards Force Stop</button>
+		<button type="button" id="buttonRemoteBackwardsForceMin" onclick="WebHexCmdSend(id);" value="11030000000000008F12">Backwards Force Min Speed</button>
+		<button type="button" id="buttonRemoteBackwardsForceMax" onclick="WebHexCmdSend(id);" value="11030000000000000012">Backwards Force Max Speed</button>
 	</div>
 	<button class="collapsible"><h2>Quick Commands</h2></button>
 	<div class="content">
