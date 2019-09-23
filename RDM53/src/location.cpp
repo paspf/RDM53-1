@@ -401,9 +401,34 @@ float Location::get_mz_offset()
   return mz_offset;
 }
 
+float Location::get_mx_scale()
+{
+  return avg_scale_x;
+}
+
+float Location::get_my_scale()
+{
+  return avg_scale_y;
+}
+
+float Location::get_mz_scale()
+{
+  return avg_scale_z;
+}
+
 float Location::get_avg_scale()
 {
   return avg_delta;
+}
+
+float Location::get_Ki()
+{
+  return Ki;
+}
+
+float Location::get_Kp()
+{
+  return Kp;
 }
 
 void Location::set_mx_offset(float var)
@@ -425,7 +450,31 @@ void Location::set_avg_scale(float var)
 {
   avg_delta = var;
 }
-       
+
+void Location::set_mx_scale(float var)
+{
+  avg_scale_x = var;
+}
+
+void Location::set_my_scale(float var)
+{
+  avg_scale_y = var;
+}
+
+void Location::set_mz_scale(float var)
+{
+  avg_scale_z = var;
+}
+
+void Location::set_Kp(float var)
+{
+  Kp = var;
+}
+
+void Location::set_Ki(float var)
+{
+  Ki = var;
+}
 
 /**
  * Implementation of Sebastian Madgwick's "...efficient orientation filter for... inertial/magnetic sensor arrays"
