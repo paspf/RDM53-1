@@ -530,10 +530,10 @@ void Location::MadgwickQuaternionUpdate(float ax, float ay, float az, float gx, 
 }
 
 
+//#define LOCATION_DEBUG_REGULATOR
 
 // Similar to Madgwick scheme but uses proportional and integral filtering on the error between estimated reference vectors and
 // measured ones. Source: https://github.com/kriswiner/MPU9250/blob/master/quaternionFilters.ino 
-
 void Location::MahonyQuaternionUpdate(float ax, float ay, float az, float gx, float gy, float gz, float mx, float my, float mz)
 {
     float q1 = q[0], q2 = q[1], q3 = q[2], q4 = q[3];   // short name local variable for readability
@@ -594,11 +594,12 @@ void Location::MahonyQuaternionUpdate(float ax, float ay, float az, float gx, fl
         eInt[0] += ex;      // accumulate integral error
         eInt[1] += ey;
         eInt[2] += ez;
-
+        #ifdef LOCATION_DEBUG_REGULATOR
         Serial.println("REGLER----------");
         Serial.println(eInt[0]);
         Serial.println(eInt[1]);
         Serial.println(eInt[2]);
+        #endif
     }
     else
     {
@@ -606,8 +607,9 @@ void Location::MahonyQuaternionUpdate(float ax, float ay, float az, float gx, fl
         eInt[1] = 0.0f;
         eInt[2] = 0.0f;
     }
-
+    #ifdef LOCATION_DEBUG_REGULATOR
     Serial.println(getHeading());
+    #endif
 
   #define I_VALUE_MIN -10.0f
   #define I_VALUE_MAX 10.0f

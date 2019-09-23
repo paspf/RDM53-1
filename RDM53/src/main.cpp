@@ -75,19 +75,19 @@ void loop() {
   interruptWorkers();
   readSensors();
   
+  /*
   if (timed + 500 < millis())
   {
     //Serial.println(mylocation.getHeading());
-    /*
     // updatelocation vars hier nicht aufrufen!!! wird in read sensors aufgerufen!
     Serial.print(mylocation.getMagX());
     Serial.print('\t');
     Serial.print(mylocation.getMagY());
     Serial.print('\t');
-    Serial.println(mylocation.getMagZ()); */
+    Serial.println(mylocation.getMagZ());
     timed = millis(); 
   }
-  
+  */
 
   // Serial.println(millis());
   switch(dC.mode) {

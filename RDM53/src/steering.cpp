@@ -27,8 +27,10 @@
  */
 void SteeringInterface::setVal(bool valType, int value)
 {
-    if(valType == 0){ //Speed is set
-        if(value > 0xFF){//forwards
+    // Speed is set
+    if(valType == 0) { 
+        // forwards
+        if(value > 0xFF){ 
             dirGen = 0;
             speedValNow = (0xFF & value);
                         #ifdef DEBUG_STEERING
@@ -36,8 +38,8 @@ void SteeringInterface::setVal(bool valType, int value)
             Serial.println(speedValNow);
             #endif        
         }
-        else{//backwards
-            //Serial.println("if 1 else");
+        // backwards
+        else{ 
             dirGen = 1;
             speedValNow = 0xFF - (0xFF & value);
             #ifdef DEBUG_STEERING
@@ -46,7 +48,8 @@ void SteeringInterface::setVal(bool valType, int value)
             #endif
         }
     }
-    else if(valType == 1){
+    // turn value is set
+    else if(valType == 1) {
         turnValGiven = (value & 0xFF);
         #ifdef DEBUG_STEERING
         Serial.print("turnValGiven: ");
@@ -54,7 +57,6 @@ void SteeringInterface::setVal(bool valType, int value)
         #endif
     }
     valUpdate = true;
-    //sendString("Inside Steering.setVal");
 }
 
 /**
@@ -65,11 +67,12 @@ int SteeringInterface::setPilot()
 {
     // check if a val update has occured
     if(valUpdate == false) {
-        return -1;
         #ifdef DEBUG_STEERING
         sendString("Set Pilot: no new value");
         #endif
+        return -1;
     }
+
     dirLeft = dirGen;
     dirRight = dirGen;
 
