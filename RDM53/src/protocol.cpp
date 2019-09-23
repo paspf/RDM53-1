@@ -505,23 +505,23 @@ void getValues(uint8_t dataSource, uint8_t dataSubSource){
         protocolSend(0x0, dataSource, dataSubSource, mylocation.get_avg_scale());
         break;
     case 0x23:
-        // 11 03 03 22 00 00 00 00 00 12//do something
+        // 11 03 03 23 00 00 00 00 00 12//do something
         protocolSend(0x0, dataSource, dataSubSource, mylocation.get_mx_scale());
         break;
     case 0x24:
-        // 11 03 03 22 00 00 00 00 00 12//do something
+        // 11 03 03 24 00 00 00 00 00 12//do something
         protocolSend(0x0, dataSource, dataSubSource, mylocation.get_my_scale());
         break;
     case 0x25:
-        // 11 03 03 22 00 00 00 00 00 12//do something
+        // 11 03 03 25 00 00 00 00 00 12//do something
         protocolSend(0x0, dataSource, dataSubSource, mylocation.get_mz_scale());
         break;
     case 0x26:
-        // 11 03 03 22 00 00 00 00 00 12//do something
+        // 11 03 03 26 00 00 00 00 00 12//do something
         protocolSend(0x0, dataSource, dataSubSource, mylocation.get_Kp());
         break;
     case 0x27:
-        // 11 03 03 22 00 00 00 00 00 12//do something
+        // 11 03 03 27 00 00 00 00 00 12//do something
         protocolSend(0x0, dataSource, dataSubSource, mylocation.get_Ki());
         break;
     default:

@@ -15,11 +15,10 @@ figure('Name', figuretitle');
 scatter(x,y, 'b');
 hold on
 scatter(x,z, 'r');
-scatter(y,z, 'g');
+scatter(y,z);
 title(figuretitle + " 2D");
 axis equal
 grid on
-legend({'(x,y)','(x,z)', '(y,z)'},'Location','southwest')
 waitfor(f);
 returnvalue = "exiting";
 end

@@ -48,17 +48,21 @@
 		<tr>
 			<th> <button type="button" id="buttonGetXOffet" onclick="WebHexCmdSend(id);" value="1103031F000000000012">Get x Offset</button></th>
 			<th> <div id="buttonGetXOffsetDisplay">none</div></th>
-			<th> <button type="button" id="buttonGetXScale" onclick="WebHexCmdSend(id);"value="1103031F000000000012">Get x Scale</button></th>
+			<th> <button type="button" id="buttonGetXScale" onclick="WebHexCmdSend(id);"value="11030323000000000012">Get x Scale</button></th>
 			<th> <div id="buttonGetXScaleDisplay">none</div></th>
+			<th> <button type="button" id="buttonGetKp" onclick="WebHexCmdSend(id);"value="11030326000000000012">Get Proportional Value</button></th>
+			<th> <div id="buttonGetKpDisplay">none</div></th>
 		</tr><tr>
 			<th><button type="button" id="buttonGetYOffet" onclick="WebHexCmdSend(id);" value="11030320000000000012">Get y Offset</button></th>
 			<th><div id="buttonGetYOffsetDisplay">none</div></th>
-			<th> <button type="button" id="buttonGetYScale" onclick="WebHexCmdSend(id);"value="1103031F000000000012">Get y Scale</button></th>
+			<th> <button type="button" id="buttonGetYScale" onclick="WebHexCmdSend(id);"value="11030324000000000012">Get y Scale</button></th>
 			<th> <div id="buttonGetYScaleDisplay">none</div></th>
+			<th> <button type="button" id="buttonGetKi" onclick="WebHexCmdSend(id);"value="11030327000000000012">Get Integral Value</button></th>
+			<th> <div id="buttonGetKiDisplay">none</div></th>
 		</tr><tr>
 			<th><button type="button" id="buttonGetZOffet" onclick="WebHexCmdSend(id);" value="11030321000000000012">Get z Offset</button></th>
 			<th><div id="buttonGetZOffsetDisplay">none</div></th>
-			<th> <button type="button" id="buttonGetZScale" onclick="WebHexCmdSend(id);"value="1103031F000000000012">Get z Scale</button></th>
+			<th> <button type="button" id="buttonGetZScale" onclick="WebHexCmdSend(id);"value="11030325000000000012">Get z Scale</button></th>
 			<th> <div id="buttonGetZScaleDisplay">none</div></th>
 		</tr><tr>
 			<th><button type="button" id="buttonGetAVGScale" onclick="WebHexCmdSend(id);" value="11030322000000000012">Get avg scale</button></br></th>
@@ -76,8 +80,8 @@
 		<button type="button" id="buttonSendYScale" onclick="WebFloatToHexCmdSend(id);" value="11030100000000000012">Send y Scale</button>
 		<button type="button" id="buttonSendZScale" onclick="WebFloatToHexCmdSend(id);" value="11030100000000000012">Send z Scale</button>
 	</br>
-		<button type="button" id="buttonSendKp" onclick="WebFloatToHexCmdSend(id);" value="11030100000000000012">Send Proportional Value</button>
-		<button type="button" id="buttonSendKi" onclick="WebFloatToHexCmdSend(id);" value="11030100000000000012">Send Integral Value</button>
+		<button type="button" id="buttonSendKp" onclick="WebFloatToHexCmdSend(id);" value="11030321000000000012">Send Proportional Value</button>
+		<button type="button" id="buttonSendKi" onclick="WebFloatToHexCmdSend(id);" value="11030322000000000012">Send Integral Value</button>
 	</div>
 	<button class="collapsible"><h2>Device Values</h2></button>
 	<div class="content">
@@ -718,6 +722,42 @@ function checkIfValIsKnown(value) {
 			});
 			var num = view.getFloat32(0);
 		document.getElementById("buttonGetZScaleDisplay").innerHTML = (num.toString().substring(0,5));
+		break;
+		case "01002600":
+			payload = value.substring(10, 18);
+			
+			var p0 = payload.substring(0, 2);
+			var p1 = payload.substring(2, 4);
+			var p2 = payload.substring(4, 6);
+			var p3 = payload.substring(6, 8);
+			
+			var data = [ parseInt(p3, 16), parseInt(p2, 16), parseInt(p1, 16), parseInt(p0, 16)];
+			
+			var buf = new ArrayBuffer(4);
+			var view = new DataView(buf);
+			data.forEach(function(b,i) {
+				view.setUint8(i, b);
+			});
+			var num = view.getFloat32(0);
+		document.getElementById("buttonGetKpDisplay").innerHTML = (num.toString().substring(0,5));
+		break;
+		case "01002700":
+			payload = value.substring(10, 18);
+			
+			var p0 = payload.substring(0, 2);
+			var p1 = payload.substring(2, 4);
+			var p2 = payload.substring(4, 6);
+			var p3 = payload.substring(6, 8);
+			
+			var data = [ parseInt(p3, 16), parseInt(p2, 16), parseInt(p1, 16), parseInt(p0, 16)];
+			
+			var buf = new ArrayBuffer(4);
+			var view = new DataView(buf);
+			data.forEach(function(b,i) {
+				view.setUint8(i, b);
+			});
+			var num = view.getFloat32(0);
+		document.getElementById("buttonGetKiDisplay").innerHTML = (num.toString().substring(0,5));
 		break;
 	  default:
 	  console.log("unknown binary stream");
