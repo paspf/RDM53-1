@@ -178,7 +178,7 @@ void ObstacleAndLine_RNGLAB::driveThroughParcour(){
         lidarSensors.measureLidar[3].RangeMilliMeter > 0   &&
         lidarSensors.measureLidar[4].RangeMilliMeter > 0   &&
         lidarSensors.measureLidar[5].RangeMilliMeter > 0   &&
-        lidarSensors.measureLidar[6].RangeMilliMeter < 450 &&
+        lidarSensors.measureLidar[6].RangeMilliMeter > 250 &&
         mod == 0
         ) {
             mod = 69;
@@ -209,6 +209,22 @@ void ObstacleAndLine_RNGLAB::driveThroughParcour(){
         lidarSensors.measureLidar[2].RangeMilliMeter < 400 &&
         lidarSensors.measureLidar[3].RangeMilliMeter > 0   &&
         lidarSensors.measureLidar[4].RangeMilliMeter > 0   &&
+        lidarSensors.measureLidar[5].RangeMilliMeter > 0   &&
+        lidarSensors.measureLidar[6].RangeMilliMeter > 0   &&
+        mod == 0
+        ) {
+            mod = 70;
+            startMod70 = millis();
+        }
+
+    //Hindernis mit schwarzen Steifen vorne links 
+    if (rawValueFL == 0 &&
+        ultraSonic.getDist() > 0 &&
+        lidarSensors.measureLidar[0].RangeMilliMeter > 0   && 
+        lidarSensors.measureLidar[1].RangeMilliMeter > 0   &&
+        lidarSensors.measureLidar[2].RangeMilliMeter > 0   &&
+        lidarSensors.measureLidar[3].RangeMilliMeter > 0   &&
+        lidarSensors.measureLidar[4].RangeMilliMeter > 250 &&
         lidarSensors.measureLidar[5].RangeMilliMeter > 0   &&
         lidarSensors.measureLidar[6].RangeMilliMeter > 0   &&
         mod == 0
