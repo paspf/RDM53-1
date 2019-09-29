@@ -2,7 +2,7 @@
  * This file contains all connectivity functions
  * for the ESP32
  * 
- * Date: 2019 05 26
+ * Creation date: 2019 05 26
  * Author: Pascal Pfeiffer
  */
 

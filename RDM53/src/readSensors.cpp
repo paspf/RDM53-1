@@ -2,7 +2,7 @@
  * This file contains the functions which read all the
  * sensors and refresh sensor data
  * 
- * Date: 2019 07 30
+ * Creation date: 2019 07 30
  * Author: Pascal Pfeiffer
  */
 

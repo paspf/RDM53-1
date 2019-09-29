@@ -1,7 +1,7 @@
 /*
  * This file contains all header informations for the piezo speaker
  * 
- * Date: 2019 07 02
+ * Creation date: 2019 07 02
  * Author: Pascal Pfeiffer
  */
 

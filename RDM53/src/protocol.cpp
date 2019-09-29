@@ -1,8 +1,8 @@
 /*
- *This file contains all the protocol functions for the ESP32
+ * This file contains all the protocol functions for the ESP32
  *
- *
- *Author: Jan Kühnemund, Pascal Pfeiffer
+ * Creation date: 2019 06 02
+ * Author: Jan Kühnemund, Pascal Pfeiffer
  */
 
 #include <protocol.h>

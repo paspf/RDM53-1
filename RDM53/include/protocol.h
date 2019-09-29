@@ -1,10 +1,8 @@
-/*This file contains header information about the protocol.cpp
+/*
+ * This file contains header information about the protocol.cpp
  *
- *
- *
- *
- *
- *Author: Jan Kühnemund
+ * Creation date: 2019 06 02
+ * Author: Jan Kühnemund
  */
 
 #ifndef PROTOCOL_H

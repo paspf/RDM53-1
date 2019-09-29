@@ -1,3 +1,13 @@
+/*
+ * This file contains the the line follower header files
+ * The line follower doenst follow lines
+ * The line follower avoids driving through black lines
+ * 
+ * 
+ * Creation date: 2019 07 29
+ * Author: Taha Tekdemir
+ */
+
 #include <Arduino.h>
 
 

@@ -1,3 +1,5 @@
+
+// includes
 #include "location.h"
 #include "MPU9250.h"
 #include "connectivity.h"
@@ -7,6 +9,7 @@
 
 MPU9250 SensorArray(Wire1, 0x68);
 
+// defines
 // #define DEBUG_LOCATION
 
 /** 

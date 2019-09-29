@@ -3,7 +3,7 @@
  * used to detect the color of the line
  * the line itself is detected in lineTracking.cpp
  * 
- * Date: 2019 08 14
+ * Creation date: 2019 08 14
  * Author: Pascal Pfeiffer
  */
 

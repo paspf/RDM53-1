@@ -1,3 +1,13 @@
+/*
+ * The obstace avoider avoids obstacles by
+ * changing the driving direction
+ * ObstacleAvoidance only uses lidar sensors
+ * 
+ * 
+ * Creation date: 2019 07 31
+ * Author: Taha Tekdemir
+ */
+
 #include "ObstacleAvoidance.h"
 #include "steering.h"
 #include "lidar.h"

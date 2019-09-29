@@ -1,9 +1,9 @@
 /*
  * Main file for RDM53
- * Board: WeMos Lolin32
+ * Board: WeMos LolinD32
  * Toochain: Arduino
  * 
- * Date: 2019 05 21
+ * Creation date: 2019 05 21
  * Author: Pascal Pfeiffer
  * Project Members: Pascal Pfeiffer, Jan Kühnemund, Taha Tekdemir, Justin Neumann
  */
@@ -145,6 +145,4 @@ void loop() {
   }
   //Serial.print("Runtime: ");
   //Serial.println( millis()- startTime);
-  // do not use other delays (this should be the only delay in project) !!!!!
-  //delay(10);
 }

@@ -1,9 +1,17 @@
-
+/*
+ * ObstacleTracker detects and tracks  obstacles
+ * Lidar and magnetometer is used
+ * 
+ * THIS FUNCTION IS UNTESTED!!
+ * 
+ * Creation date: 2019 08 08
+ * Author: Jan Kühnemund
+ */
 
 #ifndef OBSTACLETRACKER_H
 #define OBSTACLETRACKER_H
 
-class ObstacleTracker{
+class ObstacleTracker {
   public:
   short maxRange = 1200;
   short maxObstacleAmount = 50;

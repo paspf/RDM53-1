@@ -6,7 +6,7 @@
  * Pin 22: SCL
  * both pins need pull-up resistors with 2K49 Ohm (Tested on testboard)
  * 
- * Date: 2019 06 10
+ * Creation date: 2019 06 10
  * Author: Pascal Pfeiffer
  */
 

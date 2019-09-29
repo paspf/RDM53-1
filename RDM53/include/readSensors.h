@@ -1,7 +1,7 @@
 /*
  * This file contains the heading informations for "readSensors.cpp"
  * 
- * Date: 2019 07 30
+ * Creation date: 2019 07 30
  * Author: Pascal Pfeiffer
  */
 

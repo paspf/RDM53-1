@@ -2,7 +2,7 @@
  * This file contains all Init functions
  * for the ESP32
  * 
- * Date: 2019 05 21
+ * Creation date: 2019 05 21
  * Author: Pascal Pfeiffer
  */
 

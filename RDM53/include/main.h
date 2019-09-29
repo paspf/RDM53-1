@@ -1,7 +1,7 @@
 /*
- * This file contains all defines and global values
+ * This file contains all defines and global objects
  * 
- * Date: 2019 05 21
+ * Creation date: 2019 05 21
  * Author: Pascal Pfeiffer
  */
 
