@@ -20,6 +20,7 @@ The core of the RDM53 is an ESP32 on a WeMos LolinD32 board. In addition to the 
 | GRV IMU 10 DOF v2  | MPU9250 board | accelerometer, gyroscope, magnetometer |
 | TCRT5000 | reflective optical sensor |coarse border detection (stripe detection) |
 | VL53L0X | laser ranging sensor | obstacle detection |
+| HC-SR04P | ultrasonic sensor | obstacle detection |
 | TCS34725 | color sensor | adhesive stripe color detection |
 | Joy-It Speed sensor | speed sensor | speed calculation |
 | Joy-It Robot Car Kit 4WD | scaffold | base of the RDM53 |
