@@ -26,3 +26,6 @@ The core of the RDM53 is an ESP32 on a WeMos LolinD32 board. In addition to the 
 
 ## Schematic
 ![Alt text](Images/schematic.png?raw=true "Title")
+
+## The final vehicle
+![Alt text](Images/RDM53-1.jpg)
