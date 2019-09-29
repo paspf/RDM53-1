@@ -26,7 +26,7 @@ The core of the RDM53 is an ESP32 on a WeMos LolinD32 board. In addition to the 
 | Joy-It Robot Car Kit 4WD | scaffold | base of the RDM53 |
 
 ## Schematic
-![Alt text](Images/schematic.png?raw=true "Title")
+![Alt text](Images/schematic.png?raw=true "RDM53 Schematic")
 
 ## The final vehicle
-![Alt text](Images/RDM53-1.jpg)
+![Alt text](Images/RDM53-1.jpg?raw=true "RDM53 Vehicle")
