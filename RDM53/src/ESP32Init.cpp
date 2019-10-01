@@ -73,19 +73,19 @@ void RDMWiFiInit() {
         Serial.println("No home Wifi defined!");
     #endif
 
-    #ifdef WIFI_THM
+    #ifdef WIFI_ENTERPRISE
         Serial.println("Set up THM WiFi");
         setUpTHMWifi();
     #else
         Serial.println("No enterprise Wifi defined!");
     #endif
 
-    #if defined(WIFI_HOME) && defined(WIFI_THM)
+    #if defined(WIFI_HOME) && defined(WIFI_ENTERPRISE)
         Serial.println("Enterprise and Home WiFi defined!");
         return;
     #endif
     #ifndef WIFI_HOME
-        #ifndef WIFI_THM
+        #ifndef WIFI_ENTERPRISE
             Serial.println("No WiFi defined!");
         #endif
     #endif

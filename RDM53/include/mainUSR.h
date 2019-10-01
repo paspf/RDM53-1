@@ -14,9 +14,9 @@
     #define NTP_SERVER_IS "pool.ntp.org"
 #endif
 
-// use this option for a company / eduroam wifi network
-//#define WIFI_THM
-#ifdef WIFI_THM
+// use this option for a enterprise / eduroam wifi network
+//#define WIFI_ENTERPRISE
+#ifdef WIFI_ENTERPRISE
     #define RDM_SSID "YourCompanySSID"
     #define RDM_SSID_PW "YourCompanyKey"
     #define NTP_SERVER_IS "ntp.fh-friedberg.de"
