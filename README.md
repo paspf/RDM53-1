@@ -8,6 +8,16 @@ The obstacles have a minimum size of 10*10cm, the course limits as well as the t
 | green | goal |
 | yellow | prohibited area |
 
+# Software
+The software on the RDM53 is divided into several layers. In the lowest layer, the sensor data is read and the motors are controlled. In the upper layers the sensor data is elongated, the autonomy and the communication with the user takes place.
+
+## Setup Wi-Fi
+The Wi-Fi network is configured in the mainUSR.h file. The defined network type (Home/Enterprise) as well as the login data can be viewed here.
+
+## Communicate with the RDM53
+Commands can be transmitted to the RDM53 via the serial connection point as well as via Websockets. The binary stream is set as follows:
+![Alt text](Images/protocol.png?raw=true "RDM53 Protocol")
+
 # Hardware
 RDM53 uses a wide variety of sensors to realize the autonomous functions.
 The core of the RDM53 is an ESP32 on a WeMos LolinD32 board. In addition to the ESP32 this microcontroller board contains a charging control system that is used for lithium batteries.
