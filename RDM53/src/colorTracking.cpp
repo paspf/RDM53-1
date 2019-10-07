@@ -14,8 +14,8 @@
 // defines
 //#define colTrack_DEBUG
 #define PARCOUR_0 // DT Lab own colors
-#define PARCOUR_1 // RNG lab prof colors
-#define PARCOUR_2 // RNG lab own colors (no sun outside)
+// #define PARCOUR_1 // RNG lab prof colors
+// #define PARCOUR_2 // RNG lab own colors
 
 /**
  * initialize TCS34725
@@ -78,23 +78,6 @@ void ColTrack::printRawValues() {
  * 2 - yellow (enemy goal)
  * 3 - green (our goal)
  * -1 - Error
- * RANGES:
- * floor:
- * R: 90 - 102
- * G: 78 - 91
- * B: 51 - 68
- * yellow:
- * R: 108 - 113
- * G: 89 - 95
- * B: 34 - 39
- * green:
- * R: 80 - 93
- * G: 105 - 113
- * B: 45 - 56
- * black:
- * R: 85 - 109
- * G: 51 - 102
- * B: 51 - 85
  */
 short ColTrack::getLTcolor() {
     // yellow
