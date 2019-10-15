@@ -29,7 +29,7 @@ lineTrackInterface::lineTrackInterface(int pinConst) {
     }
     else if(pin == LT_BL_PIN) {
         #ifdef ownColorsA2007
-        this->calibrateSensor(-1, -1, 3450, 3700, 1500, 1649, 1650, 1900);
+        this->calibrateSensor(-1, -1, 3150, 3700, 1500, 1649, 1650, 1900);
         #endif
     }
     else if(pin == LT_BR_PIN) {

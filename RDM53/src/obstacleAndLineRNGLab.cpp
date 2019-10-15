@@ -61,7 +61,7 @@ int ObstacleAndLine_RNGLAB::checkMod() {
     if(mod == 1) {
         steering.setVal(0,0x000);
         steering.setVal(1,255);
-        if((millis() - startMod1 > 500) && (lineSensorFrontRight.getColorCode() != 0)) {
+        if((millis() - startMod1 > 500 + random(0,200)) && (lineSensorFrontRight.getColorCode() != 0)) {
             mod = 0;
             steering.straightForewards(SPEED_FOREWARDS);
         }  
@@ -70,7 +70,7 @@ int ObstacleAndLine_RNGLAB::checkMod() {
     if(mod == 2) {
         steering.setVal(0,0x000);
         steering.setVal(1,0);
-        if((millis() - startMod2 > 500) && (lineSensorFrontLeft.getColorCode() != 0)){
+        if((millis() - startMod2 > 500 + random(0,200)) && (lineSensorFrontLeft.getColorCode() != 0)){
             mod = 0;
             steering.straightForewards(SPEED_FOREWARDS);
         }
