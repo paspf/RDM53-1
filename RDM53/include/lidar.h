@@ -2,7 +2,7 @@
  * This file contains the heading files for the lidar interface
  * using the Adafruit VL53L0X libary
  * 
- * Date: 2019 06 10
+ * Creation date: 2019 06 10
  * Author: Pascal Pfeiffer
  */
 

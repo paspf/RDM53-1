@@ -1,3 +1,12 @@
+/*
+ * ObstacleTracker detects and tracks  obstacles
+ * Lidar and magnetometer is used
+ * 
+ * THIS FUNCTION IS UNTESTED!!
+ * 
+ * Creation date: 2019 08 08
+ * Author: Jan Kühnemund
+ */
 
 #include "ObstacleTracker.h"
 #include "location.h"

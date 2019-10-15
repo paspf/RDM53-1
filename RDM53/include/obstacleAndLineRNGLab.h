@@ -1,3 +1,15 @@
+/*
+ * ObstacleAndLineRNGLAB combines the functionality of
+ * LineFollower.cpp, ObstacleAvoidance.cpp, ObstacleAndLine.cpp
+ * and some optimazions for the RNG LAB like improved goal detection
+ * and control functions
+ * 
+ * IR Sensors (line Tracking), Ultrasonic, Lidar and the color sensor is used
+ * 
+ * Creation date: 2019 09 19
+ * Author: Pascal Pfeiffer, Taha Tekdemir
+ */
+
 #include <Arduino.h>
 
 

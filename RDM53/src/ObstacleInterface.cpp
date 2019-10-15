@@ -3,7 +3,7 @@
  * the obstacle interface 
  * 
  * 
- * Date: 2019 06 20
+ * Creation date: 2019 06 20
  * Author: Taha Tekdemir
  * Co-author: Jan Kühnemund
  */

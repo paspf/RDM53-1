@@ -2,11 +2,11 @@
  * This file contains all functions for Kinemtatics and Localisation
  * It is based on the bolderflight MPU9250 Library https://github.com/bolderflight/MPU9250
  * as well as the quaternion filters from kriswiner: https://github.com/kriswiner/MPU9250/blob/master/quaternionFilters.ino 
- * Currently please so not use the Speed or Position functions as they have not been cleaned from the Gravity component.
+ * Currently please so not use the Position functions as they have not been cleaned from the Gravity component.
  * 
+ * Creation date: 2019 07 31
  * Author: Jan Kühnemund
  */
-
 
 #include <Arduino.h>
 

@@ -1,3 +1,13 @@
+/*
+ * ObstacleAndLine combines the functionality of
+ * LineFollower.cpp and ObstacleAvoidance.cpp
+ * 
+ * IR Sensors (line Tracking), Ultrasonic, Lidar and the color sensor is used
+ * 
+ * Creation date: 2019 08 02
+ * Author: Taha Tekdemir
+ */
+
 #include "ObstacleAvoidance.h"
 #include "steering.h"
 #include "lidar.h"
@@ -26,12 +36,6 @@ extern PiezoInterface piezo;
 extern EnginesInterface enginesInt;
 extern deviceConfig dC;
 extern Location mylocation;
-
-
-// defines
-#define FOREWARDS_FAST 0xC0
-#define FOREWARDS_MID 0xA0
-
 
 int ObstacleAndLine::checkMod() {
     

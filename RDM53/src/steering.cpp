@@ -1,9 +1,10 @@
-/* This file contains the steering functions
+/* 
+ * This file contains the steering functions
  * using the EnginesInterface
  * 
  * setVal is the function which has to be called to change where the car drives to.
  *
- * Creation Date: 12.06.2019
+ * Creation date: 2019 06 12
  * Author: Jan Kühnemund
  */
 #include <steering.h>
@@ -18,7 +19,7 @@
 
 /**
  * valType: 0 = speed, 1 = turnrate
- * valType = 0: value 0-255 speed forward, 256-511 speed backward
+ * valType = 0: value 0-255 speed forewards, 256-511 speed backwards
  * speed 0x00 00 -> backwards max speed
  * speed 0x00 FF -> backwards stop
  * speed 0x01 00 -> forwards stop
@@ -33,7 +34,7 @@ void SteeringInterface::setVal(bool valType, int value)
         if(value > 0xFF){ 
             dirGen = 0;
             speedValNow = (0xFF & value);
-                        #ifdef DEBUG_STEERING
+            #ifdef DEBUG_STEERING
             Serial.print("SpeedValNow setVal forwards: ");
             Serial.println(speedValNow);
             #endif        
