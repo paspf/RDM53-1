@@ -6,6 +6,9 @@
  * Author: Pascal Pfeiffer
  */
 
+#ifndef MAIN_USR_H
+#define MAIN_USR_H
+
 //  use the option for a standard home wifi network
 #define WIFI_HOME
 #ifdef WIFI_HOME
@@ -24,3 +27,14 @@
 
 #define RDM_SSID_USR "YourCompanyUserName"
 #define RDM_SSID_IDNT "YourCompanyIdentity"
+
+/*
+ * Room and parcours profiles
+ * the profiles are used to switch between
+ * different lighting and color conditions
+ */
+//#define PARCOUR_A3_306 // PARCOUR_0 DT Lab own colors
+//#define PARCOUR_A2_007 // PARCOUR_1 con lab colors
+#define PARCOUR_2_OG_146_C // PARCOUR_2 RNG Lab own Cols
+
+#endif

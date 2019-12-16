@@ -484,10 +484,11 @@ void getValues(uint8_t dataSource, uint8_t dataSubSource){
         // 11 03 03 1D 00 00 00 00 00 12
         protocolSend(0x0, dataSource, dataSubSource, (float) mylocation.speedRight2);
         break;
-    case 0x1E:
+    case 0x1E: // color Sensor
         // 11 03 03 1E 00 00 00 00 00 12
         colTrack.readSensor();
         colTrack.printRawValues();
+        break;
     case 0x1F:
         // 11 03 03 1F 00 00 00 00 00 12
         protocolSend(0x0, dataSource, dataSubSource, mylocation.get_mx_offset());

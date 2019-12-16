@@ -10,12 +10,10 @@
 // includes
 #include "Adafruit_TCS34725.h"
 #include "colorTracking.h"
+#include "mainUSR.h"
 
 // defines
 //#define colTrack_DEBUG
-#define PARCOUR_0 // DT Lab own colors
-// #define PARCOUR_1 // RNG lab prof colors
-// #define PARCOUR_2 // RNG lab own colors
 
 /**
  * initialize TCS34725
@@ -81,7 +79,7 @@ void ColTrack::printRawValues() {
  */
 short ColTrack::getLTcolor() {
     // yellow
-    #ifdef PARCOUR_0
+    #ifdef PARCOUR_A3_306
     if( (red >= 105 && red <= 120) &&
         (green >= 89 && green <= 104) &&
         (blue >= 40 && blue <= 55)
@@ -92,10 +90,10 @@ short ColTrack::getLTcolor() {
         return 2;
     }
     #endif
-    #ifdef PARCOUR_1
-    if( (red >= 95 && red <= 104) &&
-        (green >= 89 && green <= 103) &&
-        (blue >= 40 && blue <= 50)
+    #ifdef PARCOUR_2_OG_146_C
+    if( (red >= 110 && red <= 125) &&
+        (green >= 85 && green <= 95) &&
+        (blue >= 28 && blue <= 35)
     ) {
         #ifdef colTrack_DEBUG
             Serial.println("ColTrack: yellow");
@@ -104,7 +102,7 @@ short ColTrack::getLTcolor() {
     }
     #endif
 
-    #ifdef PARCOUR_2
+    #ifdef PARCOUR_A2_007
     if( (red >= 100 && red <= 114) &&
         (green >= 90 && green <= 100) &&
         (blue >= 32 && blue <= 45)
@@ -117,7 +115,7 @@ short ColTrack::getLTcolor() {
     #endif
 
     // green
-    #ifdef PARCOUR_0
+    #ifdef PARCOUR_A3_306
     if( (red >= 90 && red <= 105) &&
         (green >= 105 && green <= 130) &&
         (blue >= 50 && blue <= 80)
@@ -129,10 +127,10 @@ short ColTrack::getLTcolor() {
     }
     #endif
 
-    #ifdef PARCOUR_1
-    if( (red >= 65 && red <= 75) &&
-        (green >= 105 && green <= 130) &&
-        (blue >= 45 && blue <= 60)
+    #ifdef PARCOUR_2_OG_146_C
+    if( (red >= 62 && red <= 80) &&
+        (green >= 110 && green <= 130) &&
+        (blue >= 50 && blue <= 70)
     ) {
         #ifdef colTrack_DEBUG
             Serial.println("ColTrack: green");
@@ -141,7 +139,7 @@ short ColTrack::getLTcolor() {
     }
     #endif
 
-    #ifdef PARCOUR_2
+    #ifdef PARCOUR_A2_007
     if( (red >= 76 && red <= 90) &&
         (green >= 105 && green <= 120) &&
         (blue >= 45 && blue <= 60)
