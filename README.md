@@ -9,13 +9,13 @@ The obstacles have a minimum size of 10*10cm, the course limits as well as the t
 | yellow | prohibited area |
 
 # Software
-The software on the RDM53 is divided into several layers. In the lowest layer the sensor data is read and the motors are controlled. In the upper layers the sensor data is elongated, the autonomy and the communication with the user takes place.
+The software on the RDM53 is divided into several layers. In the lowest layer the sensor data is read and the engines are controlled. In the upper layers the sensor data is processed, the autonomy and the communication with the user takes place.
 
 ## Setup Wi-Fi
 The Wi-Fi network is configured in the mainUSR.h file. The defined network type (Home/Enterprise) as well as the login data can be viewed here.
 
 ## Communicate with the RDM53
-Commands can be transmitted to the RDM53 via the serial connection point as well as via Websockets. The binary stream is set as follows:
+Commands can be transmitted to the RDM53 via serial connection and as well via Websockets. The binary stream is set as follows:
 ![Alt text](Images/protocol.png?raw=true "RDM53 Protocol")
 
 # Hardware
