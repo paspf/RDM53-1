@@ -14,6 +14,9 @@ The software on the RDM53 is divided into several layers. In the lowest layer th
 ## Setup Wi-Fi
 The Wi-Fi network is configured in the mainUSR.h file. The defined network type (Home/Enterprise) as well as the login data can be viewed here.
 
+## Our Setup
+The folder RDM contains the main project created with Visual Studio Code and PlatformIO. The Folder ArduinoSpeedSensor contains some software for testing the speed sensors. This software is not required for the main project. The Folder MagneticCalibration contains a MATLAB tool, which can be used to calibrate the MPU9250.
+
 ## Communicate with the RDM53
 Commands can be transmitted to the RDM53 via serial connection and as well via Websockets. The binary stream is set as follows:
 ![Alt text](Images/protocol.png?raw=true "RDM53 Protocol")
