@@ -9,13 +9,13 @@ The obstacles have a minimum size of 10*10cm, the course limits as well as the t
 | yellow | prohibited area |
 
 # Software
-The software on the RDM53 is divided into several layers. In the lowest layer the sensor data is read and the engines are controlled. In the upper layers the sensor data is processed, the autonomy and the communication with the user takes place.
+The software on the RDM53 is divided into several layers. In the lowest layer the sensor data is read and the engines are controlled. In the upper layers the sensor data is processed, the autonomy and the communication with the user takes place. 
 
 ## Setup Wi-Fi
 The Wi-Fi network is configured in the mainUSR.h file. The defined network type (Home/Enterprise) as well as the login data can be viewed here.
 
 ## Our Setup
-The folder RDM contains the main project created with Visual Studio Code and PlatformIO. The Folder ArduinoSpeedSensor contains some software for testing the speed sensors. This software is not required for the main project. The Folder MagneticCalibration contains a MATLAB tool, which can be used to calibrate the MPU9250.
+The folder RDM contains the main project created with Visual Studio Code and PlatformIO. The Folder ArduinoSpeedSensor contains some software for testing the speed sensors. This software is not required for the main project. The Folder MagneticCalibration contains a MATLAB tool, which can be used to calibrate the MPU9250. Last but not least there is a Webinterface which can be used to read out sensor values or to control the RDM by remote (e.g. with an XBOX controller).
 
 ## Communicate with the RDM53
 Commands can be transmitted to the RDM53 via serial connection and as well via Websockets. The binary stream is set as follows:
