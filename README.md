@@ -38,6 +38,8 @@ The core of the RDM53 is an ESP32 on a WeMos LolinD32 board. In addition to the 
 | Joy-It Speed sensor | speed sensor | speed calculation |
 | Joy-It Robot Car Kit 4WD | scaffold | base of the RDM53 |
 
+The hardware overview can be found [here](Images/HWoverview.png).
+
 ## Schematic
 ![Alt text](Images/schematic.png?raw=true "RDM53 Schematic")
 

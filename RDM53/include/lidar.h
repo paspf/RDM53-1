@@ -33,14 +33,14 @@
 #define LOX5_ADDRESS 0x35
 #define LOX6_ADDRESS 0x36
 
-// Assign lox to port expander
-#define SHT_LOX0 0x10
-#define SHT_LOX1 0x04
-#define SHT_LOX2 0x20
-#define SHT_LOX3 0x40
-#define SHT_LOX4 0x02
-#define SHT_LOX5 0x01
-#define SHT_LOX6 0x08
+// Assign lox shutdown pin to port expander
+#define SHT_LOX0 0x10 // expander port P4
+#define SHT_LOX1 0x04 // expander port P2
+#define SHT_LOX2 0x20 // expander port P5
+#define SHT_LOX3 0x40 // expander port P6
+#define SHT_LOX4 0x02 // expander port P1
+#define SHT_LOX5 0x01 // expander port P0
+#define SHT_LOX6 0x08 // expander port P3
 
 class lidar {
     private:
