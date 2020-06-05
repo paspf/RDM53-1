@@ -2,26 +2,35 @@
 RDM53 is a university project with the aim of developing an autonomous vehicle that manages a course with obstacles and recognizes its goal.
 The obstacles have a minimum size of 10*10cm, the course limits as well as the target is marked by colored adhesive stripes on the floor.
 
+#### Table of contents
+
+- [Driving field](##Driving-field)
+- [Software](##Software)
+- [Hardware](#Hardware)
+ 
+
+## Driving field
+
 | function  | adhesive stripe |
 | ------------- | ------------- |
 | black | course border |
 | green | goal |
 | yellow | prohibited area |
 
-# Software
+## Software
 The software on the RDM53 is divided into several layers. In the lowest layer the sensor data is read and the engines are controlled. In the upper layers the sensor data is processed, the autonomy and the communication with the user takes place. 
 
-## Setup Wi-Fi
+### Setup Wi-Fi
 The Wi-Fi network is configured in the mainUSR.h file. The defined network type (Home/Enterprise) as well as the login data can be viewed here.
 
-## Our Setup
+### Our Setup
 The folder RDM contains the main project created with Visual Studio Code and PlatformIO. The Folder ArduinoSpeedSensor contains some software for testing the speed sensors. This software is not required for the main project. The Folder MagneticCalibration contains a MATLAB tool, which can be used to calibrate the MPU9250. Last but not least there is a Webinterface which can be used to read out sensor values or to control the RDM by remote (e.g. with an XBOX controller).
 
-## Communicate with the RDM53
+### Communicate with the RDM53
 Commands can be transmitted to the RDM53 via serial connection and as well via Websockets. The binary stream is set as follows:
 ![Alt text](Images/protocol.png?raw=true "RDM53 Protocol")
 
-# Hardware
+## Hardware
 RDM53 uses a wide variety of sensors to realize the autonomous functions.
 The core of the RDM53 is an ESP32 on a WeMos LolinD32 board. In addition to the ESP32 this microcontroller board contains a charging control system that is used for lithium batteries.
 
@@ -40,8 +49,8 @@ The core of the RDM53 is an ESP32 on a WeMos LolinD32 board. In addition to the 
 
 The hardware overview can be found [here](Images/HWoverview.png).
 
-## Schematic
+### Schematic
 ![Alt text](Images/schematic.png?raw=true "RDM53 Schematic")
 
-## The final vehicle
+### The final vehicle
 ![Alt text](Images/RDM53-1.jpg?raw=true "RDM53 Vehicle")
