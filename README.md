@@ -46,6 +46,7 @@ The core of the RDM53 is an ESP32 on a WeMos LolinD32 board. In addition to the 
 | TCS34725 | color sensor | adhesive stripe color detection |
 | Joy-It Speed sensor | speed sensor | speed calculation |
 | Joy-It Robot Car Kit 4WD | scaffold | base of the RDM53 |
+| Li-ion 18650 | battery | power source |
 
 The hardware overview can be found [here](Images/HWoverview.png).
 
